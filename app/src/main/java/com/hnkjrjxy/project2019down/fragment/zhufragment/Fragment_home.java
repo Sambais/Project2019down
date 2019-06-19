@@ -102,11 +102,10 @@ public class Fragment_home extends Fragment {
         myviewpagernext.setAdapter(fragmentNextAdapter);
         myviewpagernext.setOffscreenPageLimit(3);
 
-
-        //TabLayout绑定ViewPager
+        //上部分TabLayout绑定ViewPager
         tab.setupWithViewPager(myviewpager);
 
-        //TabLayout绑定ViewPager
+        //下部分TabLayout绑定ViewPager
         tab1.setupWithViewPager(myviewpagernext);
 
         //设置下拉刷新环形加载条的颜色，最多使用四个颜色
