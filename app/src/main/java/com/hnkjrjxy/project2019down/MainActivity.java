@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        //navigation1监听，事件处于MainAtcivity的顶部
         navigation1.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
