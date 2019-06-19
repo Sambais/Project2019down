@@ -66,7 +66,7 @@ public class Fragment_home extends Fragment {
 
     private void initView(View view) {
         tabtitles = new ArrayList();
-        for (int i = 0; i <10; i++) {
+        for (int i = 0; i <20; i++) {
             tabtitles.add("第" + i + "个数据");
         }
         tab = (TabLayout) view.findViewById(R.id.tab);
@@ -122,23 +122,46 @@ public class Fragment_home extends Fragment {
 
         });
 
-
+        //todo   listview自定义存在问题该处暂时不引用
         mylistview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
                 // isLoad为true就开始加载数据
-                if(isLoad){
-                    for (int j = tabtitles.size(); j <tabtitles.size()+10 ; j++) {
-                        tabtitles.add("第" +j + "个数据");
-                    }
-                    Toast.makeText(getActivity(), "开始加载数据", Toast.LENGTH_SHORT).show();
+                Log.i("TAG", "onScroll:   set      "+i);
+                switch (i) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        Log.i("onScroll","已经停止：SCROLL_STATE_IDLE");
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                        Log.i("onScroll","开始滚动：SCROLL_STATE_FLING");
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        Log.i("onScroll","正在滚动：SCROLL_STATE_TOUCH_SCROLL");
+                        break;
                 }
             }
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //记录当屏幕显示的条目数与总条目数减去1，就说明快到底部了就为true
-                isLoad = ((firstVisibleItem+visibleItemCount)==(totalItemCount-1));
+                Log.i("onScroll", "onScroll: "+firstVisibleItem+"           "+visibleItemCount+"              "+(totalItemCount-2));
+                isLoad = ((firstVisibleItem+visibleItemCount)>=(totalItemCount-2));
+                Log.i("onScroll", "onScroll: "+isLoad);
+
+                if (firstVisibleItem == 0) {
+                    View firstVisibleItemView = mylistview.getChildAt(0);
+                    if (firstVisibleItemView != null && firstVisibleItemView.getTop() == 0) {
+                        Log.d("onScroll", "##### 滚动到顶部 #####");
+                    }
+                }else {
+                    if (isLoad){
+                        Log.i("onScroll", "onScroll:   setOnScrollListener 在执行");
+                        tabtitles.add("新数据");
+                        Log.i("onScroll", "onScroll:   setOnScrollListener 在执行" + tabtitles.size());
+                        mylistAdapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "开始加载数据", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
