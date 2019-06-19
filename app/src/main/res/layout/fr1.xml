@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <GridView
+        android:id="@+id/fragment_gv"
+        android:numColumns="6"
+        android:listSelector="@android:color/transparent"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </GridView>
+
+</android.support.constraint.ConstraintLayout>
