@@ -55,7 +55,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                         isLook ? R.mipmap.openeye : R.mipmap.closeeye);
 
                 register_pwd.setInputType(
-                        isLook ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        isLook ? InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD | InputType.TYPE_CLASS_TEXT
+                                : InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
             }
         });
 
