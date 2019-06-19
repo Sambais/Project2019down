@@ -1,5 +1,17 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--右边间距-->
+    <dimen name="right_space">16dp</dimen>
+
+    <!--左边间距-->
+    <dimen name="left_space">15dp</dimen>
+
+    <!--文字的大小-->
+    <!--标题文字大小-->
+    <dimen name="title_size">20sp</dimen>
+    <!--左标题文字大小-->
+    <dimen name="left_title_size">14sp</dimen>
+    <!--右标题文字大小-->
+    <dimen name="right_title_size">14sp</dimen>
+    <!--默认字体大小-->
+    <dimen name="defalut_size">14sp</dimen>
 </resources>
