@@ -122,7 +122,8 @@ public class Fragment_home extends Fragment {
 
         });
 
-        //todo   listview自定义存在问题该处暂时不引用
+        //todo
+        // listview自定义存在问题该处暂时不引用
         mylistview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
