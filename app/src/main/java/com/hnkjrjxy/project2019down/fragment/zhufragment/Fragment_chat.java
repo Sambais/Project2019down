@@ -31,6 +31,7 @@ public class Fragment_chat extends Fragment {
         View view = inflater.inflate(R.layout.a2, container, false);
         initView(view);
         return view;
+        //
     }
 
     public Fragment_chat setData(String[] data) {
