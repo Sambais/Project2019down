@@ -5,4 +5,5 @@ import android.app.Activity;
 public class RegisterActivity extends Activity {
     //我写的第一个注释
     //你好
+    //大家好才是真的好
 }
