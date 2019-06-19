@@ -5,6 +5,9 @@
     <!--左边间距-->
     <dimen name="left_space">15dp</dimen>
 
+    <!--图标标准大小-->
+    <dimen name="icon_size">30dp</dimen>
+
     <!--文字的大小-->
     <!--标题文字大小-->
     <dimen name="title_size">20sp</dimen>
