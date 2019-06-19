@@ -33,9 +33,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_dashboard:
                     fragmentManager.beginTransaction().replace(R.id.main_center,new Fragment_chat()).commit();
                     return true;
-
                 case R.id.add_informatization:
-
+                    //此处使用activity
                     return true;
                 case R.id.navigation_notifications:
                     fragmentManager.beginTransaction().replace(R.id.main_center,new Fragment_msg()).commit();
