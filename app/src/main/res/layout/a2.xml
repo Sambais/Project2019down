@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/chat_recyclerView"
+                android:id="@+id/chat_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
