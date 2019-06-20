@@ -4,10 +4,10 @@
 package com.hnkjrjxy.project2019down.fragment;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,7 +88,6 @@ public class Fragment_4 extends Fragment {
 
     class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHolder> {
         //当前上下文对象
-        Context context;
 
         @NonNull
         @Override
@@ -100,9 +99,21 @@ public class Fragment_4 extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
             myViewHolder.textView.setText("7777");
             myViewHolder.imageView.setBackgroundResource(R.mipmap.gv1_p1);
+            myViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "点击头像"+i, Toast.LENGTH_SHORT).show();
+                }
+            });
+            myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), ""+i, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
@@ -113,11 +124,13 @@ public class Fragment_4 extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
             ImageView imageView;
+            CardView cardView;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.m1);
                 textView = itemView.findViewById(R.id.t1);
+                cardView = itemView.findViewById(R.id.card);
             }
         }
     }

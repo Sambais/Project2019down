@@ -50,7 +50,7 @@ public class Fragment_home extends Fragment {
     private String[] tabnexttitle = {"关注", "推荐", "最新"};
     private ArrayList tabtitles;
     private SwipeRefreshLayout refreshLayout;
-    private AppBarLayout appBarLayout;
+    private AppBarLayout myappBarLayout;
     private ViewPager myviewpager;
     private TextView yubeit1;
     private ViewPager myviewpagernext;
@@ -77,7 +77,7 @@ public class Fragment_home extends Fragment {
         myviewpagernext = (ViewPager) view.findViewById(R.id.myviewpagernext);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedScrollView);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshLayout);
-        appBarLayout = (AppBarLayout) view.findViewById(R.id.appBarLayout);
+        myappBarLayout = (AppBarLayout) view.findViewById(R.id.appBarLayout);
 
         //为顶部ViewPager添加fragment
         fragments = new ArrayList<>();
@@ -134,13 +134,14 @@ public class Fragment_home extends Fragment {
         });
 
         //判断AppBarLayout往上偏移的量是否为0，为0时处于界面的顶部此时可以执行下拉刷新
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        myappBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
 //                Log.i("TAG", "onOffsetChanged:         " + i);
                 if (i == 0) {
                     //设置标签的字体颜色，1为未选中标签的字体颜色，2为被选中标签的字体颜色
-                    tab1.setTabTextColors(Color.BLACK,Color.parseColor("#5CACEE"));
+                    //这个设置会让tab1的点击时间下方横线卡断
+//                    tab1.setTabTextColors(Color.BLACK,Color.parseColor("#5CACEE"));
                     tab1.setSelectedTabIndicatorColor(Color.parseColor("#5CACEE"));
                     tab1.setBackgroundColor(Color.parseColor("#fafafa"));
                     yubeit1.setBackgroundColor(Color.parseColor("#fafafa"));
@@ -150,7 +151,7 @@ public class Fragment_home extends Fragment {
                     tab1.getBackground().mutate().setAlpha((int) s);
                     yubeit1.getBackground().mutate().setAlpha((int) s);
                     if (Math.abs(i)==661){
-                        tab1.setTabTextColors(Color.WHITE,Color.WHITE);
+//                        tab1.setTabTextColors(Color.WHITE,Color.WHITE);
                         tab1.setSelectedTabIndicatorColor(Color.parseColor("#ffffff"));
                     }
                     refreshLayout.setEnabled(false);//不能刷新，此时为滑动

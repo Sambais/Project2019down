@@ -45,7 +45,7 @@ public class Fragment_chat extends Fragment {
     }
 
     private void initView(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.chat_recyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.chat_recyclerview);
         //RecyclerView绑定适配器
         //设置LayoutManager为LinearLayoutManager
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
