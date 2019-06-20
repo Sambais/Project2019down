@@ -4,6 +4,7 @@
 package com.hnkjrjxy.project2019down.fragment.zhufragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -16,10 +17,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hnkjrjxy.project2019down.R;
@@ -51,7 +52,7 @@ public class Fragment_home extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private AppBarLayout appBarLayout;
     private ViewPager myviewpager;
-    private boolean isLoad;
+    private TextView yubeit1;
     private ViewPager myviewpagernext;
 
 
@@ -71,6 +72,7 @@ public class Fragment_home extends Fragment {
         tab = (TabLayout) view.findViewById(R.id.tab);
         tab1 = (TabLayout) view.findViewById(R.id.tab1);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        yubeit1=(TextView)view.findViewById(R.id.yubeit1);
         myviewpager = (ViewPager) view.findViewById(R.id.myviewpager);
         myviewpagernext = (ViewPager) view.findViewById(R.id.myviewpagernext);
         nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedScrollView);
@@ -102,11 +104,10 @@ public class Fragment_home extends Fragment {
         myviewpagernext.setAdapter(fragmentNextAdapter);
         myviewpagernext.setOffscreenPageLimit(3);
 
-
-        //TabLayout绑定ViewPager
+        //上部分TabLayout绑定ViewPager
         tab.setupWithViewPager(myviewpager);
 
-        //TabLayout绑定ViewPager
+        //下部分TabLayout绑定ViewPager
         tab1.setupWithViewPager(myviewpagernext);
 
         //设置下拉刷新环形加载条的颜色，最多使用四个颜色
@@ -136,10 +137,22 @@ public class Fragment_home extends Fragment {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-                Log.i("TAG", "onOffsetChanged:         " + i);
+//                Log.i("TAG", "onOffsetChanged:         " + i);
                 if (i == 0) {
+                    //设置标签的字体颜色，1为未选中标签的字体颜色，2为被选中标签的字体颜色
+                    tab1.setTabTextColors(Color.BLACK,Color.parseColor("#5CACEE"));
+                    tab1.setSelectedTabIndicatorColor(Color.parseColor("#5CACEE"));
+                    tab1.setBackgroundColor(Color.parseColor("#fafafa"));
+                    yubeit1.setBackgroundColor(Color.parseColor("#fafafa"));
                     refreshLayout.setEnabled(true);//可刷新
                 } else {
+                    float s=255-(Float.parseFloat(Math.abs(i)+"")/661*255);
+                    tab1.getBackground().mutate().setAlpha((int) s);
+                    yubeit1.getBackground().mutate().setAlpha((int) s);
+                    if (Math.abs(i)==661){
+                        tab1.setTabTextColors(Color.WHITE,Color.WHITE);
+                        tab1.setSelectedTabIndicatorColor(Color.parseColor("#ffffff"));
+                    }
                     refreshLayout.setEnabled(false);//不能刷新，此时为滑动
                 }
             }

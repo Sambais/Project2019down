@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hnkjrjxy.project2019down">
 
+<<<<<<< .merge_file_a14408
     <!--允许应用程序改变网络状态-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <!--允许应用程序改变WIFI连接状态-->
@@ -12,6 +13,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <!--允许应用程序完全使用网络-->
     <uses-permission android:name="android.permission.INTERNET"/>
+=======
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+>>>>>>> .merge_file_a16616
 
     <application
         android:name=".MyApplication"

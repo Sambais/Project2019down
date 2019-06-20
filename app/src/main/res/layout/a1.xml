@@ -57,18 +57,18 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp">
+                        android:layout_height="wrap_content">
                         <android.support.design.widget.TabLayout
                             android:id="@+id/tab1"
                             app:tabBackground="@android:color/transparent"
                             app:tabRippleColor="@android:color/transparent"
-                            android:layout_width="match_parent"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:background="#fafafa"
                             app:tabIndicatorColor="@color/colorPrimaryDark"
                             app:tabTextColor="#000" />
                         <TextView
+                            android:id="@+id/yubeit1"
                             android:layout_weight="1"
                             android:background="#fafafa"
                             android:layout_width="match_parent"
