@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,6 +42,8 @@ public class Fragment_4 extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         generalAdapter = new GeneralAdapter();
         recyclerView.setAdapter(generalAdapter);
+        //设置Item增加、移除动画
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -63,10 +66,7 @@ public class Fragment_4 extends Fragment {
                 //判断lastChildView的bottom值跟recyclerBottom
                 //判断lastPosition是不是最后一个position
                 //如果两个条件都满足则说明是真正的滑动到了底部
-//                if(lastChildBottom == recyclerBottom && lastPosition == recyclerView.getLayoutManager().getItemCount()-1 ){
-//                    Toast.makeText(getActivity(), "滑动到底了", Toast.LENGTH_SHORT).show();
-//                }
-
+                //lastChildBottom == recyclerBottom && lastPosition == recyclerView.getLayoutManager().getItemCount()-1   则改控件处于最底部
                 //dx>0 则表示 右滑 ， dx<0 表示 左滑
                 //dy <0 表示 上滑， dy>0 表示下滑
                 //通过这几个参数就可以监听 滑动方向的状态。
@@ -94,7 +94,7 @@ public class Fragment_4 extends Fragment {
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             //实例化得到Item布局文件的View对象
-            View v = LayoutInflater.from(getActivity()).inflate(R.layout.main_lits_item, null);
+            View v = LayoutInflater.from(getActivity()).inflate(R.layout.mycard, null);
             //返回MyViewHolder的对象
             return new MyViewHolder(v);
         }
