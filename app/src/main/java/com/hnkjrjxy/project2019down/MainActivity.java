@@ -1,5 +1,6 @@
 package com.hnkjrjxy.project2019down;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        Intent intent = new Intent(MainActivity.this,MyService.class);
+//        startService(intent);
+
         setContentView(R.layout.activity_main);
         //隐藏自带的标题title
         getSupportActionBar().hide();
@@ -75,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
 
         //navigation1监听，事件处于MainAtcivity的顶部
         navigation1.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+//        Intent intent = new Intent(MainActivity.this,MyService.class);
+//        stopService(intent);
+
     }
 
     private void initView() {

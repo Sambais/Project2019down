@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.hnkjrjxy.project2019down"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -27,6 +27,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //websocket依赖
+    implementation 'com.github.0xZhangKe:WebSocketDemo:3.0.1'
+    implementation 'org.slf4j:slf4j-log4j12:1.7.21'
+    implementation 'log4j:log4j:1.2.17'
+    //gson依赖
+    implementation 'com.google.code.gson:gson:2.6.2'
 
     //SmartRefreshLayout是一个很好用的下拉刷新上拉加载的第三方库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.1'
