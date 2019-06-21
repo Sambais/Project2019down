@@ -57,9 +57,11 @@ public class Fragment_chat extends Fragment {
         int lastItem = layoutManager.findLastVisibleItemPosition();
         if (n <= firstItem) {
             recyclerView.scrollToPosition(n);
-        } else  {
+        } else if (n <= lastItem) {
             int top = layoutManager.getChildAt(n - firstItem).getTop();
             recyclerView.scrollBy(0, top);
+        } else {
+            recyclerView.scrollToPosition(n);
         }
     }
 
