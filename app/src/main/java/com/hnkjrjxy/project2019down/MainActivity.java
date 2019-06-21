@@ -1,5 +1,6 @@
 package com.hnkjrjxy.project2019down;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -37,6 +38,9 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+
+        Intent intent = new Intent(MainActivity.this,MyService.class);
+        startService(intent);
 
         navigation1 = (BottomNavigationView) findViewById(R.id.navigation);
         //得到BottomNavigationMenuView子界面菜单
@@ -98,6 +102,13 @@ public class MainActivity extends FragmentActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Intent intent = new Intent(MainActivity.this,MyService.class);
+        stopService(intent);
     }
 
     private void initView() {
