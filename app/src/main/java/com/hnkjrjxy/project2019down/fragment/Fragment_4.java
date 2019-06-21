@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,10 +23,18 @@ import com.hnkjrjxy.project2019down.R;
 
 
 public class Fragment_4 extends Fragment {
-    private RecyclerView recyclerView;
-    private GeneralAdapter generalAdapter;
-    private int num=20;
+    private static LinearLayoutManager layoutManager;
+    private static RecyclerView recyclerView;
+    private static GeneralAdapter generalAdapter;
+    private static Context context;
+    private static int num=20;
+    private static String asd="123";
     int i=0;
+    //目标项是否在最后一个可见项之后
+    private static boolean mShouldScroll;
+   //记录目标项位置
+    private static int mToPosition;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,11 +44,21 @@ public class Fragment_4 extends Fragment {
         return view;
     }
 
+    public static void Weizhi(int n){
+        asd="789";
+        generalAdapter=new GeneralAdapter();
+        recyclerView.setAdapter(generalAdapter);
+        generalAdapter.notifyDataSetChanged();
+    }
+
     private void initView(View view) {
+
+        context=getActivity();
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         //RecyclerView绑定适配器
         //设置LayoutManager为LinearLayoutManager
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
         generalAdapter = new GeneralAdapter();
         recyclerView.setAdapter(generalAdapter);
         //设置Item增加、移除动画
@@ -86,23 +105,34 @@ public class Fragment_4 extends Fragment {
         });
     }
 
-    class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHolder> {
+    static class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHolder> {
         //当前上下文对象
-        Context context;
 
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             //实例化得到Item布局文件的View对象
-            View v = LayoutInflater.from(getActivity()).inflate(R.layout.mycard, null);
+            View v = LayoutInflater.from(context).inflate(R.layout.mycard, null);
             //返回MyViewHolder的对象
             return new MyViewHolder(v);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-            myViewHolder.textView.setText("7777");
+        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
+            myViewHolder.textView.setText(""+asd);
             myViewHolder.imageView.setBackgroundResource(R.mipmap.gv1_p1);
+            myViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "点击头像"+i, Toast.LENGTH_SHORT).show();
+                }
+            });
+            myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, ""+i, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
@@ -113,11 +143,13 @@ public class Fragment_4 extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
             ImageView imageView;
+            CardView cardView;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.m1);
                 textView = itemView.findViewById(R.id.t1);
+                cardView = itemView.findViewById(R.id.card);
             }
         }
     }
