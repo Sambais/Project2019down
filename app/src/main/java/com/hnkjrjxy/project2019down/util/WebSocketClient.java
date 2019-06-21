@@ -84,12 +84,12 @@ public class WebSocketClient {
             if(returnMsg.getCode() == 1){
                 Log.i(TAG, "onMessage: 收到服务器发来的心跳监测");
             }
-            ReturnMsg msg = new ReturnMsg();
-            msg.setCode(1);
-            msg.setMsg("收到请回复，over！");
-            manager.send(gson.toJson(msg,ReturnMsg.class));
-            ToastUtil.toToast(message);
-            Log.i(TAG,"!!!!!!!"+message);
+//            ReturnMsg msg = new ReturnMsg();
+//            msg.setCode(1);
+//            msg.setMsg("收到请回复，over！");
+//            manager.send(gson.toJson(msg,ReturnMsg.class));
+//            ToastUtil.toToast(message);
+//            Log.i(TAG,"!!!!!!!"+message);
         }
 
         //接收到二进制消息
