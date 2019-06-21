@@ -9,9 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_chat;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
@@ -27,7 +30,7 @@ public class MainActivity extends FragmentActivity {
     private Fragment_chat fragment2;
     private Fragment_msg fragment3;
     private Fragment_self fragment4;
-
+    private long starttime=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,27 +55,44 @@ public class MainActivity extends FragmentActivity {
 
         //navigation1监听，事件处于MainAtcivity的顶部
         navigation1.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            private View fragmentview;
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
-                        showFragment(1);
-//                    fragmentManager.beginTransaction().replace(R.id.main_center,new Fragment_home()).commit();
+                        long endtime1 = System.currentTimeMillis();
+                        if (endtime1 -starttime<=ViewConfiguration.getDoubleTapTimeout()){
+                            starttime=0;
+                            fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a1,null);
+                            fragment1.initView(fragmentview,1);
+                            Toast.makeText(MainActivity.this, "我双击", Toast.LENGTH_SHORT).show();
+                        }else {
+                            starttime= endtime1;
+                            showFragment(1);
+                        }
                         return true;
                     case R.id.navigation_dashboard:
-                        showFragment(2);
-//                    fragmentManager.beginTransaction().replace(R.id.main_center,new Fragment_chat()).commit();
+                        long endtime2 = System.currentTimeMillis();
+                        if (endtime2 -starttime<=ViewConfiguration.getDoubleTapTimeout()){
+                            starttime=0;
+                            fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a2,null);
+                            fragment2.initView(fragmentview,1);
+                            Toast.makeText(MainActivity.this, "我双击", Toast.LENGTH_SHORT).show();
+                        }else {
+                            starttime= endtime2;
+                            showFragment(2);
+                        }
                         return true;
                     case R.id.add_informatization:
                         //此处使用activity
                         return true;
                     case R.id.navigation_notifications:
                         showFragment(3);
-//                    fragmentManager.beginTransaction().replace(R.id.main_center,new Fragment_msg()).commit();
                         return true;
                     case R.id.myself:
                         showFragment(4);
-//                    fragmentManager.beginTransaction().replace(R.id.main_center,new Fragment_self()).commit();
                         return true;
                 }
                 return false;
@@ -89,7 +109,6 @@ public class MainActivity extends FragmentActivity {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         // 想要显示一个fragment,先隐藏所有fragment，防止重叠
         hideFragments(ft);
-
         switch (index) {
             case 1:
                 // 如果fragment1已经存在则将其显示出来

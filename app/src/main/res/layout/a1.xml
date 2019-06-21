@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refreshLayout"
+    android:id="@+id/swiperefreshlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!--FixedBehind可以让Header固定在内容的背后，下拉的时候效果同微信浏览器的效果-->
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/coordinatorlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -78,7 +79,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+            android:id="@+id/nestedscrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -93,7 +94,7 @@
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/recyclerview"
             android:visibility="gone"
             android:layout_weight="1"
             android:layout_width="match_parent"
