@@ -1,5 +1,9 @@
 package com.hnkjrjxy.project2019down.util;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.hnkjrjxy.project2019down.msg.ReturnMsg;
 import com.zhangke.websocket.dispatcher.IResponseDispatcher;
 import com.zhangke.websocket.dispatcher.ResponseDelivery;
 import com.zhangke.websocket.response.ErrorResponse;
@@ -9,6 +13,9 @@ import org.java_websocket.framing.Framedata;
 import java.nio.ByteBuffer;
 
 public class AppResponseDispatcher implements IResponseDispatcher {
+
+    private static final String TAG = "AppResponseDispatcher";
+
     @Override
     public void onConnected(ResponseDelivery delivery) {
 
@@ -27,7 +34,8 @@ public class AppResponseDispatcher implements IResponseDispatcher {
     //接收到文本消息    ResponseDelivery 是数据发射器，我们可以用它将数据发送到各个接收点
     @Override
     public void onMessage(String message, ResponseDelivery delivery) {
-
+        Log.i(TAG, "onMessage: "+message);
+//        delivery.onMessage(message,ReturnMsg.class);
     }
 
     //接收到二进制消息

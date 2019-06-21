@@ -1,4 +1,4 @@
-package com.hnkjrjxy.project2019down;
+package com.hnkjrjxy.project2019down.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hnkjrjxy.project2019down.activity.RegisterActivity;
+import com.android.volley.Response;
+import com.google.gson.JsonObject;
+import com.hnkjrjxy.project2019down.MyApplication;
+import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.util.Http;
+
+import org.json.JSONObject;
 
 public class LoginActivity extends Activity {
     private ImageView login_back;
@@ -53,7 +59,6 @@ public class LoginActivity extends Activity {
     }
 
     private void submit() {
-        // validate
         String phone = login_phone.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
             Toast.makeText(this, "输入手机号", Toast.LENGTH_SHORT).show();
@@ -66,8 +71,16 @@ public class LoginActivity extends Activity {
             return;
         }
 
-        // TODO validate success, do something
-
+        JsonObject jObject = new JsonObject();
+        jObject.addProperty("token",MyApplication.token);
+        jObject.addProperty("phone",phone);
+        jObject.addProperty("pwd",pwd);
+        Http.Post(this, "Data/Login", "", new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+//                if(jsonObject.optString("code").equals())
+            }
+        });
 
     }
 }

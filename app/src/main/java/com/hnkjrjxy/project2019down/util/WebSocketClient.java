@@ -3,6 +3,9 @@ package com.hnkjrjxy.project2019down.util;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.hnkjrjxy.project2019down.msg.ReturnMsg;
 import com.zhangke.websocket.SocketListener;
 import com.zhangke.websocket.WebSocketHandler;
 import com.zhangke.websocket.WebSocketManager;
@@ -17,10 +20,13 @@ import java.util.Map;
 
 public class WebSocketClient {
     WebSocketSetting webSocketSetting = new WebSocketSetting();
+    WebSocketManager manager;
+    private static final String TAG = "WebSocketClient";
 
     public WebSocketClient() {
+        ToastUtil.toToast("我开始连接啦");
         //连接地址
-        webSocketSetting.setConnectUrl("http://192.168.43.27:8080");
+        webSocketSetting.setConnectUrl("https://hnkj3172.mynatapp.cc:80/websocket");
         //设置心跳间隔
         webSocketSetting.setConnectionLostTimeout(60);
         //断开连接后的重连次数（不会影响性能）
@@ -32,7 +38,7 @@ public class WebSocketClient {
         headers.put("Sec-WebSocket-Key","7wgaspE0Tl7/66o4Dov2kw==");
         headers.put("Sec-WebSocket-Version","13");
         //设置header
-//        webSocketSetting.setHttpHeaders(headers);
+        webSocketSetting.setHttpHeaders(headers);
         //设置消息分发器，接收到数据后先进入该类中处理，处理完再发送到下游
         webSocketSetting.setResponseProcessDispatcher(new AppResponseDispatcher());
         //接收到数据后是否放入子线程处理，只有设置了 ResponseProcessDispatcher 才有意义
@@ -41,7 +47,7 @@ public class WebSocketClient {
         //需要调用 WebSocketHandler.registerNetworkChangedReceiver(context) 方法注册网络监听广播
         webSocketSetting.setReconnectWithNetworkChanged(true);
         //通过 init 方法初始化默认的 WebSocketManager 对象
-        WebSocketManager manager = WebSocketHandler.init(webSocketSetting);
+        manager = WebSocketHandler.init(webSocketSetting);
         //启动连接
         manager.start();
         manager.addListener(new MySocketListener());
@@ -51,8 +57,7 @@ public class WebSocketClient {
 
         @Override
         public void onConnected() {
-            ToastUtil.toToast("已连接");
-            Log.i("WEBSOCKET","!!!!!!!");
+
         }
 
         @Override
@@ -74,8 +79,17 @@ public class WebSocketClient {
         //接受到文本消息
         @Override
         public <T> void onMessage(String message, T data) {
+            Gson gson = new Gson();
+            ReturnMsg returnMsg = gson.fromJson(message,ReturnMsg.class);
+            if(returnMsg.getCode() == 1){
+                Log.i(TAG, "onMessage: 收到服务器发来的心跳监测");
+            }
+            ReturnMsg msg = new ReturnMsg();
+            msg.setCode(1);
+            msg.setMsg("收到请回复，over！");
+            manager.send(gson.toJson(msg,ReturnMsg.class));
             ToastUtil.toToast(message);
-            Log.i("WEBSOCKET","!!!!!!!"+message);
+            Log.i(TAG,"!!!!!!!"+message);
         }
 
         //接收到二进制消息

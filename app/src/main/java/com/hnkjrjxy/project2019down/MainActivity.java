@@ -8,20 +8,25 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Response;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_chat;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_msg;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_self;
+import com.hnkjrjxy.project2019down.util.Http;
+import com.hnkjrjxy.project2019down.util.ToastUtil;
+
+import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
-
-
+    private static final String TAG = "MainActivity==";
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -55,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        Intent intent = new Intent(MainActivity.this,MyService.class);
-//        startService(intent);
+        Intent intent = new Intent(MainActivity.this,MyService.class);
+        startService(intent);
 
         setContentView(R.layout.activity_main);
         //隐藏自带的标题title
@@ -86,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-//        Intent intent = new Intent(MainActivity.this,MyService.class);
-//        stopService(intent);
+        Intent intent = new Intent(MainActivity.this,MyService.class);
+        stopService(intent);
 
     }
 
