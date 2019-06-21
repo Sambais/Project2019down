@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_chat;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
@@ -62,12 +61,12 @@ public class MainActivity extends FragmentActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
+                        //判断双击事件刷新
                         long endtime1 = System.currentTimeMillis();
                         if (endtime1 -starttime<=ViewConfiguration.getDoubleTapTimeout()){
                             starttime=0;
                             fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a1,null);
                             fragment1.initView(fragmentview,1);
-                            Toast.makeText(MainActivity.this, "我双击", Toast.LENGTH_SHORT).show();
                         }else {
                             starttime= endtime1;
                             showFragment(1);
@@ -79,7 +78,6 @@ public class MainActivity extends FragmentActivity {
                             starttime=0;
                             fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a2,null);
                             fragment2.initView(fragmentview,1);
-                            Toast.makeText(MainActivity.this, "我双击", Toast.LENGTH_SHORT).show();
                         }else {
                             starttime= endtime2;
                             showFragment(2);
