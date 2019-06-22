@@ -17,5 +17,21 @@
         <item name="overlapAnchor">false</item>  <!--把该属性改为false即可使menu位置位于toolbar之下-->
     </style>
 
+    <!--没有选中的样式-->
+    <style name="bottom_normal_text">
+        <item name="android:textColor">@color/color2</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!--选中的样式-->
+    <style name="bottom_selected_text">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--中间选中的样式-->
+    <style name="bottom_selected_conten">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">0sp</item>
+    </style>
 
 </resources>

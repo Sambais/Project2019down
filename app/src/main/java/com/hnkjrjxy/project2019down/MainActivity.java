@@ -1,8 +1,10 @@
 package com.hnkjrjxy.project2019down;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
@@ -21,6 +23,8 @@ import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_msg;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_self;
 
+import q.rorbin.badgeview.QBadgeView;
+
 
 public class MainActivity extends FragmentActivity {
 
@@ -31,7 +35,10 @@ public class MainActivity extends FragmentActivity {
     private Fragment_msg fragment3;
     private Fragment_self fragment4;
     private long starttime=0;
+    private QBadgeView qBadgeView1,qBadgeView2,qBadgeView3,qBadgeView4;
+    private BottomNavigationMenuView menuView;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,20 +48,30 @@ public class MainActivity extends FragmentActivity {
         Intent intent = new Intent(MainActivity.this,MyService.class);
         startService(intent);
 
-        navigation1 = (BottomNavigationView) findViewById(R.id.navigation);
-        //得到BottomNavigationMenuView子界面菜单
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) navigation1.getChildAt(0);
-        //遍历菜单，当遍历到第三个子界面时将图标的大小设置为36
+        navigation1.setItemTextAppearanceActive(R.style.bottom_selected_text);
+        navigation1.setItemTextAppearanceInactive(R.style.bottom_normal_text);
+
+        //遍历菜单，当遍历到第三个子界面时将图标的大小设置为45
         for (int i = 0; i < menuView.getChildCount(); i++) {
+            BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+            //noinspection RestrictedApi
+            item.setShifting(false);
+            // set once again checked value, so view will be updated
+            //noinspection RestrictedApi
+            item.setChecked(item.getItemData().isChecked());
             if (i == 2) {
                 final View iconView = menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
                 final ViewGroup.LayoutParams layoutParams = iconView.getLayoutParams();
                 final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 44, displayMetrics);
-                layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 44, displayMetrics);
+                layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, displayMetrics);
+                layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, displayMetrics);
                 iconView.setLayoutParams(layoutParams);
             }
         }
+        //设置角标
+        showBadgeView(1,56);
+        showBadgeView(3,150);
+        showBadgeView(4,3);
 
         //navigation1监听，事件处于MainAtcivity的顶部
         navigation1.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -92,9 +109,12 @@ public class MainActivity extends FragmentActivity {
                         return true;
                     case R.id.navigation_notifications:
                         showFragment(3);
+                        qBadgeView3.hide(true);
                         return true;
                     case R.id.myself:
                         showFragment(4);
+                        //将其角标数量设置为0即为不显示
+                        qBadgeView4.hide(true);
                         return true;
                 }
                 return false;
@@ -110,6 +130,13 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void initView() {
+        qBadgeView1=new QBadgeView(this);
+        qBadgeView2=new QBadgeView(this);
+        qBadgeView3=new QBadgeView(this);
+        qBadgeView4=new QBadgeView(this);
+        navigation1 = (BottomNavigationView) findViewById(R.id.navigation);
+        //得到BottomNavigationMenuView子界面菜单
+        menuView = (BottomNavigationMenuView) navigation1.getChildAt(0);
         fragmentManager=getSupportFragmentManager();
         showFragment(1);
     }
@@ -167,5 +194,44 @@ public class MainActivity extends FragmentActivity {
             ft.hide(fragment3);
         if (fragment4 != null)
             ft.hide(fragment4);
+    }
+
+    /**
+     * BottomNavigationView显示角标
+     *
+     * @param viewIndex tab索引
+     * @param showNumber 显示的数字，小于等于0是将不显示
+     */
+    private void showBadgeView(int viewIndex, int showNumber) {
+        // 具体child的查找和view的嵌套结构请在源码中查看
+        // 从bottomNavigationView中获得BottomNavigationMenuView
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) navigation1.getChildAt(0);
+        // 从BottomNavigationMenuView中获得childview, BottomNavigationItemView
+        if (viewIndex < menuView.getChildCount()) {
+            // 获得viewIndex对应子tab
+            View view = menuView.getChildAt(viewIndex);
+
+            //根据展示的数量调整角标显示的位置
+            int s=0;
+            if (showNumber>100){
+                s=12;
+            }else if(showNumber<10){
+                s=11;
+            }else {
+                s=25;
+            }
+
+
+            // 显示badegeview
+            if (viewIndex==0){
+                qBadgeView1.bindTarget(view).setGravityOffset(s, 3, false).setBadgeNumber(showNumber);
+            }else if (viewIndex==1){
+                qBadgeView2.bindTarget(view).setGravityOffset(s, 3, false).setBadgeNumber(showNumber);
+            }else if (viewIndex==3){
+                qBadgeView3.bindTarget(view).setGravityOffset(s, 3, false).setBadgeNumber(showNumber);
+            }else if (viewIndex==4){
+                qBadgeView4.bindTarget(view).setGravityOffset(s, 3, true).setBadgeNumber(showNumber);
+            }
+        }
     }
 }
