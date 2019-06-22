@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/register_back"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/left_space"
                 android:src="@mipmap/back"
@@ -174,7 +174,7 @@
                     android:layout_weight="1"
                     android:inputType="textPassword"
                     android:background="@drawable/null_style"
-                    android:hint="输入验证码"
+                    android:hint="输入密码"
                     android:textColorHint="#ccc"
                     android:textSize="28sp"
                     />

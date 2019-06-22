@@ -147,13 +147,14 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.register_btn_get:
-                if(isGet){
-
+                if(!isGet){
+                    submit();
                 }
                 break;
         }
     }
 
+    //发送验证码
     private void submit() {
         // validate
         String phone = register_phone.getText().toString().trim();
@@ -170,6 +171,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         isGet = false;
         register_btn_get.setBackgroundResource(R.drawable.register_btn);
 
+        //todo   获取验证码
+
     }
 
     private void register(){
@@ -178,6 +181,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             Toast.makeText(this, "输入手机号", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if(phone.matches("^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\\\d{8}$")){
+            ToastUtil.toToast("手机号码格式不正确，请重新输入");
+            return;
+        }
+
 //        String authcode = register_authcode.getText().toString().trim();
 //        if (TextUtils.isEmpty(authcode)) {
 //            Toast.makeText(this, "输入验证码", Toast.LENGTH_SHORT).show();
@@ -187,7 +196,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         if (TextUtils.isEmpty(pwd)) {
             Toast.makeText(this, "输入密码", Toast.LENGTH_SHORT).show();
             return;
-        }else if(pwd.matches("^(?!\\d+$)[\\da-zA-Z]+$")){
+        }else if(!pwd.matches("^(?!\\d+$)[\\da-zA-Z]+$")){
             ToastUtil.toToast("密码不能为纯数字");
             return;
         }
@@ -197,6 +206,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         bundle.putString("pwd",pwd);
         intent.putExtras(bundle);
         startActivity(intent);
+        finish();
     }
 
 }
