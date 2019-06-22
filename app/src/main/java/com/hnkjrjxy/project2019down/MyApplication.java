@@ -4,14 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.hnkjrjxy.project2019down.util.WebSocketClient;
-
 public class MyApplication extends Application {
     public static Context context;
     public static String token;
     public static int id;
     public static boolean isLogin = false;
     public static SharedPreferences sharedPreferences;
+    public static SharedPreferences.Editor editor;
 
     public static int getId() {
         return id;
@@ -50,6 +49,7 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         sharedPreferences = getSharedPreferences("project2019",MODE_PRIVATE);
+        editor=sharedPreferences.edit();
         if(sharedPreferences.getInt("id",0) != 0){
             id = sharedPreferences.getInt("id",0);
             setIsLogin(true);

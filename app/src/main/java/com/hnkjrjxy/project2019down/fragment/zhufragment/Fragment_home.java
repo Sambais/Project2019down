@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.hnkjrjxy.project2019down.R;
-import com.hnkjrjxy.project2019down.entry.MyHomeTop;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
 import com.hnkjrjxy.project2019down.fragment.Fragment_3;
 import com.hnkjrjxy.project2019down.fragment.Fragment_4;
@@ -214,8 +213,12 @@ public class Fragment_home extends Fragment {
         Http.Get(getActivity(), "Init/Channel", new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject object) {
-                MyHomeTop myHomeTop=new MyHomeTop();
-//                myHomeTop.setData();
+                Log.i("Gson", "onResponse: "+object);
+//                Gson gson=new Gson();
+//                MyHomeTop myHomeTop = gson.fromJson(String.valueOf(object),MyHomeTop.class);
+//                //这样就可以拿数据了
+//                Log.i("Gson", "onResponse: "+myHomeTop.getData());
+
             }
         });
     }

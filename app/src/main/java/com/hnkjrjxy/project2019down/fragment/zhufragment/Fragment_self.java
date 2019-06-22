@@ -1,5 +1,6 @@
 package com.hnkjrjxy.project2019down.fragment.zhufragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,12 +14,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.activity.SettingActivity;
 
 public class Fragment_self extends Fragment {
 
     private ListView a4_list;
     private ListAdapter listAdapter;
     private String tabtitles[] = {"收藏", "热门", "情绪", "社交", "爱好", "生活", "收藏", "热门", "情绪", "社交", "爱好", "生活", "收藏", "热门", "情绪", "社交", "爱好", "生活", "收藏", "热门", "情绪", "社交", "爱好", "生活", "收藏", "热门", "情绪", "社交", "爱好", "生活"};
+    private ImageView setting;
 
 
     @Nullable
@@ -31,11 +34,19 @@ public class Fragment_self extends Fragment {
 
     private void initView(View view) {
         a4_list = (ListView) view.findViewById(R.id.a4_list);
-        listAdapter=new ListAdapter();
+        setting = (ImageView) view.findViewById(R.id.setting);
+        listAdapter = new ListAdapter();
         a4_list.setAdapter(listAdapter);
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),SettingActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    class ListAdapter extends BaseAdapter{
+    class ListAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return tabtitles.length;
@@ -57,7 +68,7 @@ public class Fragment_self extends Fragment {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_lits_item, null);
                 convertView.setTag(new ViewHolder(convertView));
             }
-            initializeViews((String)getItem(position), (ViewHolder) convertView.getTag());
+            initializeViews((String) getItem(position), (ViewHolder) convertView.getTag());
             return convertView;
         }
 
