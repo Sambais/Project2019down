@@ -1,11 +1,14 @@
 package com.hnkjrjxy.project2019down.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,6 +16,8 @@ import android.widget.TextView;
 
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.util.ClearDataUtils;
+import com.hnkjrjxy.project2019down.util.ToastUtil;
 import com.suke.widget.SwitchButton;
 
 public class SettingActivity extends Activity {
@@ -46,6 +51,17 @@ public class SettingActivity extends Activity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        set_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position==5){
+                    ClearDataUtils.clearAllCache(SettingActivity.this);
+                    settingAdapter.notifyDataSetChanged();
+                    ToastUtil.toToast("缓存已清除");
+                }
             }
         });
     }
@@ -87,12 +103,22 @@ public class SettingActivity extends Activity {
                 holder.setItemT1.setText(object);
                 holder.setItemM1.setVisibility(View.GONE);
                 holder.switchButton.setVisibility(View.VISIBLE);
-            } else if (position == data.length - 2) {
+            }  else if (position == data.length - 3) {
                 holder.switchButton.setVisibility(View.GONE);
                 holder.setItemM1.setVisibility(View.VISIBLE);
                 holder.setItemT2.setVisibility(View.VISIBLE);
                 holder.setItemT1.setText(object);
-                holder.setItemT2.setText("我的资料");
+                try {
+                    holder.setItemT2.setText(ClearDataUtils.getTotalCacheSize(SettingActivity.this));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else if (position == data.length - 2) {
+                holder.switchButton.setVisibility(View.GONE);
+                holder.setItemM1.setVisibility(View.VISIBLE);
+                holder.setItemT2.setVisibility(View.VISIBLE);
+                holder.setItemT1.setText(object);
+                holder.setItemT2.setText(getVerName(SettingActivity.this)+"");
             } else {
                 holder.switchButton.setVisibility(View.GONE);
                 holder.setItemM1.setVisibility(View.VISIBLE);
@@ -123,5 +149,22 @@ public class SettingActivity extends Activity {
                 switchButton = (SwitchButton) view.findViewById(R.id.switchbutton);
             }
         }
+    }
+
+    /**
+     * 获取版本号名称
+     *
+     * @param context 上下文
+     * @return
+     */
+    public static String getVerName(Context context) {
+        String verName = "";
+        try {
+            verName = context.getPackageManager().
+                    getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return verName;
     }
 }
