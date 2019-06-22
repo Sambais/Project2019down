@@ -5,23 +5,25 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 
+import com.hnkjrjxy.project2019down.entry.UserInfo;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class MyApplication extends Application {
     public static Context context;
     public static String token;
-    public static int id;
     public static boolean isLogin = false;
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor editor;
+    public static UserInfo userInfo;
 
-    public static int getId() {
-        return id;
+    public static UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    public static void setId(int id) {
-        MyApplication.id = id;
+    public static void setUserInfo(UserInfo userInfo) {
+        MyApplication.userInfo = userInfo;
     }
 
     public static boolean isIsLogin() {
@@ -56,7 +58,6 @@ public class MyApplication extends Application {
         sharedPreferences = getSharedPreferences("project2019",MODE_PRIVATE);
         editor=sharedPreferences.edit();
         if(sharedPreferences.getInt("id",0) != 0){
-            id = sharedPreferences.getInt("id",0);
             setIsLogin(true);
         }
     }
