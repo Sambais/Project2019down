@@ -35,7 +35,8 @@ public class UserInfo {
          * token : 1561129728120
          * username : 123456
          * pwd : 123123
-         * email :
+         * age : 00后
+         * sex : 女
          * state : 1
          */
 
@@ -44,8 +45,25 @@ public class UserInfo {
         private String token;
         private String username;
         private String pwd;
-        private String email;
         private int state;
+        private String age;
+        private String sex;
+
+        public String getSex() {
+            return sex;
+        }
+
+        public void setSex(String sex) {
+            this.sex = sex;
+        }
+
+        public String getAge() {
+            return age;
+        }
+
+        public void setAge(String age) {
+            this.age = age;
+        }
 
         public int getId() {
             return id;
@@ -85,14 +103,6 @@ public class UserInfo {
 
         public void setPwd(String pwd) {
             this.pwd = pwd;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
         }
 
         public int getState() {
