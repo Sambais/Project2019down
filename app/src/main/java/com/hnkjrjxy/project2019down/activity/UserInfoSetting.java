@@ -163,6 +163,7 @@ public class UserInfoSetting extends Activity {
                 alertDialog.dismiss();
             }
         });
+        alertDialog.show();
     }
 
     private void submit() {
