@@ -35,7 +35,7 @@ public class AppResponseDispatcher implements IResponseDispatcher {
     @Override
     public void onMessage(String message, ResponseDelivery delivery) {
         Log.i(TAG, "onMessage: "+message);
-//        delivery.onMessage(message,ReturnMsg.class);
+        delivery.onMessage(message,ReturnMsg.class);
     }
 
     //接收到二进制消息
