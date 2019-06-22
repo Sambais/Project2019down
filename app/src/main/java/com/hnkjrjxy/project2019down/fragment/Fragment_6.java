@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.hnkjrjxy.project2019down.R;
 
 
-public class Fragment_4 extends Fragment {
+public class Fragment_6 extends Fragment {
     private static LinearLayoutManager layoutManager;
     private static RecyclerView recyclerView;
     private static GeneralAdapter generalAdapter;

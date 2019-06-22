@@ -52,21 +52,14 @@ public class Fragment_chat extends Fragment {
         return this;
     }
 
+    //
     private void MoveToPosition(int n) {
-        int firstItem = layoutManager.findFirstVisibleItemPosition();
-        int lastItem = layoutManager.findLastVisibleItemPosition();
-        if (n <= firstItem) {
-            recyclerView.scrollToPosition(n);
-        } else if (n <= lastItem) {
-            int top = layoutManager.getChildAt(n - firstItem).getTop();
-            recyclerView.scrollBy(0, top);
-        } else {
-            recyclerView.scrollToPosition(n);
-        }
+        recyclerView.scrollToPosition(n);
     }
 
     public void initView(View view,int zt) {
         if (zt==1){
+            //自动刷新，autoRefresh（num）  num为开始刷新的时间
             smartrefreshlayout.autoRefresh(0);
             smartrefreshlayout.setOnRefreshListener(new OnMultiPurposeListener() {
                 @Override

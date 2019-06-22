@@ -25,11 +25,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
 import com.hnkjrjxy.project2019down.fragment.Fragment_3;
 import com.hnkjrjxy.project2019down.fragment.Fragment_4;
+import com.hnkjrjxy.project2019down.fragment.Fragment_5;
+import com.hnkjrjxy.project2019down.fragment.Fragment_6;
+import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.view.NewMyListView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +63,8 @@ public class Fragment_home extends Fragment {
     private TextView yubeit1;
     private ViewPager myviewpagernext;
     private CoordinatorLayout coordinatorlayout;
+    private SwipeRefreshLayout.OnRefreshListener listener;
+    private int ztpd=0;
 
 
     @Override
@@ -68,11 +76,21 @@ public class Fragment_home extends Fragment {
     }
 
     public void initView(View view,int zt) {
-        if (zt==1){
+        ztpd=zt;
+        if (ztpd==1){
             Log.i("TAG", "initView: 我想到顶部");
             //方法重载，直接用，默认带动画效果慢慢展开或折叠，拿走不谢
             myappBarLayout.setExpanded(true,true);
-            Fragment_4.Weizhi(0);
+
+            //暂时只能用三个Fragment解决双击回到顶部并且刷新的操作
+           if (tab1.getSelectedTabPosition()==0) {
+               Fragment_4.Weizhi(0);
+           }else if (tab1.getSelectedTabPosition()==1){
+               Fragment_5.Weizhi(0);
+           }else {
+               Fragment_6.Weizhi(0);
+           }
+
         }else {
             tabtitles = new ArrayList();
             for (int i = 0; i < 20; i++) {
@@ -87,7 +105,7 @@ public class Fragment_home extends Fragment {
             myviewpagernext = (ViewPager) view.findViewById(R.id.myviewpagernext);
             nestedScrollView = (NestedScrollView) view.findViewById(R.id.nestedscrollview);
             swiperefreshlayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefreshlayout);
-            myappBarLayout = (AppBarLayout) view.findViewById(R.id.appBarLayout);
+            myappBarLayout = (AppBarLayout) view.findViewById(R.id.appbarlayout);
 
             //为顶部ViewPager添加fragment
             fragments = new ArrayList<>();
@@ -100,8 +118,8 @@ public class Fragment_home extends Fragment {
 
             fragment2s = new ArrayList<>();
             fragment2s.add(new Fragment_4());
-            fragment2s.add(new Fragment_4());
-            fragment2s.add(new Fragment_4());
+            fragment2s.add(new Fragment_5());
+            fragment2s.add(new Fragment_6());
 
             //上部分频道适配器
             fragmentManager = getChildFragmentManager();
@@ -125,50 +143,79 @@ public class Fragment_home extends Fragment {
             //设置下拉是否开始缩放，起点是20的高度，最多到达100的高度
             swiperefreshlayout.setProgressViewOffset(false, 20, 100);
 
-            //下拉刷新SwipeRefreshLayout监听
-            swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            tabtitles.add("第" + tabtitles.size() + "个数据");
-                            swiperefreshlayout.setRefreshing(false);
-                            Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
-                            Collections.reverse(tabtitles);
-                        }
-                    }, 1000);
-                }
-
-            });
-
-            //判断AppBarLayout往上偏移的量是否为0，为0时处于界面的顶部此时可以执行下拉刷新
-            myappBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-                @Override
-                public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-//                Log.i("TAG", "onOffsetChanged:         " + i);
-                    if (i == 0) {
-                        //设置标签的字体颜色，1为未选中标签的字体颜色，2为被选中标签的字体颜色
-                        //这个设置会让tab1的点击时间下方横线卡断
-//                    tab1.setTabTextColors(Color.BLACK,Color.parseColor("#5CACEE"));
-                        tab1.setSelectedTabIndicatorColor(Color.parseColor("#5CACEE"));
-                        tab1.setBackgroundColor(Color.parseColor("#fafafa"));
-                        yubeit1.setBackgroundColor(Color.parseColor("#fafafa"));
-                        swiperefreshlayout.setEnabled(true);//可刷新
-                    } else {
-                        float s = 255 - (Float.parseFloat(Math.abs(i) + "") / 661 * 255);
-                        tab1.getBackground().mutate().setAlpha((int) s);
-                        yubeit1.getBackground().mutate().setAlpha((int) s);
-                        if (Math.abs(i) == 661) {
-//                        tab1.setTabTextColors(Color.WHITE,Color.WHITE);
-                            tab1.setSelectedTabIndicatorColor(Color.parseColor("#ffffff"));
-                        }
-                        swiperefreshlayout.setEnabled(false);//不能刷新，此时为滑动
-                    }
-                }
-            });
+            //从后台获取数据
+            getData();
         }
+        layoutlistener();
+    }
+
+    private void layoutlistener() {
+        //下拉刷新SwipeRefreshLayout监听
+
+        listener = new SwipeRefreshLayout.OnRefreshListener() {
+            public void onRefresh() {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        tabtitles.add("第" + tabtitles.size() + "个数据");
+                        swiperefreshlayout.setRefreshing(false);
+                        Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
+                        Collections.reverse(tabtitles);
+                    }
+                }, 2000);
+            }
+        };
+
+        swiperefreshlayout.setOnRefreshListener(listener);
+
+        //判断AppBarLayout往上偏移的量是否为0，为0时处于界面的顶部此时可以执行下拉刷新
+        myappBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+//                Log.i("TAG", "onOffsetChanged:         " + i);
+                if (i == 0) {
+                    //设置标签的字体颜色，1为未选中标签的字体颜色，2为被选中标签的字体颜色
+                    //这个设置会让tab1的点击时间下方横线卡断
+//                    tab1.setTabTextColors(Color.BLACK,Color.parseColor("#5CACEE"));
+                    tab1.setSelectedTabIndicatorColor(Color.parseColor("#5CACEE"));
+                    tab1.setBackgroundColor(Color.parseColor("#fafafa"));
+                    yubeit1.setBackgroundColor(Color.parseColor("#fafafa"));
+                    swiperefreshlayout.setEnabled(true);//可刷新
+
+                    if (ztpd ==1){
+                        //开始启动刷新的状态
+                        swiperefreshlayout.setRefreshing(true);
+                        listener.onRefresh();
+                        ztpd=0;
+                    }
+                } else {
+                    float s = 255 - (Float.parseFloat(Math.abs(i) + "") / 661 * 255);
+                    tab1.getBackground().mutate().setAlpha((int) s);
+                    yubeit1.getBackground().mutate().setAlpha((int) s);
+                    if (Math.abs(i) == 661) {
+//                        tab1.setTabTextColors(Color.WHITE,Color.WHITE);
+                        tab1.setSelectedTabIndicatorColor(Color.parseColor("#ffffff"));
+                    }
+                    swiperefreshlayout.setEnabled(false);//不能刷新，此时为滑动
+                }
+            }
+        });
+    }
+
+    private void getData() {
+        //获取顶部title
+        getChannel();
+    }
+
+    private void getChannel() {
+        //http://hnkj3172.mynatapp.cc:80/Init/Channel
+        Http.Get(getActivity(), "", new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject object) {
+
+            }
+        });
     }
 
 
