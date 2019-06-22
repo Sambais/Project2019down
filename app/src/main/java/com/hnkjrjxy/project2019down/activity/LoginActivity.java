@@ -14,10 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.entry.UserInfo;
 import com.hnkjrjxy.project2019down.util.Http;
+import com.hnkjrjxy.project2019down.util.ToastUtil;
 
 import org.json.JSONObject;
 
@@ -75,6 +78,13 @@ public class LoginActivity extends Activity {
             }
         });
 
+        login_forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         login_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +128,13 @@ public class LoginActivity extends Activity {
         Http.Post(this, "Data/Login", jObject.toString(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-
+                Gson gson = new Gson();
+                UserInfo userInfo = gson.fromJson(jsonObject.toString(),UserInfo.class);
+                if(userInfo.getMsg().equals("S")){
+                    MyApplication.setUserInfo(userInfo);
+                    ToastUtil.toToast("登录成功!");
+                    finish();
+                }
             }
         });
 
