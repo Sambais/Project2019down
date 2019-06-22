@@ -132,6 +132,7 @@ public class LoginActivity extends Activity {
                 UserInfo userInfo = gson.fromJson(jsonObject.toString(),UserInfo.class);
                 if(userInfo.getMsg().equals("S")){
                     MyApplication.setUserInfo(userInfo);
+                    MyApplication.setIsLogin(true);
                     ToastUtil.toToast("登录成功!");
                     finish();
                 }
