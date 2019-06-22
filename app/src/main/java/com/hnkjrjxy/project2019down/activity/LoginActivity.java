@@ -3,7 +3,10 @@ package com.hnkjrjxy.project2019down.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +28,7 @@ public class LoginActivity extends Activity {
     private EditText login_pwd;
     private TextView login_forget;
     private TextView register_new;
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,28 @@ public class LoginActivity extends Activity {
         login_forget = (TextView) findViewById(R.id.login_forget);
         register_new = (TextView) findViewById(R.id.register_new);
 
+        login_phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkEditText(s.toString(),login_phone,"手机号不能为空");
+            }
+        });
+
+        login_pwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkEditText(s.toString(),login_pwd,"密码不能为空");
+            }
+        });
+
         register_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +82,19 @@ public class LoginActivity extends Activity {
             }
         });
 
+        login_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
+
+    }
+
+    private void checkEditText(String s,EditText ed,String msg){
+        if(TextUtils.isEmpty(s)){
+            ed.setError(msg);
+        }
     }
 
     private void submit() {
@@ -75,10 +114,11 @@ public class LoginActivity extends Activity {
         jObject.addProperty("token",MyApplication.token);
         jObject.addProperty("phone",phone);
         jObject.addProperty("pwd",pwd);
-        Http.Post(this, "Data/Login", "", new Response.Listener<JSONObject>() {
+        Log.i(TAG, "submit: "+jObject);
+        Http.Post(this, "Data/Login", jObject.toString(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-//                if(jsonObject.optString("code").equals())
+
             }
         });
 

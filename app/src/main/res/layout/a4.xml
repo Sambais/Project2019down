@@ -30,11 +30,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
                 <ImageView
-                    android:src="@mipmap/gv1_p1"
+                    android:id="@+id/setting_me"
+                    android:src="@mipmap/setting"
                     android:layout_marginRight="16dp"
                     android:layout_gravity="center"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size" />
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
         <ListView
