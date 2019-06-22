@@ -45,6 +45,7 @@ public class UserInfo {
         private String username;
         private String pwd;
         private String email;
+        private int state;
 
         public int getId() {
             return id;
@@ -92,6 +93,14 @@ public class UserInfo {
 
         public void setEmail(String email) {
             this.email = email;
+        }
+
+        public int getState() {
+            return state;
+        }
+
+        public void setState(int state) {
+            this.state = state;
         }
     }
 }
