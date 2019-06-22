@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.msg.ReturnMsg;
 import com.zhangke.websocket.SocketListener;
 import com.zhangke.websocket.WebSocketHandler;
@@ -82,7 +83,8 @@ public class WebSocketClient {
             Gson gson = new Gson();
             ReturnMsg returnMsg = gson.fromJson(message,ReturnMsg.class);
             if(returnMsg.getCode() == 1){
-                Log.i(TAG, "onMessage: 收到服务器发来的心跳监测");
+                MyApplication.setToken(returnMsg.getMsg().toString());
+                Log.i(TAG, "onMessage: 收到服务器发来的心跳监测"+returnMsg.getMsg().toString());
             }
 //            ReturnMsg msg = new ReturnMsg();
 //            msg.setCode(1);

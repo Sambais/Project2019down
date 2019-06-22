@@ -13,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SettingActivity;
 
 public class Fragment_self extends Fragment {
@@ -40,8 +42,13 @@ public class Fragment_self extends Fragment {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),SettingActivity.class);
-                startActivity(intent);
+                if(MyApplication.isIsLogin()){
+                    Intent intent=new Intent(getActivity(),SettingActivity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent=new Intent(getActivity(),LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
