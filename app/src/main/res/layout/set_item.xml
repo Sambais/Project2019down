@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/set_item_t1"
+            android:textColor="#000"
+            android:text="123"
+            android:textSize="@dimen/defalut_size"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/set_item_t2"
+            android:gravity="center_vertical"
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <com.suke.widget.SwitchButton
+            android:visibility="gone"
+            android:id="@+id/switchbutton"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/set_item_m1"
+            android:src="@mipmap/xiangxi"
+            android:layout_gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

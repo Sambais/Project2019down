@@ -13,19 +13,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.hnkjrjxy.project2019down.MainActivity;
-import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
-import com.hnkjrjxy.project2019down.activity.LoginActivity;
-
-import org.apache.log4j.chainsaw.Main;
+import com.hnkjrjxy.project2019down.activity.SettingActivity;
 
 public class Fragment_self extends Fragment {
 
     private ListView a4_list;
     private ListAdapter listAdapter;
-    private ImageView setting_me;
     private String tabtitles[] = {"收藏", "热门", "情绪", "社交", "爱好", "生活", "收藏", "热门", "情绪", "社交", "爱好", "生活", "收藏", "热门", "情绪", "社交", "爱好", "生活", "收藏", "热门", "情绪", "社交", "爱好", "生活", "收藏", "热门", "情绪", "社交", "爱好", "生活"};
+    private ImageView setting;
 
 
     @Nullable
@@ -38,23 +34,19 @@ public class Fragment_self extends Fragment {
 
     private void initView(View view) {
         a4_list = (ListView) view.findViewById(R.id.a4_list);
-        setting_me = view.findViewById(R.id.setting_me);
-        listAdapter=new ListAdapter();
+        setting = (ImageView) view.findViewById(R.id.setting);
+        listAdapter = new ListAdapter();
         a4_list.setAdapter(listAdapter);
-        setting_me.setOnClickListener(new View.OnClickListener() {
+        setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(MyApplication.isLogin){
-
-                }else{
-                    Intent intent = new Intent(getActivity(),LoginActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent=new Intent(getActivity(),SettingActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    class ListAdapter extends BaseAdapter{
+    class ListAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return tabtitles.length;
@@ -76,7 +68,7 @@ public class Fragment_self extends Fragment {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.main_lits_item, null);
                 convertView.setTag(new ViewHolder(convertView));
             }
-            initializeViews((String)getItem(position), (ViewHolder) convertView.getTag());
+            initializeViews((String) getItem(position), (ViewHolder) convertView.getTag());
             return convertView;
         }
 

@@ -25,6 +25,7 @@
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity android:name=".activity.LoginActivity"></activity>
         <activity android:name=".activity.RegisterActivity"></activity>
+        <activity android:name=".activity.SettingActivity"></activity>
 
     </application>
 

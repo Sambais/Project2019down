@@ -36,5 +36,10 @@ dependencies {
     //SmartRefreshLayout是一个很好用的下拉刷新上拉加载的第三方库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.1'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.1'
+
+    //Android中仿iphone开关按钮SwitchButton
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
     implementation files('libs/volley.jar')
+
 }
