@@ -22,6 +22,7 @@ import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_msg;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_self;
 
+import es.dmoral.toasty.Toasty;
 import q.rorbin.badgeview.QBadgeView;
 
 
@@ -82,6 +83,7 @@ public class MainActivity extends FragmentActivity {
                             starttime=0;
                             fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a1,null);
                             fragment1.initView(fragmentview,1);
+                            Toasty.success(MainActivity.this,"双击成功").show();
                         }else {
                             starttime= endtime1;
                             showFragment(1);

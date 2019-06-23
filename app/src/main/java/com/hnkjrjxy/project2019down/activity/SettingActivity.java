@@ -97,7 +97,10 @@ public class SettingActivity extends Activity {
                 holder.switchButton.setVisibility(View.GONE);
                 holder.setItemM1.setVisibility(View.GONE);
                 holder.setItemT1.setText(object);
-                holder.setItemT2.setText("我的资料");
+                //todo
+                holder.setItemT2.setText(
+                        MyApplication.getUserInfo().getData().get(1).getAge()+","
+                        +MyApplication.getUserInfo().getData().get(1).getSex());
             } else if (position == 3) {
                 holder.switchButton.setChecked(MyApplication.sharedPreferences.getBoolean("sytx", false));
                 holder.setItemT1.setText(object);

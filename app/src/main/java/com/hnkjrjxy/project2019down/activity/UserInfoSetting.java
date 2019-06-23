@@ -1,20 +1,18 @@
 package com.hnkjrjxy.project2019down.activity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
 import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
@@ -136,31 +134,21 @@ public class UserInfoSetting extends Activity {
     }
 
     private void showAlert(){
-        View view = LayoutInflater.from(this).inflate(R.layout.usersetting_alert,null);
-        final EditText et = view.findViewById(R.id.alert_name);
-        final AlertDialog alertDialog = new AlertDialog.Builder(this)
-                .setTitle("请为你自己取一个昵称")
-                .setView(view)
-                .create();
-        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(TextUtils.isEmpty(et.getText())){
-                    ToastUtil.toToast("昵称不能为空");
-                    return;
-                }
-                jsonObject.addProperty("username",et.getText().toString());
-                submit();
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show();
+        final String te = "";
+        new MaterialDialog.Builder(UserInfoSetting.this)
+                .title("Title")
+                .inputRangeRes(2, 8, R.color.colorPrimary)
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .input("请输入真身昵称", null, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialogs, CharSequence input) {
+                        jsonObject.addProperty("username",input.toString());
+                        submit();
+                    }
+                })
+                .positiveColor(Color.parseColor("#5CACEE"))
+                .positiveText("确定")
+                .show();
     }
 
     private void submit() {
