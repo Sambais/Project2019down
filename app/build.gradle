@@ -40,6 +40,9 @@ dependencies {
     //Android中仿iphone开关按钮SwitchButton
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
+    //角标显示库
+    implementation 'q.rorbin:badgeview:1.1.3'
+
     implementation files('libs/volley.jar')
 
 }

@@ -81,7 +81,6 @@ public class Fragment_self extends Fragment {
 
         private void initializeViews(String object, ViewHolder holder) {
             holder.t1.setText(object);
-            //TODO implement
         }
 
         protected class ViewHolder {
