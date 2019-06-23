@@ -129,12 +129,16 @@ public class LoginActivity extends Activity {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 Gson gson = new Gson();
-                UserInfo userInfo = gson.fromJson(jsonObject.toString(),UserInfo.class);
-                if(userInfo.getMsg().equals("S")){
+                if(jsonObject.optString("msg").equals("S")){
+                    UserInfo userInfo = gson.fromJson(jsonObject.toString(),UserInfo.class);
                     MyApplication.setUserInfo(userInfo);
+                    MyApplication.editor.putInt("id",userInfo.getData().get(0).getId());
+                    MyApplication.editor.commit();
                     MyApplication.setIsLogin(true);
                     ToastUtil.toToast("登录成功!");
                     finish();
+                }else{
+                    ToastUtil.toToast(jsonObject.optString("data"));
                 }
             }
         });

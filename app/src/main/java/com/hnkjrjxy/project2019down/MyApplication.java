@@ -26,6 +26,11 @@ public class MyApplication extends Application {
         MyApplication.userInfo = userInfo;
     }
 
+    public static void setUserInfo(int id) {
+
+        MyApplication.userInfo = userInfo;
+    }
+
     public static boolean isIsLogin() {
         return isLogin;
     }

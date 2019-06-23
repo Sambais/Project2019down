@@ -180,11 +180,9 @@ public class UserInfoSetting extends Activity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(UserInfoSetting.this,LoginActivity.class);
-                            startActivity(intent);
                             finish();
                         }
-                    },200);
+                    },100);
                 }
             }
         });
