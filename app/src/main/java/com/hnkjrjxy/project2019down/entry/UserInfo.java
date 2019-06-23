@@ -4,9 +4,10 @@ import java.util.List;
 
 public class UserInfo {
 
+
     /**
      * msg : S
-     * data : [{"id":17,"phone":"123456","token":"1561129728120"},{"id":17,"username":"123456","pwd":"123123","email":"","state":1}]
+     * data : [{"id":17,"phone":"123456","token":"1561129728120"},{"id":17,"username":"123456","pwd":"123123","state":1,"age":"00后","sex":"女"}]
      */
 
     private String msg;
@@ -35,9 +36,9 @@ public class UserInfo {
          * token : 1561129728120
          * username : 123456
          * pwd : 123123
+         * state : 1
          * age : 00后
          * sex : 女
-         * state : 1
          */
 
         private int id;
@@ -48,22 +49,6 @@ public class UserInfo {
         private int state;
         private String age;
         private String sex;
-
-        public String getSex() {
-            return sex;
-        }
-
-        public void setSex(String sex) {
-            this.sex = sex;
-        }
-
-        public String getAge() {
-            return age;
-        }
-
-        public void setAge(String age) {
-            this.age = age;
-        }
 
         public int getId() {
             return id;
@@ -111,6 +96,22 @@ public class UserInfo {
 
         public void setState(int state) {
             this.state = state;
+        }
+
+        public String getAge() {
+            return age;
+        }
+
+        public void setAge(String age) {
+            this.age = age;
+        }
+
+        public String getSex() {
+            return sex;
+        }
+
+        public void setSex(String sex) {
+            this.sex = sex;
         }
     }
 }

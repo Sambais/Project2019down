@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.google.gson.JsonObject;
+import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.ToastUtil;
@@ -162,6 +164,20 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             Toast.makeText(this, "输入手机号", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token",MyApplication.getToken());
+        jsonObject.addProperty("phone",phone);
+        Http.Post(this, "Data/Select", jsonObject.toString(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                if(jsonObject.optString("msg").equals("S")){
+                    ToastUtil.toToast("该号码已注册过了");
+                    return;
+                }
+            }
+        });
+
         if(phone.matches("^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\\\d{8}$")){
             ToastUtil.toToast("手机号码格式不正确，请重新输入");
             return;
@@ -181,6 +197,19 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             Toast.makeText(this, "输入手机号", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token",MyApplication.getToken());
+        jsonObject.addProperty("phone",phone);
+        Http.Post(this, "Data/Select", jsonObject.toString(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                if(jsonObject.optString("msg").equals("S")){
+                    ToastUtil.toToast("该号码已注册过了");
+                    return;
+                }
+            }
+        });
 
         if(phone.matches("^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\\\d{8}$")){
             ToastUtil.toToast("手机号码格式不正确，请重新输入");
