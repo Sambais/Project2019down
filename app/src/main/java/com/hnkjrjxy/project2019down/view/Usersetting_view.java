@@ -1,6 +1,7 @@
 package com.hnkjrjxy.project2019down.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.util.Log;
@@ -10,13 +11,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hnkjrjxy.project2019down.R;
 
 public class Usersetting_view extends LinearLayout {
-
+    private static final String TAG = "Usersetting_view";
     private String[] infos;
     private ListView lv;
     private TextView tv_msg;
@@ -88,20 +90,28 @@ public class Usersetting_view extends LinearLayout {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.usersetting_item2, null);
                     convertView.setTag(new ViewHolder(convertView));
                 }
-                initializeViews((String)getItem(position), (ViewHolder) convertView.getTag());
+                initializeViews((String)getItem(position), (ViewHolder) convertView.getTag(),convertView);
                 return convertView;
             }
 
-            private void initializeViews(final String object, ViewHolder holder) {
+            private void initializeViews(final String object, ViewHolder holder, final View convertView) {
+                holder.sersettingInfo.measure(0,0);
                 LayoutParams params = new LayoutParams(size,ViewGroup.LayoutParams.MATCH_PARENT);
-                params.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                params.setMargins(
+                        getResources().getDisplayMetrics()
+                                .widthPixels-size-10,
+                        0,0,0);
                 holder.sersettingInfo.setLayoutParams(params);
                 holder.sersettingInfo.setText(object);
                 holder.sersettingInfo.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Log.i("TAG", "onClick: !!!!!");
-                        if(onCallBack != null) onCallBack.callback(object);
+                        if(onCallBack != null) {
+                            onCallBack.callback(object);
+                            convertView.setEnabled(false);
+                            convertView.setBackgroundColor(Color.parseColor("#55cccccc"));
+                        }
                     }
                 });
             }
@@ -115,5 +125,23 @@ public class Usersetting_view extends LinearLayout {
             }
         };
         lv.setAdapter(adapter);
+        setListViewHeightBasedOnChildren(lv);
     }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+
 }

@@ -97,11 +97,11 @@ public class UserInfoSetting extends Activity {
                 return convertView;
             }
 
-            private void initializeViews(int position, String[] object, ViewHolder holder, View convertView) {
+            private void initializeViews(int position, String[] object, final ViewHolder holder, View convertView) {
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,convertView.getHeight());
                 convertView.setLayoutParams(params);
-                holder.usersettingV.setMsg(msgs[position]);
+                holder.usersettingV.setMsg(msgs[position%3]);
                 holder.usersettingV.setSize(Integer.parseInt(object[0]));
                 String[] strs = new String[object.length-1];
                 for (int i = 1; i < object.length; i++) {
@@ -114,15 +114,18 @@ public class UserInfoSetting extends Activity {
                         if(object.equals("确定")){
                             showAlert();
                         }else if(object.equals("修改信息")){
+                            num = 0;
                             info.clear();
                             infos.add(is.get(num));
-                            num = 1;
+                            num++;
                         }else{
                             info.add(object);
                             infos.add(is.get(num));
                             num++;
-                            notifyDataSetChanged();
                         }
+                        holder.usersettingV.setOnCallBack(null);
+                        holder.usersettingV.setInfos(new String[]{object});
+                        notifyDataSetChanged();
                     }
                 });
             }
