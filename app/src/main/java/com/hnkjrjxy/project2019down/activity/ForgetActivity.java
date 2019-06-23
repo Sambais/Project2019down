@@ -3,6 +3,7 @@ package com.hnkjrjxy.project2019down.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -14,9 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.google.gson.JsonObject;
+import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.ToastUtil;
+
+import org.json.JSONObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -198,7 +204,24 @@ public class ForgetActivity extends Activity implements View.OnClickListener {
             return;
         }
 
-//        Http.Post(this,"Data/");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token",MyApplication.getToken());
+        jsonObject.addProperty("phone",phone);
+        jsonObject.addProperty("pwd",pwd);
+        Http.Post(this, "Data/UpdatePwd", jsonObject.toString(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(final JSONObject jsonObject) {
+                ToastUtil.toToast(jsonObject.optString("data"));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(jsonObject.optString("msg").equals("S")){
+                            finish();
+                        }
+                    }
+                },100);
+            }
+        });
 
     }
 }

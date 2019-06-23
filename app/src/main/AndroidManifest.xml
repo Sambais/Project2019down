@@ -28,6 +28,7 @@
         <activity android:name=".activity.SettingActivity"></activity>
         <activity android:name=".activity.UserInfoSetting"></activity>
         <activity android:name=".activity.SendPostActivity"></activity>
+        <activity android:name=".activity.ForgetActivity"></activity>
 
     </application>
 
