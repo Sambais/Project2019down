@@ -4,20 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 
 import com.hnkjrjxy.project2019down.activity.SendPostActivity;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_chat;
@@ -51,26 +47,28 @@ public class MainActivity extends FragmentActivity {
         Intent intent = new Intent(MainActivity.this,MyService.class);
         startService(intent);
 
+        //设置选中和未选中的样式
         navigation1.setItemTextAppearanceActive(R.style.bottom_selected_text);
         navigation1.setItemTextAppearanceInactive(R.style.bottom_normal_text);
 
-        //遍历菜单，当遍历到第三个子界面时将图标的大小设置为45
-        for (int i = 0; i < menuView.getChildCount(); i++) {
-            BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-            //noinspection RestrictedApi
-            item.setShifting(false);
-            // set once again checked value, so view will be updated
-            //noinspection RestrictedApi
-            item.setChecked(item.getItemData().isChecked());
-            if (i == 2) {
-                final View iconView = menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
-                final ViewGroup.LayoutParams layoutParams = iconView.getLayoutParams();
-                final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, displayMetrics);
-                layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, displayMetrics);
-                iconView.setLayoutParams(layoutParams);
-            }
-        }
+        //在FrameLayout中使用了骚操作，以下注释代码设置图标的大小可以不使用
+//        //遍历菜单，当遍历到第三个子界面时将图标的大小设置为45
+////        for (int i = 0; i < menuView.getChildCount(); i++) {
+////            BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+////            //noinspection RestrictedApi
+////            item.setShifting(false);
+////            // set once again checked value, so view will be updated
+////            //noinspection RestrictedApi
+////            item.setChecked(item.getItemData().isChecked());
+////            if (i == 2) {
+////                final View iconView = menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
+////                final ViewGroup.LayoutParams layoutParams = iconView.getLayoutParams();
+////                final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+////                layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, displayMetrics);
+////                layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, displayMetrics);
+////                iconView.setLayoutParams(layoutParams);
+////            }
+////        }
         //设置角标
         showBadgeView(1,56);
         showBadgeView(3,150);
