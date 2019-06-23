@@ -134,6 +134,8 @@ public class LoginActivity extends Activity {
                     UserInfo userInfo = gson.fromJson(jsonObject.toString(),UserInfo.class);
                     MyApplication.setUserInfo(userInfo);
                     MyApplication.editor.putInt("id",userInfo.getData().get(0).getId());
+                    MyApplication.editor.putString("age",userInfo.getData().get(1).getAge());
+                    MyApplication.editor.putString("sex",userInfo.getData().get(1).getSex());
                     MyApplication.editor.commit();
                     MyApplication.setIsLogin(true);
                     ToastUtil.toToast("登录成功!");

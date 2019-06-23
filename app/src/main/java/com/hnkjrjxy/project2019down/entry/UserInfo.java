@@ -45,7 +45,6 @@ public class UserInfo {
         private String phone;
         private String token;
         private String username;
-        private String pwd;
         private int state;
         private String age;
         private String sex;
@@ -80,14 +79,6 @@ public class UserInfo {
 
         public void setUsername(String username) {
             this.username = username;
-        }
-
-        public String getPwd() {
-            return pwd;
-        }
-
-        public void setPwd(String pwd) {
-            this.pwd = pwd;
         }
 
         public int getState() {
