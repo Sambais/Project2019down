@@ -52,6 +52,9 @@ dependencies {
     //Android弹框material-dialogs
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 
+    //Dialog相关：DialogPlus + SweetAlertDialog +Alerter
+    implementation 'com.orhanobut:dialogplus:1.11@aar'
+
     implementation files('libs/volley.jar')
 
 }

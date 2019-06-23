@@ -124,7 +124,7 @@ public class Fragment_4 extends Fragment {
             myViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Toast.makeText(context, "点击头像", Toast.LENGTH_SHORT).show();
                 }
             });
             myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
