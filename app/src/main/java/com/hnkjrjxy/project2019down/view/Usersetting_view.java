@@ -66,8 +66,14 @@ public class Usersetting_view extends LinearLayout {
         tv_msg.setText(msg);
     }
 
+    boolean[] isclikes;
+
     public void setInfos(final String[] infos) {
         this.infos = infos;
+        isclikes = new boolean[infos.length];
+        for (int i = 0; i < isclikes.length; i++) {
+            isclikes[i] = false;
+        }
         adapter = new BaseAdapter() {
             @Override
             public int getCount() {
@@ -90,27 +96,35 @@ public class Usersetting_view extends LinearLayout {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.usersetting_item2, null);
                     convertView.setTag(new ViewHolder(convertView));
                 }
-                initializeViews((String)getItem(position), (ViewHolder) convertView.getTag(),convertView);
+                initializeViews(position,(String)getItem(position), (ViewHolder) convertView.getTag());
                 return convertView;
             }
 
-            private void initializeViews(final String object, ViewHolder holder, final View convertView) {
+            private void initializeViews(final int position, final String object, final ViewHolder holder) {
                 holder.sersettingInfo.measure(0,0);
                 LayoutParams params = new LayoutParams(size,ViewGroup.LayoutParams.MATCH_PARENT);
                 params.setMargins(
                         getResources().getDisplayMetrics()
                                 .widthPixels-size-10,
-                        0,0,0);
+                        0,10,0);
                 holder.sersettingInfo.setLayoutParams(params);
                 holder.sersettingInfo.setText(object);
+                if(isclikes[position]){
+                    holder.sersettingInfo.setBackgroundResource(R.drawable.register_btn_null);
+                }
                 holder.sersettingInfo.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.i("TAG", "onClick: !!!!!");
                         if(onCallBack != null) {
                             onCallBack.callback(object);
-                            convertView.setEnabled(false);
-                            convertView.setBackgroundColor(Color.parseColor("#55cccccc"));
+                            for (int i = 0; i < isclikes.length; i++) {
+                                if(position == i){
+                                    isclikes[i] = true;
+                                }else{
+                                    isclikes[i] = false;
+                                }
+                            }
+                            notifyDataSetChanged();
                         }
                     }
                 });
