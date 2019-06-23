@@ -99,8 +99,8 @@ public class SettingActivity extends Activity {
                 holder.setItemT1.setText(object);
                 //todo
                 holder.setItemT2.setText(
-                        MyApplication.getUserInfo().getData().get(1).getAge()+","
-                        +MyApplication.getUserInfo().getData().get(1).getSex());
+                        MyApplication.sharedPreferences.getString("age","null")+","
+                        +MyApplication.sharedPreferences.getString("sex","null"));
             } else if (position == 3) {
                 holder.switchButton.setChecked(MyApplication.sharedPreferences.getBoolean("sytx", false));
                 holder.setItemT1.setText(object);
