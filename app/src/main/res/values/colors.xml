@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#5CACEE</color>
     <color name="colorPrimaryDark">#5CACEE</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#5CACEE</color>
     <color name="color1">#b8bab5</color>
     <color name="color2">#747474</color>
     <color name="biaozhun">#fafafa</color>
