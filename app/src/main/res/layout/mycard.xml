@@ -20,22 +20,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/m1"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp" />
-                <TextView
-                    android:id="@+id/t1"
-                    android:layout_weight="1"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_vertical"
-                    android:text="123"
-                    android:textSize="13dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp" />
+                <LinearLayout
+                    android:id="@+id/user_xinxi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/m1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp" />
+                    <TextView
+                        android:id="@+id/t1"
+                        android:layout_weight="1"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center_vertical"
+                        android:text="123"
+                        android:textSize="13dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp" />
+                </LinearLayout>
             </LinearLayout>
             <View
                 android:background="#fff"

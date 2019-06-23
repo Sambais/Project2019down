@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -120,10 +121,10 @@ public class Fragment_6 extends Fragment {
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
             myViewHolder.textView.setText(""+asd);
             myViewHolder.imageView.setBackgroundResource(R.mipmap.gv1_p1);
-            myViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "点击头像"+i, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
                 }
             });
             myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -143,12 +144,14 @@ public class Fragment_6 extends Fragment {
             TextView textView;
             de.hdodenhof.circleimageview.CircleImageView imageView;
             CardView cardView;
+            LinearLayout linearLayout;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.m1);
                 textView = itemView.findViewById(R.id.t1);
                 cardView = itemView.findViewById(R.id.card);
+                linearLayout = itemView.findViewById(R.id.user_xinxi);
             }
         }
     }
