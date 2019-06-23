@@ -3,24 +3,23 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home"
-        android:title="@string/title_home" />
+        android:icon="@drawable/tab1"
+        android:title="首页" />
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_chat"
-        android:title="@string/title_dashboard" />
+        android:title="闪聊" />
     <item
         android:id="@+id/add_informatization"
-        android:icon="@drawable/ic_add_circle_black_24dp"
         android:title=""
         />
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_msg"
-        android:title="@string/title_notifications" />
+        android:title="消息" />
     <item
         android:id="@+id/myself"
         android:icon="@drawable/ic_self"
-        android:title="Myself" />
+        android:title="我" />
 </menu>

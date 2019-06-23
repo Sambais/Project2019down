@@ -4,10 +4,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.hnkjrjxy.project2019down"
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion 17
+        targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.1内测版"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
@@ -27,8 +27,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
+    //websocket依赖
+    implementation 'com.github.0xZhangKe:WebSocketDemo:3.0.1'
+    implementation 'org.slf4j:slf4j-log4j12:1.7.21'
+    implementation 'log4j:log4j:1.2.17'
+    //gson依赖
+    implementation 'com.google.code.gson:gson:2.6.2'
     //SmartRefreshLayout是一个很好用的下拉刷新上拉加载的第三方库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.1'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.1'
+
+    //Android中仿iphone开关按钮SwitchButton
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
+    //角标显示库
+    implementation 'q.rorbin:badgeview:1.1.3'
+
+    implementation files('libs/volley.jar')
+
 }

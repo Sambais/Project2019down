@@ -1,83 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swiperefreshlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
+    <!--FixedBehind可以让Header固定在内容的背后，下拉的时候效果同微信浏览器的效果-->
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/coordinatorlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarlayout"
+            android:orientation="vertical"
+            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
-            app:contentInsetStart="0dp"
-            android:layout_height="100dp"
-            android:minHeight="50dp"
-            android:background="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:popupTheme="@style/ToolbarPopupTheme">
-            <LinearLayout
-                android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:layout_marginLeft="15dp"
-                    android:textSize="20dp"
-                    android:text="一罐"
-                    android:textColor="#fff"
-                    android:gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                app:contentInsetStart="0dp"
+                android:layout_height="match_parent"
+                android:minHeight="50dp"
+                android:background="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:popupTheme="@style/ToolbarPopupTheme">
                 <LinearLayout
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_marginLeft="15dp"
+                        android:textSize="20dp"
+                        android:text="一罐"
+                        android:textColor="#fff"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" />
                     <android.support.design.widget.TabLayout
                         android:id="@+id/tab"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         app:tabBackground="@android:color/transparent"
                         app:tabRippleColor="@android:color/transparent"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         app:tabIndicatorColor="@android:color/white"
                         app:tabTextColor="@android:color/white" />
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/myviewpager"
+                        android:layout_height="140dp"
+                        android:layout_width="match_parent"
+                        android:background="#fafafa"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                    </android.support.v4.view.ViewPager>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TabLayout
+                            android:id="@+id/tab1"
+                            app:tabBackground="@android:color/transparent"
+                            app:tabRippleColor="@android:color/transparent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:background="#fafafa"
+                            app:tabIndicatorColor="@color/colorPrimaryDark"
+                            app:tabTextColor="#000" />
+                        <TextView
+                            android:id="@+id/yubeit1"
+                            android:layout_weight="1"
+                            android:background="#fafafa"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
 
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedscrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/myviewpagernext"
+                android:layout_height="140dp"
+                android:layout_width="match_parent"
+                android:background="#fafafa"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </android.support.v4.view.ViewPager>
+        </android.support.v4.widget.NestedScrollView>
 
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:visibility="gone"
+            app:fastScrollEnabled="false"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.v4.view.ViewPager
-                android:id="@+id/myviewpager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v4.view.ViewPager>
-            <com.hnkjrjxy.project2019down.view.NewMyListView
-                android:id="@+id/mylistview"
-                android:listSelector="@android:color/transparent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </com.hnkjrjxy.project2019down.view.NewMyListView>
-        </LinearLayout>
+        </android.support.v7.widget.RecyclerView>
 
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+
+</com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout>
