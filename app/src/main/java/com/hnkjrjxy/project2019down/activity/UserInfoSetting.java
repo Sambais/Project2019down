@@ -134,7 +134,6 @@ public class UserInfoSetting extends Activity {
     }
 
     private void showAlert(){
-        final String te = "";
         new MaterialDialog.Builder(UserInfoSetting.this)
                 .title("Title")
                 .inputRangeRes(2, 8, R.color.colorPrimary)
