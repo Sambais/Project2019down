@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class UserInfoSetting extends Activity {
     private ListView usersetting_lv;
     private BaseAdapter adapter;
-    private ArrayList<String[]> infos;
+    private ArrayList<String[]> is,infos;
     private String age,sex;
     private JsonObject jsonObject;
     private String[] msgs = {
@@ -52,9 +52,10 @@ public class UserInfoSetting extends Activity {
     }
 
     private void initView() {
+        is = new ArrayList<>();
         infos = new ArrayList();
-        infos.add(new String[]{"260","男","女"});
-        infos.add(new String[]{
+        is.add(new String[]{"260","男","女"});
+        is.add(new String[]{
                 "400",
                 "80后",
                 "85后",
@@ -63,7 +64,8 @@ public class UserInfoSetting extends Activity {
                 "00后",
                 "05后",
         });
-        infos.add(new String[]{"400","确定"});
+        is.add(new String[]{"400","确定"});
+        infos.add(is.get(0));
         usersetting_lv = (ListView) findViewById(R.id.usersetting_lv);
         adapter = new BaseAdapter() {
             @Override
@@ -91,7 +93,7 @@ public class UserInfoSetting extends Activity {
                 return convertView;
             }
 
-            private void initializeViews(int position, String[] object, final ViewHolder holder, View convertView) {
+            private void initializeViews(final int position, String[] object, final ViewHolder holder, View convertView) {
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,convertView.getHeight());
                 convertView.setLayoutParams(params);
@@ -113,6 +115,10 @@ public class UserInfoSetting extends Activity {
                             }else{
                                age = object;
                             }
+                            if(infos.size() < 3){
+                                infos.add(is.get(infos.size()));
+                            }
+                            notifyDataSetChanged();
                         }
                     }
                 });

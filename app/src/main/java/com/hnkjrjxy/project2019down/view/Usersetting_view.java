@@ -109,20 +109,20 @@ public class Usersetting_view extends LinearLayout {
                         5, 15, 10);
                 holder.sersettingInfo.setLayoutParams(params);
                 holder.sersettingInfo.setText(object);
-                holder.sersettingInfo.setBackgroundResource
-                        (isclikes[position] ? R.drawable.register_btn_null : R.drawable.register_btn);
+//                holder.sersettingInfo.setBackgroundResource
+//                        (isclikes[position] ? R.drawable.register_btn_null : R.drawable.register_btn);
                 holder.sersettingInfo.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (onCallBack != null) onCallBack.callback(object);
-                        for (int i = 0; i < isclikes.length; i++) {
-                            if (position == i) {
-                                isclikes[i] = true;
-                            } else {
-                                isclikes[i] = false;
-                            }
-                        }
-                        notifyDataSetChanged();
+//                        for (int i = 0; i < isclikes.length; i++) {
+//                            if (position == i) {
+//                                isclikes[i] = true;
+//                            } else {
+//                                isclikes[i] = false;
+//                            }
+//                        }
+//                        notifyDataSetChanged();
                     }
                 });
             }
