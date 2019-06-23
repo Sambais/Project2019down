@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -142,7 +141,7 @@ public class Fragment_5 extends Fragment {
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
-            ImageView imageView;
+            de.hdodenhof.circleimageview.CircleImageView imageView;
             CardView cardView;
 
             public MyViewHolder(View itemView) {

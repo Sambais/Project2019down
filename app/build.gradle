@@ -55,6 +55,15 @@ dependencies {
     //Dialog相关：DialogPlus + SweetAlertDialog +Alerter
     implementation 'com.orhanobut:dialogplus:1.11@aar'
 
+    //圆形图片控件 CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //Glide(图片加载库)
+    implementation('com.github.bumptech.glide:glide:4.9.0') {
+        exclude group: "com.android.support"
+    }
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
     implementation files('libs/volley.jar')
 
 }

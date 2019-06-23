@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +77,9 @@ public class SettingActivity extends Activity {
                         new MaterialDialog.Builder(SettingActivity.this)
                                 .title("你要走了吗？")
                                 .positiveColor(Color.parseColor("#5CACEE"))
-                                .positiveText("        退出登录       ")
+                                .positiveText("退出登录")
                                 .negativeColor(Color.parseColor("#5CACEE"))
-                                .negativeText("         留下来        ")
+                                .negativeText("留下来")
                                 .onAny(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
