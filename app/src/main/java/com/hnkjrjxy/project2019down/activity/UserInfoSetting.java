@@ -30,10 +30,9 @@ import java.util.ArrayList;
 public class UserInfoSetting extends Activity {
     private ListView usersetting_lv;
     private BaseAdapter adapter;
-    private ArrayList<String[]> is,infos;
-    private ArrayList<String> info;
+    private ArrayList<String[]> infos;
+    private String age,sex;
     private JsonObject jsonObject;
-    private int num = 1;
     private String[] msgs = {
             "你需要填写少量的个人信息，通过智能匹配，遇见有同感的人。你的性别是？",
             "你的年龄是？",
@@ -53,11 +52,9 @@ public class UserInfoSetting extends Activity {
     }
 
     private void initView() {
-        is = new ArrayList();
-        info = new ArrayList();
         infos = new ArrayList();
-        is.add(new String[]{"260","男","女"});
-        is.add(new String[]{
+        infos.add(new String[]{"260","男","女"});
+        infos.add(new String[]{
                 "400",
                 "80后",
                 "85后",
@@ -66,8 +63,7 @@ public class UserInfoSetting extends Activity {
                 "00后",
                 "05后",
         });
-        is.add(new String[]{"400","确定","修改信息"});
-        infos.add(is.get(0));
+        infos.add(new String[]{"400","确定"});
         usersetting_lv = (ListView) findViewById(R.id.usersetting_lv);
         adapter = new BaseAdapter() {
             @Override
@@ -109,21 +105,15 @@ public class UserInfoSetting extends Activity {
                 holder.usersettingV.setOnCallBack(new Usersetting_view.OnCallBack() {
                     @Override
                     public void callback(String object) {
-                        if(object.equals("确定")){
+                        if(object.equals("确定") && sex != null && age != null){
                             showAlert();
-                        }else if(object.equals("修改信息")){
-                            num = 0;
-                            info.clear();
-                            infos.add(is.get(num));
-                            num++;
                         }else{
-                            info.add(object);
-                            infos.add(is.get(num));
-                            num++;
+                            if(object.length() == 1){
+                                sex = object;
+                            }else{
+                               age = object;
+                            }
                         }
-                        holder.usersettingV.setOnCallBack(null);
-                        holder.usersettingV.setInfos(new String[]{object});
-                        notifyDataSetChanged();
                     }
                 });
             }
@@ -168,8 +158,8 @@ public class UserInfoSetting extends Activity {
     }
 
     private void submit() {
-        jsonObject.addProperty("sex",info.get(0));
-        jsonObject.addProperty("age",info.get(1));
+        jsonObject.addProperty("sex",sex);
+        jsonObject.addProperty("age",age);
         Http.Post(this, "/Data/Register", jsonObject.toString(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {

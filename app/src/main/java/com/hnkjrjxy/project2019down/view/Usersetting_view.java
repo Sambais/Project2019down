@@ -31,7 +31,7 @@ public class Usersetting_view extends LinearLayout {
         this.onCallBack = onCallBack;
     }
 
-    public interface OnCallBack{
+    public interface OnCallBack {
         void callback(String object);
     }
 
@@ -50,8 +50,8 @@ public class Usersetting_view extends LinearLayout {
         init();
     }
 
-    private void init(){
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.usersetting_view,null);
+    private void init() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.usersetting_view, null);
         tv_msg = view.findViewById(R.id.usersetting_msg);
         lv = view.findViewById(R.id.usersetting_btn);
         addView(view);
@@ -96,36 +96,33 @@ public class Usersetting_view extends LinearLayout {
                     convertView = LayoutInflater.from(getContext()).inflate(R.layout.usersetting_item2, null);
                     convertView.setTag(new ViewHolder(convertView));
                 }
-                initializeViews(position,(String)getItem(position), (ViewHolder) convertView.getTag());
+                initializeViews(position, (String) getItem(position), (ViewHolder) convertView.getTag());
                 return convertView;
             }
 
             private void initializeViews(final int position, final String object, final ViewHolder holder) {
-                holder.sersettingInfo.measure(0,0);
-                LayoutParams params = new LayoutParams(size,ViewGroup.LayoutParams.MATCH_PARENT);
+                holder.sersettingInfo.measure(0, 0);
+                LayoutParams params = new LayoutParams(size, ViewGroup.LayoutParams.MATCH_PARENT);
                 params.setMargins(
                         getResources().getDisplayMetrics()
-                                .widthPixels-size-10,
-                        0,10,0);
+                                .widthPixels - size - 15,
+                        5, 15, 10);
                 holder.sersettingInfo.setLayoutParams(params);
                 holder.sersettingInfo.setText(object);
-                if(isclikes[position]){
-                    holder.sersettingInfo.setBackgroundResource(R.drawable.register_btn_null);
-                }
+                holder.sersettingInfo.setBackgroundResource
+                        (isclikes[position] ? R.drawable.register_btn_null : R.drawable.register_btn);
                 holder.sersettingInfo.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(onCallBack != null) {
-                            onCallBack.callback(object);
-                            for (int i = 0; i < isclikes.length; i++) {
-                                if(position == i){
-                                    isclikes[i] = true;
-                                }else{
-                                    isclikes[i] = false;
-                                }
+                        if (onCallBack != null) onCallBack.callback(object);
+                        for (int i = 0; i < isclikes.length; i++) {
+                            if (position == i) {
+                                isclikes[i] = true;
+                            } else {
+                                isclikes[i] = false;
                             }
-                            notifyDataSetChanged();
                         }
+                        notifyDataSetChanged();
                     }
                 });
             }
