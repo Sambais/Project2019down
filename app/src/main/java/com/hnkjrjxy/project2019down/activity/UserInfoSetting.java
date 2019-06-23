@@ -134,12 +134,11 @@ public class UserInfoSetting extends Activity {
     }
 
     private void showAlert(){
-        final String te = "";
         new MaterialDialog.Builder(UserInfoSetting.this)
-                .title("Title")
+                .title("请输入评论昵称")
                 .inputRangeRes(2, 8, R.color.colorPrimary)
                 .inputType(InputType.TYPE_CLASS_TEXT)
-                .input("请输入真身昵称", null, new MaterialDialog.InputCallback() {
+                .input("请输入昵称", null, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(MaterialDialog dialogs, CharSequence input) {
                         jsonObject.addProperty("username",input.toString());

@@ -3,8 +3,11 @@ package com.hnkjrjxy.project2019down.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.Response;
+import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.ClearDataUtils;
+import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.ToastUtil;
 import com.suke.widget.SwitchButton;
+
+import org.json.JSONObject;
 
 public class SettingActivity extends Activity {
     private ListView set_list;
@@ -57,10 +68,49 @@ public class SettingActivity extends Activity {
         set_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position==5){
-                    ClearDataUtils.clearAllCache(SettingActivity.this);
-                    settingAdapter.notifyDataSetChanged();
-                    ToastUtil.toToast("缓存已清除");
+                switch (position){
+                    case 5:
+                        ClearDataUtils.clearAllCache(SettingActivity.this);
+                        settingAdapter.notifyDataSetChanged();
+                        ToastUtil.toToast("缓存已清除");
+                        break;
+                    case 7:
+                        new MaterialDialog.Builder(SettingActivity.this)
+                                .title("你要走了吗？")
+                                .positiveColor(Color.parseColor("#5CACEE"))
+                                .positiveText("        退出登录       ")
+                                .negativeColor(Color.parseColor("#5CACEE"))
+                                .negativeText("         留下来        ")
+                                .onAny(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        switch (which){
+                                            case POSITIVE:
+                                                JsonObject jsonObject = new JsonObject();
+                                                jsonObject.addProperty("id",MyApplication.sharedPreferences.getInt("id",0));
+                                                Http.Post(SettingActivity.this, "Data/Exit", jsonObject.toString(), new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject jsonObject) {
+                                                    }
+                                                });
+                                                MyApplication.editor.putString("age",null);
+                                                MyApplication.editor.putString("sex",null);
+                                                MyApplication.editor.putInt("id",0);
+                                                MyApplication.editor.commit();
+                                                MyApplication.setIsLogin(false);
+                                                finish();
+                                                break;
+                                            case  NEGATIVE:
+                                                dialog.dismiss();
+                                                break;
+                                        }
+                                    }
+                                })
+                                .contentColor(Color.WHITE)
+                                .backgroundColorRes(R.color.alertback)
+                                .contentGravity(GravityEnum.END)
+                                .show();
+                        break;
                 }
             }
         });
