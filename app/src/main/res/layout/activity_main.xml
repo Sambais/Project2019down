@@ -7,35 +7,57 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.design.widget.CoordinatorLayout
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <android.support.constraint.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+           <android.support.design.widget.CoordinatorLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               tools:ignore="MissingConstraints"
+               tools:layout_editor_absoluteX="0dp"
+               tools:layout_editor_absoluteY="0dp">
+
+
+               <FrameLayout
+                   android:id="@+id/main_center"
+                   android:layout_marginBottom="56dp"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent">
+
+               </FrameLayout>
+           </android.support.design.widget.CoordinatorLayout>
+
+           <android.support.design.widget.BottomNavigationView
+               android:id="@+id/navigation"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="?android:attr/windowBackground"
+               app:itemHorizontalTranslationEnabled="false"
+               app:labelVisibilityMode="labeled"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
+               app:layout_constraintLeft_toLeftOf="parent"
+               app:layout_constraintRight_toRightOf="parent"
+               app:menu="@menu/navigation" />
+       </android.support.constraint.ConstraintLayout>
+   </FrameLayout>
+
+    <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
-
-
-        <FrameLayout
-            android:id="@+id/main_center"
-            android:layout_marginBottom="56dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </FrameLayout>
-    </android.support.design.widget.CoordinatorLayout>
-
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:layout_height="56dp"
+        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:itemHorizontalTranslationEnabled="false"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/navigation" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints">
+        <ImageView
+            android:src="@drawable/ic_add_circle_black_24dp"
+            android:layout_gravity="center"
+            android:layout_width="46dp"
+            android:layout_height="46dp" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

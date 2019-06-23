@@ -12,7 +12,6 @@
         android:title="闪聊" />
     <item
         android:id="@+id/add_informatization"
-        android:icon="@drawable/ic_add_circle_black_24dp"
         android:title=""
         />
     <item

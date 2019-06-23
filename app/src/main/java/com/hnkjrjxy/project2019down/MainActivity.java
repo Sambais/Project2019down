@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
+import com.hnkjrjxy.project2019down.activity.SendPostActivity;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_chat;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_msg;
@@ -37,6 +39,7 @@ public class MainActivity extends FragmentActivity {
     private long starttime=0;
     private QBadgeView qBadgeView1,qBadgeView2,qBadgeView3,qBadgeView4;
     private BottomNavigationMenuView menuView;
+    private int select=0;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -82,6 +85,7 @@ public class MainActivity extends FragmentActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
+                        select=0;
                         //判断双击事件刷新
                         long endtime1 = System.currentTimeMillis();
                         if (endtime1 -starttime<=ViewConfiguration.getDoubleTapTimeout()){
@@ -94,6 +98,7 @@ public class MainActivity extends FragmentActivity {
                         }
                         return true;
                     case R.id.navigation_dashboard:
+                        select=1;
                         long endtime2 = System.currentTimeMillis();
                         if (endtime2 -starttime<=ViewConfiguration.getDoubleTapTimeout()){
                             starttime=0;
@@ -105,13 +110,17 @@ public class MainActivity extends FragmentActivity {
                         }
                         return true;
                     case R.id.add_informatization:
-                        //此处使用activity
-                        return true;
+                        Log.i("select", "onNavigationItemSelected: "+select);
+                        navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
+                        startActivity(new Intent(MainActivity.this,SendPostActivity.class));
+                        return false;
                     case R.id.navigation_notifications:
+                        select=3;
                         showFragment(3);
                         qBadgeView3.hide(true);
                         return true;
                     case R.id.myself:
+                        select=4;
                         showFragment(4);
                         //将其角标数量设置为0即为不显示
                         qBadgeView4.hide(true);

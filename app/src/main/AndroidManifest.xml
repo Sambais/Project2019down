@@ -27,6 +27,7 @@
         <activity android:name=".activity.RegisterActivity"></activity>
         <activity android:name=".activity.SettingActivity"></activity>
         <activity android:name=".activity.UserInfoSetting"></activity>
+        <activity android:name=".activity.SendPostActivity"></activity>
 
     </application>
 
