@@ -22,6 +22,16 @@ import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_chat;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_msg;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_self;
+import com.hnkjrjxy.project2019down.util.TrustAllTrustManager;
+
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSessionContext;
 
 import es.dmoral.toasty.Toasty;
 import q.rorbin.badgeview.QBadgeView;
@@ -49,6 +59,31 @@ public class MainActivity extends FragmentActivity {
 
         Intent intent = new Intent(MainActivity.this,MyService.class);
         startService(intent);
+
+        //  直接通过主机认证
+        HostnameVerifier hv = new HostnameVerifier() {
+            public boolean verify(String urlHostName, SSLSession session) {
+                return true;
+            }
+        };
+        //  配置认证管理器
+        javax.net.ssl.TrustManager[] trustAllCerts = {new TrustAllTrustManager()};
+        SSLContext sc = null;
+        try {
+            sc = SSLContext.getInstance("SSL");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        SSLSessionContext sslsc = sc.getServerSessionContext();
+        sslsc.setSessionTimeout(0);
+        try {
+            sc.init(null, trustAllCerts, null);
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        //  激活主机认证
+        HttpsURLConnection.setDefaultHostnameVerifier(hv);
 
         //设置选中和未选中的样式
         navigation1.setItemTextAppearanceActive(R.style.bottom_selected_text);
