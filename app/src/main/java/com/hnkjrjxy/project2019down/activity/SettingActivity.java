@@ -2,6 +2,7 @@ package com.hnkjrjxy.project2019down.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
 import com.google.gson.JsonObject;
+import com.hnkjrjxy.project2019down.MainActivity;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.ClearDataUtils;
@@ -105,9 +107,11 @@ public class SettingActivity extends Activity {
                                                 });
                                                 MyApplication.editor.putString("age",null);
                                                 MyApplication.editor.putString("sex",null);
+                                                MyApplication.editor.putString("username",null);
                                                 MyApplication.editor.putInt("id",0);
                                                 MyApplication.editor.commit();
                                                 MyApplication.setIsLogin(false);
+                                                startActivity(new Intent(SettingActivity.this,MainActivity.class));
                                                 finish();
                                                 break;
                                             case  NEGATIVE:

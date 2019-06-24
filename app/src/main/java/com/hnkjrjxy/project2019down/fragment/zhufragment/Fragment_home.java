@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.google.gson.Gson;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
 import com.hnkjrjxy.project2019down.fragment.Fragment_3;
@@ -65,6 +66,11 @@ public class Fragment_home extends Fragment {
     private CoordinatorLayout coordinatorlayout;
     private SwipeRefreshLayout.OnRefreshListener listener;
     private int ztpd=0;
+    private ArrayList<ArrayList> list1;
+    private ArrayList<ArrayList> list2;
+    private ArrayList<ArrayList> list3;
+    private ArrayList<ArrayList> list4;
+    private ArrayList<ArrayList> list5;
 
 
     @Override
@@ -92,6 +98,11 @@ public class Fragment_home extends Fragment {
            }
 
         }else {
+            list1=new ArrayList();
+            list2=new ArrayList();
+            list3=new ArrayList();
+            list4=new ArrayList();
+            list5=new ArrayList();
             tabtitles = new ArrayList();
             for (int i = 0; i < 20; i++) {
                 tabtitles.add("第" + i + "个数据");
@@ -213,12 +224,13 @@ public class Fragment_home extends Fragment {
         Http.Get(getActivity(), "Init/Channel", new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject object) {
-                Log.i("Gson", "onResponse: "+object);
-//                Gson gson=new Gson();
-//                MyHomeTop myHomeTop = gson.fromJson(String.valueOf(object),MyHomeTop.class);
+                Gson gson=new Gson();
+//                MyHomeTop myHomeTop = gson.fromJson(object.toString(),MyHomeTop.class);
 //                //这样就可以拿数据了
-//                Log.i("Gson", "onResponse: "+myHomeTop.getData());
-
+//                Log.i("Gson", "onResponse: "+myHomeTop.getData().toString());
+//                Log.i("Gson", "onResponse: "+myHomeTop.getData().size());
+//
+//                Log.i("Gson", "onResponse: "+list1);
             }
         });
     }
