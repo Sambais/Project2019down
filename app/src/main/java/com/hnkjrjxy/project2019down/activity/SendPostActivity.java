@@ -63,6 +63,28 @@ public class SendPostActivity extends Activity {
         initView();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (ContextCompat.checkSelfPermission(SendPostActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            //权限还没有授予，需要在这里写申请权限的代码
+            ActivityCompat.requestPermissions(SendPostActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_CALL_PHONE2);
+        }
+
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},1);
+        }
+    }
+
+
+
     private void initView() {
         result = new ArrayList<>();
         post_back = (ImageView) findViewById(R.id.post_back);
@@ -83,16 +105,6 @@ public class SendPostActivity extends Activity {
         add_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //第二个参数是需要申请的权限
-                if (ContextCompat.checkSelfPermission(SendPostActivity.this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED)
-                {
-                    //权限还没有授予，需要在这里写申请权限的代码
-                    ActivityCompat.requestPermissions(SendPostActivity.this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            MY_PERMISSIONS_REQUEST_CALL_PHONE2);
-                }else {
                     //权限已经被授予，在这里直接写要执行的相应方法即可
                     Matisse.from(SendPostActivity.this)
                             .choose(MimeType.allOf())//图片类型
@@ -102,7 +114,6 @@ public class SendPostActivity extends Activity {
                             .captureStrategy(new CaptureStrategy(true, "com.example.xx.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
                             .imageEngine(new MyGlideEngine())//图片加载引擎
                             .forResult(REQUEST_CODE_CHOOSE);//
-                }
             }
         });
 
@@ -122,7 +133,9 @@ public class SendPostActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            Log.i(TAG, "onActivityResult: "+data);
             result = Matisse.obtainResult(data);
             //设置要展示的图片列表url集合
             Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
