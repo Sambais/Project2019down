@@ -128,7 +128,7 @@ public class SendPostActivity extends Activity {
             Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
             String img = "";
             for (int i = 0; i < result.size(); i++) {
-                img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),this)) + ",";
+                img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),this)) + "    ";
             }
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("img",img);
