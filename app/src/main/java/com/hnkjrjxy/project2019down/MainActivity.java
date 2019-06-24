@@ -85,14 +85,14 @@ public class MainActivity extends FragmentActivity {
                             fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a1,null);
                             fragment1.initView(fragmentview,1);
                             Toasty.success(MainActivity.this,"双击成功").show();
+                            return false;
                         }else {
                             starttime= endtime1;
                             showFragment(1);
+                            return true;
                         }
-                        return true;
                     case R.id.navigation_dashboard:
                         if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
-                            navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
                             Toasty.error(MainActivity.this,"请先登录").show();
                             return false;
                         }else {
@@ -111,16 +111,15 @@ public class MainActivity extends FragmentActivity {
                     case R.id.add_informatization:
                         Log.i("select", "onNavigationItemSelected: "+select);
                         if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
-                            navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
                             Toasty.error(MainActivity.this,"请先登录").show();
+                            return true;
                         }else {
                             navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
                             startActivity(new Intent(MainActivity.this, SendPostActivity.class));
+                            return false;
                         }
-                        return false;
                     case R.id.navigation_notifications:
                         if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
-                            navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
                             Toasty.error(MainActivity.this,"请先登录").show();
                             return false;
                         }else {
@@ -131,7 +130,6 @@ public class MainActivity extends FragmentActivity {
                         }
                     case R.id.myself:
                         if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
-                            navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
                             startActivity(new Intent(MainActivity.this,LoginActivity.class));
                             return false;
                         }else {
