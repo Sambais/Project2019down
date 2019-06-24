@@ -63,6 +63,7 @@ public class Fragment_4 extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         generalAdapter = new GeneralAdapter();
+        generalAdapter.setHasStableIds(true);
         recyclerView.setAdapter(generalAdapter);
         //设置Item增加、移除动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -136,7 +137,12 @@ public class Fragment_4 extends Fragment {
             myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    collection(view,myViewHolder);
+                    if (myViewHolder.cheack){
+                        collection1(view,myViewHolder);
+                    }else {
+                        collection2(view,myViewHolder);
+                    }
+                    myViewHolder.cheack=!myViewHolder.cheack;
                 }
             });
 
@@ -155,15 +161,30 @@ public class Fragment_4 extends Fragment {
         }
 
 
-        public void collection(View view, MyViewHolder myViewHolder) {
+        //点赞变红
+        public void collection1(View view, MyViewHolder myViewHolder) {
             ((ImageView) view).setImageResource(R.mipmap.love2);
             myViewHolder.mgoodView.setTextInfo("赞", Color.parseColor("#f66467"), 12);
+            myViewHolder.mgoodView.show(view);
+        }
+
+        //点赞恢复
+        public void collection2(View view, MyViewHolder myViewHolder) {
+            ((ImageView) view).setImageResource(R.mipmap.love1);
+            myViewHolder.mgoodView.setTextInfo("取消赞", Color.parseColor("#c9c9c9"), 12);
             myViewHolder.mgoodView.show(view);
         }
 
         @Override
         public int getItemCount() {
             return num;
+        }
+
+
+        //此方法必须重写，否则容易出现数据错乱的情况
+        @Override
+        public int getItemViewType(int position) {
+            return position;
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
@@ -173,6 +194,7 @@ public class Fragment_4 extends Fragment {
             CardView cardView;
             LinearLayout linearLayout;
             GoodView mgoodView;
+            Boolean cheack=true;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
