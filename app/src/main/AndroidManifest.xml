@@ -39,11 +39,17 @@
         </activity>
         <service android:name=".MyService"></service>
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity">
+
+        </activity>
         <activity android:name=".activity.RegisterActivity"></activity>
-        <activity android:name=".activity.SettingActivity"></activity>
+        <activity android:name=".activity.SettingActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
         <activity android:name=".activity.UserInfoSetting"></activity>
-        <activity android:name=".activity.SendPostActivity"></activity>
+        <activity android:name=".activity.SendPostActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
         <activity android:name=".activity.ForgetActivity"></activity>
     </application>
 

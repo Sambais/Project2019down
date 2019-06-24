@@ -30,6 +30,8 @@ import com.suke.widget.SwitchButton;
 
 import org.json.JSONObject;
 
+import es.dmoral.toasty.Toasty;
+
 public class SettingActivity extends Activity {
     private ListView set_list;
     private SettingAdapter settingAdapter;
@@ -68,10 +70,19 @@ public class SettingActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
+                    case 2:
+                        Toasty.warning(SettingActivity.this,"改功能未实现").show();
+                        break;
+                    case 4:
+                        Toasty.warning(SettingActivity.this,"改功能未实现").show();
+                        break;
                     case 5:
                         ClearDataUtils.clearAllCache(SettingActivity.this);
                         settingAdapter.notifyDataSetChanged();
                         ToastUtil.toToast("缓存已清除");
+                        break;
+                    case 6:
+                        Toasty.success(SettingActivity.this,"暂未最新版本").show();
                         break;
                     case 7:
                         new MaterialDialog.Builder(SettingActivity.this)

@@ -5,8 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,15 +24,16 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SendPostActivity extends Activity {
     private ImageView post_back;
     private TextView post_send;
     private EditText add_text;
-    private ImageView addimage;
+    private GridView add_image;
     private static final int REQUEST_CODE_CHOOSE = 23;
-
+    private PhotoAdapter photoAdapter;
     private List<Uri> result;
 
     @Override
@@ -38,10 +44,14 @@ public class SendPostActivity extends Activity {
     }
 
     private void initView() {
+        result = new ArrayList<>();
         post_back = (ImageView) findViewById(R.id.post_back);
         post_send = (TextView) findViewById(R.id.post_send);
         add_text = (EditText) findViewById(R.id.add_text);
-        addimage = (ImageView) findViewById(R.id.addimage);
+        add_image = (GridView) findViewById(R.id.add_image);
+
+        photoAdapter = new PhotoAdapter();
+        add_image.setAdapter(photoAdapter);
 
         post_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,19 +59,20 @@ public class SendPostActivity extends Activity {
                 finish();
             }
         });
-        addimage.setOnClickListener(new View.OnClickListener() {
+        add_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Matisse.from(SendPostActivity.this)
                         .choose(MimeType.allOf())//图片类型
                         .countable(true)//true:选中后显示数字;false:选中后显示对号
-                        .maxSelectable(5)//可选的最大数
+                        .maxSelectable(9)//可选的最大数
                         .capture(true)//选择照片时，是否显示拍照
                         .captureStrategy(new CaptureStrategy(true, "com.example.xx.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
                         .imageEngine(new MyGlideEngine())//图片加载引擎
                         .forResult(REQUEST_CODE_CHOOSE);//
             }
         });
+
     }
 
 
@@ -70,14 +81,79 @@ public class SendPostActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             result = Matisse.obtainResult(data);
+            //设置要展示的图片列表url集合
             add_text.setText(result.toString());
-            Glide.with(this)
-                    .asBitmap() // some .jpeg files are actually gif
-                    .load(result.get(0))
-                    .apply(new RequestOptions() {{
-                        override(Target.SIZE_ORIGINAL);
-                    }})
-                    .into(addimage);
+            photoAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setPhoto() {
+    }
+
+    class PhotoAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            if (result.isEmpty()) {
+                return 1;
+            } else if (result.size() < 9) {
+                return result.size() + 1;
+            } else {
+                return result.size();
+            }
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(SendPostActivity.this).inflate(R.layout.setpost_photo, null);
+                convertView.setTag(new ViewHolder(convertView));
+            }
+            initializeViews(position, (Object) getItem(position), (ViewHolder) convertView.getTag());
+            return convertView;
+        }
+
+        private void initializeViews(int position, Object object, ViewHolder holder) {
+            if (result.isEmpty()) {
+                holder.setpostPhoto.setImageResource(R.mipmap.addimage);
+            } else if (result.size() < 9) {
+                if (position == result.size()) {
+                    holder.setpostPhoto.setImageResource(R.mipmap.addimage);
+                } else {
+                    Glide.with(SendPostActivity.this)
+                            .asBitmap() // some .jpeg files are actually gif
+                            .load(result.get(position))
+                            .apply(new RequestOptions() {{
+                                override(Target.SIZE_ORIGINAL);
+                            }})
+                            .into(holder.setpostPhoto);
+                }
+            } else {
+                Glide.with(SendPostActivity.this)
+                        .asBitmap() // some .jpeg files are actually gif
+                        .load(result.get(position))
+                        .apply(new RequestOptions() {{
+                            override(Target.SIZE_ORIGINAL);
+                        }})
+                        .into(holder.setpostPhoto);
+            }
+        }
+
+        protected class ViewHolder {
+            private ImageView setpostPhoto;
+
+            public ViewHolder(View view) {
+                setpostPhoto = (ImageView) view.findViewById(R.id.setpost_photo);
+            }
         }
     }
 
