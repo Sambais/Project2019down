@@ -128,12 +128,12 @@ public class SendPostActivity extends Activity {
             Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
             String img = "";
             for (int i = 0; i < result.size(); i++) {
-                img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),this)) + ",";
+                img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),this)) + "    ";
             }
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("img",img);
             Log.i(TAG, "onActivityResult: "+img);
-            Http.Post(this, "upload/setFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
+            Http.Post(this, "Upload/SetFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     Log.i(TAG, "onResponse: "+jsonObject);
