@@ -119,8 +119,16 @@ public class Fragment_4 extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-            myViewHolder.textView.setText(""+asd);
-            myViewHolder.imageView.setBackgroundResource(R.mipmap.gv1_p1);
+            if (i/2==0){
+                myViewHolder.textView.setText("肖文鑫");
+                myViewHolder.imageView.setImageResource(R.mipmap.xwx1);
+            }else if(i/2==1){
+                myViewHolder.textView.setText("柏松杰");
+                myViewHolder.imageView.setImageResource(R.mipmap.bsj);
+            }else {
+                myViewHolder.textView.setText("刘宇康");
+                myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
+            }
             myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
