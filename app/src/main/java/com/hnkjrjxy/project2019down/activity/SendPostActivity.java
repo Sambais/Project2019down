@@ -1,10 +1,14 @@
 package com.hnkjrjxy.project2019down.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +45,8 @@ public class SendPostActivity extends Activity {
     private ListView check_list;
     private DbAdapter dbAdapter;
     private String title[]={"发布身份","选择话题","专辑","互动权限"};
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 6;
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 7;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,14 +75,26 @@ public class SendPostActivity extends Activity {
         add_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Matisse.from(SendPostActivity.this)
-                        .choose(MimeType.allOf())//图片类型
-                        .countable(true)//true:选中后显示数字;false:选中后显示对号
-                        .maxSelectable(9)//可选的最大数
-                        .capture(true)//选择照片时，是否显示拍照
-                        .captureStrategy(new CaptureStrategy(true, "com.example.xx.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-                        .imageEngine(new MyGlideEngine())//图片加载引擎
-                        .forResult(REQUEST_CODE_CHOOSE);//
+                //第二个参数是需要申请的权限
+                if (ContextCompat.checkSelfPermission(SendPostActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)
+                {
+                    //权限还没有授予，需要在这里写申请权限的代码
+                    ActivityCompat.requestPermissions(SendPostActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            MY_PERMISSIONS_REQUEST_CALL_PHONE2);
+                }else {
+                    //权限已经被授予，在这里直接写要执行的相应方法即可
+                    Matisse.from(SendPostActivity.this)
+                            .choose(MimeType.allOf())//图片类型
+                            .countable(true)//true:选中后显示数字;false:选中后显示对号
+                            .maxSelectable(9)//可选的最大数
+                            .capture(true)//选择照片时，是否显示拍照
+                            .captureStrategy(new CaptureStrategy(true, "com.example.xx.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+                            .imageEngine(new MyGlideEngine())//图片加载引擎
+                            .forResult(REQUEST_CODE_CHOOSE);//
+                }
             }
         });
 
@@ -90,6 +108,7 @@ public class SendPostActivity extends Activity {
             }
         });
     }
+
 
 
     @Override

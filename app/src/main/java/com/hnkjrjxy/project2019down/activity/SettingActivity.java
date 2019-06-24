@@ -105,6 +105,7 @@ public class SettingActivity extends Activity {
                                                 });
                                                 MyApplication.editor.putString("age",null);
                                                 MyApplication.editor.putString("sex",null);
+                                                MyApplication.editor.putString("username",null);
                                                 MyApplication.editor.putInt("id",0);
                                                 MyApplication.editor.commit();
                                                 MyApplication.setIsLogin(false);

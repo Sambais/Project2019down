@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.google.gson.Gson;
 import com.hnkjrjxy.project2019down.R;
-import com.hnkjrjxy.project2019down.entry.MyHomeTop;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
 import com.hnkjrjxy.project2019down.fragment.Fragment_3;
 import com.hnkjrjxy.project2019down.fragment.Fragment_4;
@@ -67,7 +66,7 @@ public class Fragment_home extends Fragment {
     private CoordinatorLayout coordinatorlayout;
     private SwipeRefreshLayout.OnRefreshListener listener;
     private int ztpd=0;
-    private ArrayList<MyHomeTop.DataBean> list1;
+    private ArrayList<ArrayList> list1;
     private ArrayList<ArrayList> list2;
     private ArrayList<ArrayList> list3;
     private ArrayList<ArrayList> list4;
@@ -226,18 +225,12 @@ public class Fragment_home extends Fragment {
             @Override
             public void onResponse(JSONObject object) {
                 Gson gson=new Gson();
-                MyHomeTop myHomeTop = gson.fromJson(object.toString(),MyHomeTop.class);
-//                Homechannel1 homechannel1=gson.fromJson(myHomeTop.getData().get(1).toString(),Homechannel1.class);
-                //这样就可以拿数据了
-                Log.i("Gson", "onResponse: "+myHomeTop.getData().toString());
-                Log.i("Gson", "onResponse: "+myHomeTop.getData().size());
-                for (int i = 0; i <myHomeTop.getData().get(1).size() ; i++) {
-                    if (myHomeTop.getData().get(1).get(3).getChannel_id()==1){
-                        list1.add(myHomeTop.getData().get(1).get(i));
-                    }
-                }
-                Log.i("Gson", "onResponse: "+list1);
-
+//                MyHomeTop myHomeTop = gson.fromJson(object.toString(),MyHomeTop.class);
+//                //这样就可以拿数据了
+//                Log.i("Gson", "onResponse: "+myHomeTop.getData().toString());
+//                Log.i("Gson", "onResponse: "+myHomeTop.getData().size());
+//
+//                Log.i("Gson", "onResponse: "+list1);
             }
         });
     }
