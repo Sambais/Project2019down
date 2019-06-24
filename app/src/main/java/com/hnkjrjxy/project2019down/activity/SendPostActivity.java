@@ -13,11 +13,14 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.MyGlideEngine;
 import com.zhihu.matisse.Matisse;
@@ -35,6 +38,9 @@ public class SendPostActivity extends Activity {
     private static final int REQUEST_CODE_CHOOSE = 23;
     private PhotoAdapter photoAdapter;
     private List<Uri> result;
+    private ListView check_list;
+    private DbAdapter dbAdapter;
+    private String title[]={"发布身份","选择话题","专辑","互动权限"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +55,7 @@ public class SendPostActivity extends Activity {
         post_send = (TextView) findViewById(R.id.post_send);
         add_text = (EditText) findViewById(R.id.add_text);
         add_image = (GridView) findViewById(R.id.add_image);
+        check_list = (ListView) findViewById(R.id.check_list);
 
         photoAdapter = new PhotoAdapter();
         add_image.setAdapter(photoAdapter);
@@ -73,6 +80,15 @@ public class SendPostActivity extends Activity {
             }
         });
 
+        dbAdapter=new DbAdapter();
+        check_list.setAdapter(dbAdapter);
+
+        check_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
 
@@ -87,7 +103,59 @@ public class SendPostActivity extends Activity {
         }
     }
 
-    private void setPhoto() {
+    class DbAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return title.length-3;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return title[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(SendPostActivity.this).inflate(R.layout.post_item, null);
+                convertView.setTag(new ViewHolder(convertView));
+            }
+            initializeViews(position,(String)getItem(position), (ViewHolder) convertView.getTag());
+            return convertView;
+        }
+
+        private void initializeViews(int position,String object, ViewHolder holder) {
+            if (position==0){
+                holder.postItemM1.setImageResource(R.mipmap.shenfen);
+                holder.postItemXinxi.setVisibility(View.VISIBLE);
+                holder.postItemT1.setText(""+object);
+                holder.postItemT2.setText(MyApplication.sharedPreferences.getString("username","null"));
+            }
+        }
+
+        protected class ViewHolder {
+            private ImageView postItemM1;
+            private TextView postItemT1;
+            private LinearLayout postItemXinxi;
+            private ImageView postItemM2;
+            private TextView postItemT2;
+            private ImageView setItemM1;
+
+            public ViewHolder(View view) {
+                postItemM1 = (ImageView) view.findViewById(R.id.post_item_m1);
+                postItemT1 = (TextView) view.findViewById(R.id.post_item_t1);
+                postItemXinxi = (LinearLayout) view.findViewById(R.id.post_item_xinxi);
+                postItemM2 = (ImageView) view.findViewById(R.id.post_item_m2);
+                postItemT2 = (TextView) view.findViewById(R.id.post_item_t2);
+                setItemM1 = (ImageView) view.findViewById(R.id.set_item_m1);
+            }
+        }
     }
 
     class PhotoAdapter extends BaseAdapter {

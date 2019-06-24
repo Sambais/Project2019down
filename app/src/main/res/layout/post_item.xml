@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/post_item_m1"
+            android:layout_gravity="center"
+            android:layout_width="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="30dp" />
+        <TextView
+            android:id="@+id/post_item_t1"
+            android:textColor="#000"
+            android:text="123"
+            android:textSize="@dimen/defalut_size"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/post_item_xinxi"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/post_item_m2"
+                android:src="@mipmap/gv1_p1"
+                android:layout_gravity="center"
+                android:layout_width="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:id="@+id/post_item_t2"
+                android:gravity="center_vertical"
+                android:textColor="#000"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/set_item_m1"
+            android:src="@mipmap/xiangxi"
+            android:layout_gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
