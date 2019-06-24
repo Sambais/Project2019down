@@ -64,6 +64,9 @@ dependencies {
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
+    //知乎开源Matisse图片选择器使用
+    implementation 'com.zhihu.android:matisse:0.4.3'
+
     implementation files('libs/volley.jar')
 
 }
