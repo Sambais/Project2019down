@@ -8,16 +8,23 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class BitmapUtil {
-    //将bitmap类型转换为base64字符串
+    //将文件类型转换为base64字符串
     public static String bitmapToBase64(String url) {
+        String fileType = "";
+        int start = url.lastIndexOf(".");
+        if (start != -1 ) {
+            fileType = url.substring(start + 1);
+        }
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(url);
@@ -25,20 +32,25 @@ public class BitmapUtil {
             e.printStackTrace();
         }
         Bitmap bitmap = BitmapFactory.decodeStream(fis);
-        String result = null; ByteArrayOutputStream baos = null;
+        String result = null;
+        ByteArrayOutputStream baos = null;
         try {
             if (bitmap != null) {
                 baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                baos.flush(); baos.close(); byte[] bitmapBytes = baos.toByteArray();
+                baos.flush();
+                baos.close();
+                byte[] bitmapBytes = baos.toByteArray();
                 result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT);
+                result = "data:image/"+fileType+";base64,"+result;
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
                 if (baos != null) {
-                    baos.flush(); baos.close();
+                    baos.flush();
+                    baos.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -47,58 +59,25 @@ public class BitmapUtil {
         return result;
     }
 
-    /**
-     * 将图片转换成Base64编码的字符串
-     */
-    public static String imageToBase64(String path) {
-        if (TextUtils.isEmpty(path)) {
-            return null;
-        }
-        InputStream is = null;
-        byte[] data = null;
-        String result = null;
-        try {
-            is = new FileInputStream(path);
-            //创建一个字符流大小的数组。
-            data = new byte[is.available()];
-            //写入数组
-            is.read(data);
-            //用默认的编码格式进行编码
-            result = Base64.encodeToString(data, Base64.DEFAULT);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (null != is) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        return result;
-    }
-
-        public static String getRealPath(Uri fileUrl , Context context) {
+    public static String getRealPath(Uri fileUrl, Context context) {
         String fileName = null;
-        if( fileUrl != null ) {
-            if( fileUrl.getScheme( ).toString( ).compareTo( "content" ) == 0 ) // content://开头的uri
+        if (fileUrl != null) {
+            if (fileUrl.getScheme().toString().compareTo("content") == 0) // content://开头的uri
             {
-                Cursor cursor = context.getContentResolver( ).query( fileUrl, null, null, null, null );
-                if( cursor != null && cursor.moveToFirst( ) ) {
+                Cursor cursor = context.getContentResolver().query(fileUrl, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
                     try {
-                        int column_index = cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
-                        fileName = cursor.getString( column_index ); // 取出文件路径
-                    } catch( IllegalArgumentException e ) {
+                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        fileName = cursor.getString(column_index); // 取出文件路径
+                    } catch (IllegalArgumentException e) {
                         e.printStackTrace();
-                    }finally{
-                        cursor.close( );
+                    } finally {
+                        cursor.close();
                     }
                 }
-            } else if( fileUrl.getScheme( ).compareTo( "file" ) == 0 ) // file:///开头的uri
+            } else if (fileUrl.getScheme().compareTo("file") == 0) // file:///开头的uri
             {
-                fileName = fileUrl.getPath( );
+                fileName = fileUrl.getPath();
             }
         }
         return fileName;
