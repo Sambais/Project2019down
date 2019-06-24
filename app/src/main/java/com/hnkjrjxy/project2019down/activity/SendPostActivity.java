@@ -14,11 +14,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.MyGlideEngine;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.io.File;
 import java.util.List;
 
 public class SendPostActivity extends Activity {
@@ -70,6 +72,9 @@ public class SendPostActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             result = Matisse.obtainResult(data);
+            File f = new File(result.get(0).getPath());
+
+//            Http.Post(this,"https://192.168.43.27:8080/upload/setFileUpload",);
             add_text.setText(result.toString());
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
