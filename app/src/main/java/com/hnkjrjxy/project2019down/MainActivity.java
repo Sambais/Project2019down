@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SendPostActivity;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_chat;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
@@ -91,56 +90,33 @@ public class MainActivity extends FragmentActivity {
                         }
                         return true;
                     case R.id.navigation_dashboard:
-                        if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
-                            navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
-                            Toasty.error(MainActivity.this,"请先登录").show();
-                            return false;
+                        select=1;
+                        long endtime2 = System.currentTimeMillis();
+                        if (endtime2 -starttime<=ViewConfiguration.getDoubleTapTimeout()){
+                            starttime=0;
+                            fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a2,null);
+                            fragment2.initView(fragmentview,1);
                         }else {
-                            select=1;
-                            long endtime2 = System.currentTimeMillis();
-                            if (endtime2 -starttime<=ViewConfiguration.getDoubleTapTimeout()){
-                                starttime=0;
-                                fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a2,null);
-                                fragment2.initView(fragmentview,1);
-                            }else {
-                                starttime= endtime2;
-                                showFragment(2);
-                            }
-                            return true;
+                            starttime= endtime2;
+                            showFragment(2);
                         }
+                        return true;
                     case R.id.add_informatization:
                         Log.i("select", "onNavigationItemSelected: "+select);
-                        if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
-                            navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
-                            Toasty.error(MainActivity.this,"请先登录").show();
-                        }else {
-                            navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
-                            startActivity(new Intent(MainActivity.this, SendPostActivity.class));
-                        }
+                        navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
+                        startActivity(new Intent(MainActivity.this,SendPostActivity.class));
                         return false;
                     case R.id.navigation_notifications:
-                        if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
-                            navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
-                            Toasty.error(MainActivity.this,"请先登录").show();
-                            return false;
-                        }else {
-                            select = 3;
-                            showFragment(3);
-                            qBadgeView3.hide(true);
-                            return true;
-                        }
+                        select=3;
+                        showFragment(3);
+                        qBadgeView3.hide(true);
+                        return true;
                     case R.id.myself:
-                        if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
-                            navigation1.setSelectedItemId(navigation1.getMenu().getItem(select).getItemId());
-                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                            return false;
-                        }else {
-                            select = 4;
-                            showFragment(4);
-                            //将其角标数量设置为0即为不显示
-                            qBadgeView4.hide(true);
-                            return true;
-                        }
+                        select=4;
+                        showFragment(4);
+                        //将其角标数量设置为0即为不显示
+                        qBadgeView4.hide(true);
+                        return true;
                 }
                 return false;
             }

@@ -67,12 +67,6 @@ dependencies {
     //知乎开源Matisse图片选择器使用
     implementation 'com.zhihu.android:matisse:0.4.3'
 
-    //Android点赞效果的实现1
-    implementation 'com.sackcentury:shinebutton:0.2.0'
-
-    //Android点赞效果的实现2
-    implementation 'com.wx.goodview:goodview:1.0.0'
-
     implementation files('libs/volley.jar')
 
 }

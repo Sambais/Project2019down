@@ -5,7 +5,6 @@ package com.hnkjrjxy.project2019down.fragment;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,13 +15,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hnkjrjxy.project2019down.R;
-import com.wx.goodview.GoodView;
 
 
 public class Fragment_4 extends Fragment {
@@ -63,7 +60,6 @@ public class Fragment_4 extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         generalAdapter = new GeneralAdapter();
-        generalAdapter.setHasStableIds(true);
         recyclerView.setAdapter(generalAdapter);
         //设置Item增加、移除动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -122,30 +118,9 @@ public class Fragment_4 extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
-            if (i/2==0){
-                myViewHolder.textView.setText("肖文鑫");
-                myViewHolder.imageView.setImageResource(R.mipmap.xwx1);
-            }else if(i/2==1){
-                myViewHolder.textView.setText("柏松杰");
-                myViewHolder.imageView.setImageResource(R.mipmap.bsj);
-            }else {
-                myViewHolder.textView.setText("刘宇康");
-                myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
-            }
-
-            myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (myViewHolder.cheack){
-                        collection1(view,myViewHolder);
-                    }else {
-                        collection2(view,myViewHolder);
-                    }
-                    myViewHolder.cheack=!myViewHolder.cheack;
-                }
-            });
-
+        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
+            myViewHolder.textView.setText(""+asd);
+            myViewHolder.imageView.setBackgroundResource(R.mipmap.gv1_p1);
             myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -160,50 +135,23 @@ public class Fragment_4 extends Fragment {
             });
         }
 
-
-        //点赞变红
-        public void collection1(View view, MyViewHolder myViewHolder) {
-            ((ImageView) view).setImageResource(R.mipmap.love2);
-            myViewHolder.mgoodView.setTextInfo("赞", Color.parseColor("#f66467"), 12);
-            myViewHolder.mgoodView.show(view);
-        }
-
-        //点赞恢复
-        public void collection2(View view, MyViewHolder myViewHolder) {
-            ((ImageView) view).setImageResource(R.mipmap.love1);
-            myViewHolder.mgoodView.setTextInfo("取消赞", Color.parseColor("#c9c9c9"), 12);
-            myViewHolder.mgoodView.show(view);
-        }
-
         @Override
         public int getItemCount() {
             return num;
         }
 
-
-        //此方法必须重写，否则容易出现数据错乱的情况
-        @Override
-        public int getItemViewType(int position) {
-            return position;
-        }
-
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
-            ImageView dianzan;
             de.hdodenhof.circleimageview.CircleImageView imageView;
             CardView cardView;
             LinearLayout linearLayout;
-            GoodView mgoodView;
-            Boolean cheack=true;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.m1);
                 textView = itemView.findViewById(R.id.t1);
                 cardView = itemView.findViewById(R.id.card);
-                dianzan = itemView.findViewById(R.id.dianzan);
                 linearLayout = itemView.findViewById(R.id.user_xinxi);
-                mgoodView=new GoodView(context);
             }
         }
     }
