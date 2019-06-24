@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Http {
-    public static String path = "https://hnkj3172.mynatapp.cc/";
+    public static String path = "https://hnkj3172.mynatapp.cc:80/";
     static RequestQueue rq = null;
 
     public static void Post(Context context, String url, String json, Response.Listener<JSONObject> r) {
