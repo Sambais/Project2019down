@@ -125,10 +125,10 @@ public class SendPostActivity extends Activity {
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             result = Matisse.obtainResult(data);
             //设置要展示的图片列表url集合
-
+            Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
             String img = "";
             for (int i = 0; i < result.size(); i++) {
-                img += BitmapUtil.imageToBase64(BitmapUtil.getRealPath(result.get(i),this)) + ",";
+                img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),this)) + ",";
             }
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("img",img);
