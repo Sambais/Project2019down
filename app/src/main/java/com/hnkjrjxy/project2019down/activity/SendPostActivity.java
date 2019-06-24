@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +22,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.util.BitmapUtil;
+import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.MyGlideEngine;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +54,7 @@ public class SendPostActivity extends Activity {
     private String title[]={"发布身份","选择话题","专辑","互动权限"};
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 6;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 7;
+    private static final String TAG = "SendPostActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +125,21 @@ public class SendPostActivity extends Activity {
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             result = Matisse.obtainResult(data);
             //设置要展示的图片列表url集合
+
+            String img = "";
+            for (int i = 0; i < result.size(); i++) {
+                img += BitmapUtil.imageToBase64(BitmapUtil.getRealPath(result.get(i),this)) + ",";
+            }
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("img",img);
+            Log.i(TAG, "onActivityResult: "+img);
+            Http.Post(this, "upload/setFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    Log.i(TAG, "onResponse: "+jsonObject);
+                }
+            });
+
             add_text.setText(result.toString());
             photoAdapter.notifyDataSetChanged();
         }
