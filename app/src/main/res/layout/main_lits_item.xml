@@ -3,27 +3,39 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center"
     android:layout_width="50dp"
-    android:layout_height="70dp">
+    android:layout_height="65dp">
     <LinearLayout
-
         android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:id="@+id/m1"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/m2"
+                android:src="@color/colorPrimaryDark"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+            <ImageView
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/m1"
+                android:background="@mipmap/cure"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+        </FrameLayout>
         <TextView
             android:id="@+id/t1"
             android:gravity="center"
             android:text="123"
-            android:textSize="13dp"
-            android:layout_width="40dp"
-            android:layout_height="20dp" />
+            android:textSize="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

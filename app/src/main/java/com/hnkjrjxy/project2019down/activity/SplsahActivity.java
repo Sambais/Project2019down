@@ -68,7 +68,7 @@ public class SplsahActivity extends Activity {
                 //数据拿到准备更新适配器
                 tabtitle=new ArrayList();
                 tabtitle.add("收藏");
-               tabtitle.add("收藏");
+                tabtitle.add("热门");
                 tabtitle.add(topClass.getData().get(0).getName()+"");
                 tabtitle.add(topClass.getData().get(1).getName()+"");
                 tabtitle.add(topClass.getData().get(2).getName()+"");

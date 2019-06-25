@@ -23,7 +23,7 @@ public class MyApplication extends Application {
     public static String[] pindao1={"吐槽", "暗恋" , "开心", "烦恼" , "迷茫" , "柠檬精"};
     public static String[] pindao1_p={"complain", "anlian" , "happy", "unhappy" , "dull" , "lemon"};
     public static String[] pindao2={"沙雕", "关于我" , "求助" , "安利" , "治愈" , "表情包" , "脑洞" , "学习"};
-    public static String[] pindao2_p={"shadiao", "me" , "help" , "share" , "crue" , "biaoqingbao" , "naodong" , "study"};
+    public static String[] pindao2_p={"shadiao", "me" , "help" , "share" , "cure" , "biaoqingbao" , "naodong" , "study"};
     public static String[] pindao3={"游戏", "追剧" , "爱豆" , "二次元", "摄影" , "绘画"};
     public static String[] pindao3_p={"game", "teleplay" , "aidou" , "erciyuan", "photopragh" , "drawing"};
     public static ArrayList allpindao;

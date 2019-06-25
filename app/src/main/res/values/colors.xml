@@ -7,4 +7,12 @@
     <color name="color2">#747474</color>
     <color name="biaozhun">#fafafa</color>
     <color name="alertback">#ffffff</color>
+
+    <color name="c1">#d6a5f9</color>
+    <color name="c2">#ffaeb0</color>
+    <color name="c3">#f38777</color>
+    <color name="c4">#81c9fe</color>
+    <color name="c5">#fdabab</color>
+    <color name="c6">#ffc740</color>
+    <color name="c7">#8cca96</color>
 </resources>

@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
-import com.hnkjrjxy.project2019down.fragment.Fragment_3;
 import com.hnkjrjxy.project2019down.fragment.Fragment_4;
 import com.hnkjrjxy.project2019down.fragment.Fragment_5;
 import com.hnkjrjxy.project2019down.fragment.Fragment_6;
@@ -114,10 +113,10 @@ public class Fragment_home extends Fragment {
             //为顶部ViewPager添加fragment
             fragments = new ArrayList<>();
             fragments.add(new Fragment_1());
-            fragments.add(new Fragment_3());
             fragments.add(new Fragment_1());
-            fragments.add(new Fragment_3());
-            fragments.add(new Fragment_1());
+            fragments.add(new Fragment_1().setData(MyApplication.pindao1,MyApplication.pindao1_p));
+            fragments.add(new Fragment_1().setData(MyApplication.pindao2,MyApplication.pindao2_p));
+            fragments.add(new Fragment_1().setData(MyApplication.pindao3,MyApplication.pindao3_p));
 
             fragment2s = new ArrayList<>();
             fragment2s.add(new Fragment_4());

@@ -196,7 +196,7 @@ public class SendPostActivity extends Activity {
 
         @Override
         public int getCount() {
-            return title.length-3;
+            return title.length-2;
         }
 
         @Override

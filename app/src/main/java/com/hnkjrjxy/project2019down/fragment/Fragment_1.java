@@ -16,14 +16,20 @@ import android.widget.TextView;
 
 import com.hnkjrjxy.project2019down.R;
 
+import java.util.Random;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class Fragment_1 extends Fragment {
 
     public static TextView textview;
-    private int photo[] = {R.mipmap.gv1_p1,R.mipmap.gv1_p2,R.mipmap.gv1_p3,R.mipmap.gv1_p4,R.mipmap.gv1_p5,R.mipmap.gv1_p6};
     private GridView fragment_gv;
+    private Integer colors[]={R.color.c1,R.color.c2,R.color.c3,R.color.c4,R.color.c5,R.color.c6,R.color.c7};
     private Adapter adapter;
-    private String[] tabtitle = {"收藏", "热门", "情绪", "社交", "爱好", "生活"};
+    private String[] tabtitle;
+    private String[] tabtitle_p;
+    private int num;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +37,12 @@ public class Fragment_1 extends Fragment {
         View view = inflater.inflate(R.layout.fr1, container, false);
         initView(view);
         return view;
+    }
+
+    public Fragment_1 setData(String[] pin,String[] pin_p){
+        tabtitle=pin;
+        tabtitle_p=pin_p;
+        return this;
     }
 
 
@@ -43,12 +55,20 @@ public class Fragment_1 extends Fragment {
     class Adapter extends BaseAdapter{
         @Override
         public int getCount() {
-            return tabtitle.length;
+            if (tabtitle==null){
+                return 1;
+            }else {
+                return tabtitle.length;
+            }
         }
 
         @Override
         public Object getItem(int position) {
-            return tabtitle[position];
+            if (tabtitle!=null){
+                return tabtitle[position];
+            }else {
+                return position;
+            }
         }
 
         @Override
@@ -62,21 +82,32 @@ public class Fragment_1 extends Fragment {
                 convertView = LayoutInflater.from(getActivity()).inflate(R.layout.main_lits_item, null);
                 convertView.setTag(new ViewHolder(convertView));
             }
-            initializeViews(position,(String)getItem(position), (ViewHolder) convertView.getTag());
+            initializeViews(position, (ViewHolder) convertView.getTag());
             return convertView;
         }
 
-        private void initializeViews(int position,String object, ViewHolder holder) {
-            holder.m1.setBackgroundResource(photo[position]);
-            holder.t1.setText(tabtitle[position]);
+        private void initializeViews(int position, ViewHolder holder) {
+            Random random=new Random();
+            num = random.nextInt(7);
+            if (tabtitle!=null){
+                holder.m2.setImageResource(colors[num]);
+                holder.m1.setBackgroundResource(getActivity().getResources().getIdentifier(tabtitle_p[position],"mipmap",getActivity().getPackageName()));
+                holder.t1.setText(tabtitle[position]);
+            }else {
+                holder.m2.setImageResource(R.color.color2);
+                holder.m1.setBackgroundResource(R.mipmap.addimage);
+                holder.t1.setText("添加...");
+            }
         }
 
         protected class ViewHolder {
             private ImageView m1;
             private TextView t1;
+            private CircleImageView m2;
 
             public ViewHolder(View view) {
                 m1 = (ImageView) view.findViewById(R.id.m1);
+                m2 = (CircleImageView) view.findViewById(R.id.m2);
                 t1 = (TextView) view.findViewById(R.id.t1);
             }
         }
