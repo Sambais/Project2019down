@@ -25,18 +25,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.google.gson.Gson;
+import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
 import com.hnkjrjxy.project2019down.fragment.Fragment_3;
 import com.hnkjrjxy.project2019down.fragment.Fragment_4;
 import com.hnkjrjxy.project2019down.fragment.Fragment_5;
 import com.hnkjrjxy.project2019down.fragment.Fragment_6;
-import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.view.NewMyListView;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,7 +51,7 @@ public class Fragment_home extends Fragment {
     private ArrayList<Fragment> fragment2s;
     private FragmentAdapter fragmentAdapter;
     private FragmentNextAdapter fragmentNextAdapter;
-    private String[] tabtitle = {"收藏", "热门", "情绪", "社交", "爱好", "生活"};
+    private ArrayList tabtitle ;
     private String[] tabnexttitle = {"关注", "推荐", "最新"};
     private ArrayList tabtitles;
     private SwipeRefreshLayout swiperefreshlayout;
@@ -96,13 +92,10 @@ public class Fragment_home extends Fragment {
            }else {
                Fragment_6.Weizhi(0);
            }
-
         }else {
-            list1=new ArrayList();
-            list2=new ArrayList();
-            list3=new ArrayList();
-            list4=new ArrayList();
-            list5=new ArrayList();
+            //顶部导航文字集合
+            tabtitle=MyApplication.getTabtitle();
+            //测试数据
             tabtitles = new ArrayList();
             for (int i = 0; i < 20; i++) {
                 tabtitles.add("第" + i + "个数据");
@@ -124,7 +117,6 @@ public class Fragment_home extends Fragment {
             fragments.add(new Fragment_3());
             fragments.add(new Fragment_1());
             fragments.add(new Fragment_3());
-            fragments.add(new Fragment_1());
             fragments.add(new Fragment_1());
 
             fragment2s = new ArrayList<>();
@@ -154,8 +146,6 @@ public class Fragment_home extends Fragment {
             //设置下拉是否开始缩放，起点是20的高度，最多到达100的高度
             swiperefreshlayout.setProgressViewOffset(false, 20, 100);
 
-            //从后台获取数据
-            getData();
         }
         layoutlistener();
     }
@@ -214,33 +204,6 @@ public class Fragment_home extends Fragment {
         });
     }
 
-    private void getData() {
-        getTop();
-        //获取顶部title分类
-        getChannel();
-    }
-
-    private void getTop() {
-        Http.Get(getActivity(), "Init/ChannelClass", new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject object) {
-                Gson gson=new Gson();
-                Log.i("SSS", "onResponse: "+object);
-            }
-        });
-    }
-
-    private void getChannel() {
-        //http://hnkj3172.mynatapp.cc:80/Init/Channel
-        Http.Get(getActivity(), "Init/Channel", new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject object) {
-                Gson gson=new Gson();
-                Log.i("SSS", "onResponse: "+object);
-            }
-        });
-    }
-
 
     //顶部频道viewpager适配器
     class FragmentAdapter extends FragmentPagerAdapter {
@@ -261,10 +224,9 @@ public class Fragment_home extends Fragment {
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return tabtitle[position];
+            return (CharSequence) tabtitle.get(position);
         }
     }
-
 
     //下部分帖子适配器
     class FragmentNextAdapter extends FragmentPagerAdapter {

@@ -23,6 +23,7 @@ import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_msg;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_self;
 
+import cn.refactor.lib.colordialog.PromptDialog;
 import es.dmoral.toasty.Toasty;
 import q.rorbin.badgeview.QBadgeView;
 
@@ -39,12 +40,32 @@ public class MainActivity extends FragmentActivity {
     private QBadgeView qBadgeView1,qBadgeView2,qBadgeView3,qBadgeView4;
     private BottomNavigationMenuView menuView;
     private int select=0;
+    private PromptDialog promptDialog2;
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i("AWE", "onCreate: "+MyApplication.getTabtitle().size());
+        if (MyApplication.getTabtitle().size()==0){
+            promptDialog2 = new PromptDialog(MainActivity.this);
+            setCanceledOnTouchOutside(true);
+            promptDialog2.setDialogType(PromptDialog.DIALOG_TYPE_WARNING)
+                     .setAnimationEnable(true)
+                     .setTitleText("连接失败")
+                     .setContentText("请检查网络或服务器未开启！")
+                     .setPositiveListener("OK", new PromptDialog.OnPositiveListener() {
+                         @Override
+                         public void onClick(PromptDialog dialog) {
+                             dialog.dismiss();
+                             System.exit(0);
+                         }
+                     })
+                     .show();
+            return;
+        }
+
         initView();
 
         Intent intent = new Intent(MainActivity.this,MyService.class);
@@ -143,6 +164,13 @@ public class MainActivity extends FragmentActivity {
                 return false;
             }
         });
+    }
+
+    public void setCanceledOnTouchOutside(boolean canceled){
+        if (canceled){
+            promptDialog2.setCancelable(false);
+            promptDialog2.setCanceledOnTouchOutside(false);
+        }
     }
 
     @Override
