@@ -28,7 +28,9 @@ public class WebSocketClient {
         ToastUtil.toToast("我开始连接啦");
         //连接地址
         webSocketSetting.setConnectUrl("https://hnkj3172.mynatapp.cc:80/websocket");
-        //设置心跳间隔
+        //设置超时时间
+        webSocketSetting.setConnectTimeout(10*1000);
+        //设置心跳间隔(默认60)
         webSocketSetting.setConnectionLostTimeout(60);
         //断开连接后的重连次数（不会影响性能）
         webSocketSetting.setReconnectFrequency(40);
