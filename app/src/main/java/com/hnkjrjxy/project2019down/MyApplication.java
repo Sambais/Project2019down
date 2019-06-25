@@ -11,7 +11,6 @@ import com.hnkjrjxy.project2019down.entry.UserInfo;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MyApplication extends Application {
     public static Context context;
@@ -28,7 +27,9 @@ public class MyApplication extends Application {
     public static String[] pindao3={"游戏", "追剧" , "爱豆" , "二次元", "摄影" , "绘画"};
     public static String[] pindao3_p={"game", "teleplay" , "aidou" , "erciyuan", "photopragh" , "drawing"};
     public static ArrayList allpindao;
+    public static ArrayList allpindao_p;
     public static ArrayList hotpindao;
+    public static ArrayList hotpindao_p;
 
     //以下部分暂时不再使用
     public static String[] list4;
@@ -85,7 +86,9 @@ public class MyApplication extends Application {
         disableAPIDialog();
         tabtitle=new ArrayList();
         allpindao=new ArrayList();
+        allpindao_p=new ArrayList();
         hotpindao=new ArrayList();
+        hotpindao_p=new ArrayList();
         context = getApplicationContext();
         sharedPreferences = getSharedPreferences("project2019",MODE_PRIVATE);
         editor=sharedPreferences.edit();
@@ -93,18 +96,26 @@ public class MyApplication extends Application {
             setIsLogin(true);
         }
 
-        String[][] pin={pindao1,pindao2,pindao3};
-        for (int i = 0; i <pin.length ; i++) {
-            for (int j = 0; j <pin[i].length ; j++) {
-                allpindao.add(pin[i][j]);
+        String[][] pin1={pindao1,pindao2,pindao3};
+        String[][] pin2={pindao1_p,pindao2_p,pindao3_p};
+        for (int i = 0; i <pin1.length ; i++) {
+            for (int j = 0; j <pin1[i].length ; j++) {
+                allpindao.add(pin1[i][j]);
+            }
+            for (int j = 0; j <pin2[i].length ; j++) {
+                allpindao_p.add(pin2[i][j]);
             }
         }
-        int num;
-        for (int i = 0; i <allpindao.size()-6; i++) {
-            Random random=new Random();
-            hotpindao.add(allpindao.get(i));
-        }
         Log.i("AOPO", "onCreate: =========="+allpindao);
+
+        while (hotpindao.size()<10){
+            int num = (int)(Math.random()*allpindao.size())+1;
+            if(!hotpindao.contains(num)) {
+                hotpindao.add(allpindao.get(num));
+                hotpindao_p.add(allpindao_p.get(num));
+            }
+        }
+
     }
 
     /**

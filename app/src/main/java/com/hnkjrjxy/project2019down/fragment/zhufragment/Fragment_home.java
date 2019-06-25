@@ -110,10 +110,15 @@ public class Fragment_home extends Fragment {
             swiperefreshlayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefreshlayout);
             myappBarLayout = (AppBarLayout) view.findViewById(R.id.appbarlayout);
 
+
+            //ArrayList转换为数组
+            String[] array1 = (String[])MyApplication.hotpindao.toArray(new String[MyApplication.hotpindao.size()]);
+            String[] array2 = (String[])MyApplication.hotpindao_p.toArray(new String[MyApplication.hotpindao_p.size()]);
+
             //为顶部ViewPager添加fragment
             fragments = new ArrayList<>();
             fragments.add(new Fragment_1());
-            fragments.add(new Fragment_1());
+            fragments.add(new Fragment_1().setData(array1,array2));
             fragments.add(new Fragment_1().setData(MyApplication.pindao1,MyApplication.pindao1_p));
             fragments.add(new Fragment_1().setData(MyApplication.pindao2,MyApplication.pindao2_p));
             fragments.add(new Fragment_1().setData(MyApplication.pindao3,MyApplication.pindao3_p));

@@ -36,13 +36,23 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="123"
+                        android:textStyle="bold"
                         android:layout_marginLeft="5dp"
-                        android:textSize="13dp"
+                        android:textSize="16dp"
                         android:layout_width="match_parent"
                         android:layout_height="20dp" />
                 </LinearLayout>
             </LinearLayout>
+            <TextView
+                android:text="#沙雕之海"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <View
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:background="#fff"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"></View>
