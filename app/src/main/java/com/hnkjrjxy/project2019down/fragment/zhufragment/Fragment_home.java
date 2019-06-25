@@ -215,8 +215,19 @@ public class Fragment_home extends Fragment {
     }
 
     private void getData() {
-        //获取顶部title
+        getTop();
+        //获取顶部title分类
         getChannel();
+    }
+
+    private void getTop() {
+        Http.Get(getActivity(), "Init/ChannelClass", new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject object) {
+                Gson gson=new Gson();
+                Log.i("SSS", "onResponse: "+object);
+            }
+        });
     }
 
     private void getChannel() {
@@ -225,12 +236,7 @@ public class Fragment_home extends Fragment {
             @Override
             public void onResponse(JSONObject object) {
                 Gson gson=new Gson();
-//                MyHomeTop myHomeTop = gson.fromJson(object.toString(),MyHomeTop.class);
-//                //这样就可以拿数据了
-//                Log.i("Gson", "onResponse: "+myHomeTop.getData().toString());
-//                Log.i("Gson", "onResponse: "+myHomeTop.getData().size());
-//
-//                Log.i("Gson", "onResponse: "+list1);
+                Log.i("SSS", "onResponse: "+object);
             }
         });
     }
