@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,9 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -35,6 +32,7 @@ import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.BitmapUtil;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.MyGlideEngine;
+import com.hnkjrjxy.project2019down.util.ToastUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
@@ -58,7 +56,8 @@ public class SendPostActivity extends Activity {
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 6;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 7;
     private static final String TAG = "SendPostActivity";
-    private String pindao=null;
+    private String img = "";
+    private int channelid = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,26 +126,30 @@ public class SendPostActivity extends Activity {
         check_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case 1:
-                        new MaterialDialog.Builder(SendPostActivity.this)
-                                .title("请选择话题")
-                                .titleColor(Color.parseColor("#5CACEE"))
-                                .negativeText("取消")
-                                .items(MyApplication.allpindao)
-                                .itemsCallback(new MaterialDialog.ListCallback() {
-                                    @Override
-                                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        Toast.makeText(SendPostActivity.this, "我的id"+which + "    频道: " + text , Toast.LENGTH_SHORT).show();
-                                        pindao= (String) text;
-                                        dbAdapter.notifyDataSetChanged();
-                                    }
-                                })
-                                .show();
-                        break;
-                }
+
             }
         });
+
+        post_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("img", img);
+                jsonObject.addProperty("token", MyApplication.getToken());
+                jsonObject.addProperty("id", MyApplication.sharedPreferences.getInt("id",0));
+                jsonObject.addProperty("channelid", channelid);
+                Http.Post(SendPostActivity.this, "Invitation/SetFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        if(jsonObject.optString("msg").equals("S")){
+                            ToastUtil.toToast("发送成功~");
+                            finish();
+                        }
+                    }
+                });
+            }
+        });
+
     }
 
 
@@ -160,20 +163,9 @@ public class SendPostActivity extends Activity {
             result = Matisse.obtainResult(data);
             //设置要展示的图片列表url集合
             Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
-            String img = "";
             for (int i = 0; i < result.size(); i++) {
                 img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),this)) + "    ";
             }
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("img",img);
-            Log.i(TAG, "onActivityResult: "+img);
-            Http.Post(this, "Upload/SetFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject jsonObject) {
-                    Log.i(TAG, "onResponse: "+jsonObject);
-                }
-            });
-
             add_text.setText(result.toString());
             photoAdapter.notifyDataSetChanged();
         }
@@ -183,7 +175,7 @@ public class SendPostActivity extends Activity {
 
         @Override
         public int getCount() {
-            return title.length-2;
+            return title.length-3;
         }
 
         @Override
@@ -212,16 +204,6 @@ public class SendPostActivity extends Activity {
                 holder.postItemXinxi.setVisibility(View.VISIBLE);
                 holder.postItemT1.setText(""+object);
                 holder.postItemT2.setText(MyApplication.sharedPreferences.getString("username","null"));
-            }else {
-                holder.postItemXinxi.setVisibility(View.VISIBLE);
-                holder.postItemM2.setVisibility(View.GONE);
-                holder.postItemM1.setImageResource(R.mipmap.pindao);
-                if (pindao==null){
-                    holder.postItemT2.setText("请选择话题");
-                }else {
-                    holder.postItemT2.setText(pindao+"");
-                }
-                holder.postItemT1.setText(""+object);
             }
         }
 
