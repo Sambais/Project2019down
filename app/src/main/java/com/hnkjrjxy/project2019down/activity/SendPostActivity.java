@@ -32,6 +32,7 @@ import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.BitmapUtil;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.MyGlideEngine;
+import com.hnkjrjxy.project2019down.util.ToastUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
@@ -55,6 +56,8 @@ public class SendPostActivity extends Activity {
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 6;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 7;
     private static final String TAG = "SendPostActivity";
+    private String img = "";
+    private int channelid = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,6 +129,27 @@ public class SendPostActivity extends Activity {
 
             }
         });
+
+        post_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("img", img);
+                jsonObject.addProperty("token", MyApplication.getToken());
+                jsonObject.addProperty("id", MyApplication.sharedPreferences.getInt("id",0));
+                jsonObject.addProperty("channelid", channelid);
+                Http.Post(SendPostActivity.this, "Invitation/SetFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        if(jsonObject.optString("msg").equals("S")){
+                            ToastUtil.toToast("发送成功~");
+                            finish();
+                        }
+                    }
+                });
+            }
+        });
+
     }
 
 
@@ -139,20 +163,9 @@ public class SendPostActivity extends Activity {
             result = Matisse.obtainResult(data);
             //设置要展示的图片列表url集合
             Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
-            String img = "";
             for (int i = 0; i < result.size(); i++) {
                 img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),this)) + "    ";
             }
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("img",img);
-            Log.i(TAG, "onActivityResult: "+img);
-            Http.Post(this, "Upload/SetFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject jsonObject) {
-                    Log.i(TAG, "onResponse: "+jsonObject);
-                }
-            });
-
             add_text.setText(result.toString());
             photoAdapter.notifyDataSetChanged();
         }
