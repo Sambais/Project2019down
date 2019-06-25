@@ -53,16 +53,7 @@ public class SplsahActivity extends Activity {
             public void onResponse(JSONObject object) {
                 Gson gson=new Gson();
                 Top top=gson.fromJson(object.toString(),Top.class);
-                for (int i = 0; i <top.getData().get(0).size() ; i++) {
-                    if (top.getData().get(0).get(i).getChannel_id()==1){
-                        MyApplication.list2.add(top.getData().get(0).get(i));
-                    } else if (top.getData().get(0).get(i).getChannel_id()==2) {
-                        MyApplication.list3.add(top.getData().get(0).get(i));
-                    }else {
-                        MyApplication.list4.add(top.getData().get(0).get(i));
-                    }
-                }
-                Log.i("SSS", "onResponse: "+MyApplication.list2);
+
             }
         });
     }

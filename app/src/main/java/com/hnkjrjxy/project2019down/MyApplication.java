@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 
-import com.hnkjrjxy.project2019down.entry.Top;
 import com.hnkjrjxy.project2019down.entry.UserInfo;
 
 import java.lang.reflect.Field;
@@ -20,11 +20,18 @@ public class MyApplication extends Application {
     public static SharedPreferences.Editor editor;
     public static UserInfo userInfo;
     public static ArrayList tabtitle;
-    public static ArrayList<Top.DataBean> list1;
-    public static ArrayList<Top.DataBean> list2;
-    public static ArrayList<Top.DataBean> list3;
-    public static ArrayList<Top.DataBean> list4;
-    public static ArrayList<Top.DataBean> list5;
+    public static String[] pindao1={"吐槽", "暗恋" , "开心", "烦恼" , "迷茫" , "柠檬精"};
+    public static String[] pindao1_p={"complain", "anlian" , "happy", "unhappy" , "dull" , "lemon"};
+    public static String[] pindao2={"沙雕", "关于我" , "求助" , "安利" , "治愈" , "表情包" , "脑洞" , "学习"};
+    public static String[] pindao2_p={"shadiao", "me" , "help" , "share" , "crue" , "biaoqingbao" , "naodong" , "study"};
+    public static String[] pindao3={"游戏", "追剧" , "爱豆" , "二次元", "摄影" , "绘画"};
+    public static String[] pindao3_p={"game", "teleplay" , "aidou" , "erciyuan", "photopragh" , "drawing"};
+    public static ArrayList allpindao;
+
+
+    //以下部分暂时不再使用
+    public static String[] list4;
+    public static String[] list5;
 
     public static ArrayList getTabtitle() {
         return tabtitle;
@@ -71,63 +78,26 @@ public class MyApplication extends Application {
         MyApplication.token = token;
     }
 
-    public static ArrayList getList1() {
-        return list1;
-    }
-
-    public static void setList1(ArrayList list1) {
-        MyApplication.list1 = list1;
-    }
-
-    public static ArrayList getList2() {
-        return list2;
-    }
-
-    public static void setList2(ArrayList list2) {
-        MyApplication.list2 = list2;
-    }
-
-    public static ArrayList getList3() {
-        return list3;
-    }
-
-    public static void setList3(ArrayList list3) {
-        MyApplication.list3 = list3;
-    }
-
-    public static ArrayList getList4() {
-        return list4;
-    }
-
-    public static void setList4(ArrayList list4) {
-        MyApplication.list4 = list4;
-    }
-
-    public static ArrayList getList5() {
-        return list5;
-    }
-
-    public static void setList5(ArrayList list5) {
-        MyApplication.list5 = list5;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
         disableAPIDialog();
         tabtitle=new ArrayList();
-        list1=new ArrayList();
-
-        list2=new ArrayList();
-        list3=new ArrayList();
-        list4=new ArrayList();
-        list5=new ArrayList();
+        allpindao=new ArrayList();
         context = getApplicationContext();
         sharedPreferences = getSharedPreferences("project2019",MODE_PRIVATE);
         editor=sharedPreferences.edit();
         if(sharedPreferences.getInt("id",0) != 0){
             setIsLogin(true);
         }
+
+        String[][] pin={pindao1,pindao2,pindao3};
+        for (int i = 0; i <pin.length ; i++) {
+            for (int j = 0; j <pin[i].length ; j++) {
+                allpindao.add(pin[i][j]);
+            }
+        }
+        Log.i("AOPO", "onCreate: =========="+allpindao);
     }
 
     /**
