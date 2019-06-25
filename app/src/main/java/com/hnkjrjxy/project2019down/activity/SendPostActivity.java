@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,7 +22,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -58,6 +61,7 @@ public class SendPostActivity extends Activity {
     private static final String TAG = "SendPostActivity";
     private String img = "";
     private int channelid = 0;
+    private String pindao=null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,7 +130,24 @@ public class SendPostActivity extends Activity {
         check_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                switch (position){
+                    case 1:
+                        new MaterialDialog.Builder(SendPostActivity.this)
+                                .title("请选择话题")
+                                .titleColor(Color.parseColor("#5CACEE"))
+                                .negativeText("取消")
+                                .items(MyApplication.allpindao)
+                                .itemsCallback(new MaterialDialog.ListCallback() {
+                                    @Override
+                                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                        Toast.makeText(SendPostActivity.this, "我的id"+which + "    频道: " + text , Toast.LENGTH_SHORT).show();
+                                        pindao= (String) text;
+                                        dbAdapter.notifyDataSetChanged();
+                                    }
+                                })
+                                .show();
+                        break;
+                }
             }
         });
 
@@ -204,6 +225,16 @@ public class SendPostActivity extends Activity {
                 holder.postItemXinxi.setVisibility(View.VISIBLE);
                 holder.postItemT1.setText(""+object);
                 holder.postItemT2.setText(MyApplication.sharedPreferences.getString("username","null"));
+            }else {
+                holder.postItemXinxi.setVisibility(View.VISIBLE);
+                holder.postItemM2.setVisibility(View.GONE);
+                holder.postItemM1.setImageResource(R.mipmap.pindao);
+                if (pindao==null){
+                    holder.postItemT2.setText("请选择话题");
+                }else {
+                    holder.postItemT2.setText(pindao+"");
+                }
+                holder.postItemT1.setText(""+object);
             }
         }
 
