@@ -140,6 +140,10 @@ public class Fragment_home extends Fragment {
             //下部分TabLayout绑定ViewPager
             tab1.setupWithViewPager(myviewpagernext);
 
+            //默认选中热门与推荐
+            tab.getTabAt(1).select();
+            tab1.getTabAt(1).select();
+
             //设置下拉刷新环形加载条的颜色，最多使用四个颜色
             swiperefreshlayout.setColorSchemeResources(R.color.colorPrimary, R.color.color1);
             //设置下拉是否开始缩放，起点是20的高度，最多到达100的高度

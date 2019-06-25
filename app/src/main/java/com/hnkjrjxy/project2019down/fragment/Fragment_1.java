@@ -95,7 +95,7 @@ public class Fragment_1 extends Fragment {
                 holder.t1.setText(tabtitle[position]);
             }else {
                 holder.m2.setImageResource(R.color.color2);
-                holder.m1.setBackgroundResource(R.mipmap.addimage);
+                holder.m1.setBackgroundResource(R.mipmap.add);
                 holder.t1.setText("添加...");
             }
         }

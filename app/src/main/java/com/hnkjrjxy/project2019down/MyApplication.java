@@ -11,6 +11,7 @@ import com.hnkjrjxy.project2019down.entry.UserInfo;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MyApplication extends Application {
     public static Context context;
@@ -27,7 +28,7 @@ public class MyApplication extends Application {
     public static String[] pindao3={"游戏", "追剧" , "爱豆" , "二次元", "摄影" , "绘画"};
     public static String[] pindao3_p={"game", "teleplay" , "aidou" , "erciyuan", "photopragh" , "drawing"};
     public static ArrayList allpindao;
-
+    public static ArrayList hotpindao;
 
     //以下部分暂时不再使用
     public static String[] list4;
@@ -84,6 +85,7 @@ public class MyApplication extends Application {
         disableAPIDialog();
         tabtitle=new ArrayList();
         allpindao=new ArrayList();
+        hotpindao=new ArrayList();
         context = getApplicationContext();
         sharedPreferences = getSharedPreferences("project2019",MODE_PRIVATE);
         editor=sharedPreferences.edit();
@@ -96,6 +98,11 @@ public class MyApplication extends Application {
             for (int j = 0; j <pin[i].length ; j++) {
                 allpindao.add(pin[i][j]);
             }
+        }
+        int num;
+        for (int i = 0; i <allpindao.size()-6; i++) {
+            Random random=new Random();
+            hotpindao.add(allpindao.get(i));
         }
         Log.i("AOPO", "onCreate: =========="+allpindao);
     }
