@@ -93,7 +93,12 @@ public class Fragment_home extends Fragment {
            }
         }else {
             //顶部导航文字集合
-            tabtitle=MyApplication.getTabtitle();
+            tabtitle=new ArrayList();
+            tabtitle.add("收藏");
+            tabtitle.add("热门");
+            tabtitle.add("情绪");
+            tabtitle.add("社交");
+            tabtitle.add("爱好");
             //测试数据
             tabtitles = new ArrayList();
             for (int i = 0; i < 20; i++) {

@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.wx.goodview.GoodView;
 
@@ -69,6 +70,9 @@ public class Fragment_4 extends Fragment {
         tishi = (TextView) view.findViewById(R.id.tishi);
         if (kejian==0){
             tishi.setVisibility(View.GONE);
+        }
+        if (MyApplication.sharedPreferences.getInt("id",0)==0){
+            tishi.setText("请先登录！");
         }
         //RecyclerView绑定适配器
         //设置LayoutManager为LinearLayoutManager

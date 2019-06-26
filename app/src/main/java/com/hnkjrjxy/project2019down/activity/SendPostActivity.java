@@ -351,19 +351,18 @@ public class SendPostActivity extends Activity {
         private void initializeViews(int position, Object object, ViewHolder holder) {
             if (result.isEmpty()) {
                 holder.setpostPhoto.setImageResource(R.mipmap.addimage);
-            } else if (result.size() < 9) {
-                if (position == result.size()) {
-                    holder.setpostPhoto.setImageResource(R.mipmap.addimage);
-                } else {
-                    Glide.with(SendPostActivity.this)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(result.get(position))
-                            .apply(new RequestOptions() {{
-                                override(Target.SIZE_ORIGINAL);
-                            }})
-                            .into(holder.setpostPhoto);
-                }
-            } else {
+            }
+            //加载一张图片暂时不使用以下
+//            else if (result.size() < 9) {
+//                Glide.with(SendPostActivity.this)
+//                        .asBitmap() // some .jpeg files are actually gif
+//                        .load(result.get(position))
+//                        .apply(new RequestOptions() {{
+//                            override(Target.SIZE_ORIGINAL);
+//                        }})
+//                        .into(holder.setpostPhoto);
+//            }
+            else {
                 Glide.with(SendPostActivity.this)
                         .asBitmap() // some .jpeg files are actually gif
                         .load(result.get(position))

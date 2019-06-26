@@ -113,7 +113,7 @@ public class MainActivity extends FragmentActivity {
                             return true;
                         }
                     case R.id.navigation_dashboard:
-                        if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
+                        if (MyApplication.sharedPreferences.getInt("id",0)==0){
                             Toasty.error(MainActivity.this,"请先登录").show();
                             return false;
                         }else {
@@ -131,7 +131,7 @@ public class MainActivity extends FragmentActivity {
                         }
                     case R.id.add_informatization:
                         Log.i("select", "onNavigationItemSelected: "+select);
-                        if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
+                        if (MyApplication.sharedPreferences.getInt("id",0)==0){
                             Toasty.error(MainActivity.this,"请先登录").show();
                             return true;
                         }else {
@@ -140,7 +140,7 @@ public class MainActivity extends FragmentActivity {
                             return false;
                         }
                     case R.id.navigation_notifications:
-                        if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
+                        if (MyApplication.sharedPreferences.getInt("id",0)==0){
                             Toasty.error(MainActivity.this,"请先登录").show();
                             return false;
                         }else {
@@ -150,7 +150,7 @@ public class MainActivity extends FragmentActivity {
                             return true;
                         }
                     case R.id.myself:
-                        if (MyApplication.sharedPreferences.getString("username","null").equals("null")){
+                        if (MyApplication.sharedPreferences.getInt("id",0)==0){
                             startActivity(new Intent(MainActivity.this,LoginActivity.class));
                             return false;
                         }else {
