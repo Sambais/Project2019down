@@ -67,6 +67,7 @@ public class SendPostActivity extends Activity {
     private String content = "";
     private boolean isOK = false;
     private String pindao=null;
+    private MaterialDialog materialDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,7 +120,7 @@ public class SendPostActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //权限已经被授予，在这里直接写要执行的相应方法即可
                     Matisse.from(SendPostActivity.this)
-                            .choose(MimeType.allOf())//图片类型
+                            .choose(MimeType.of(MimeType.JPEG,MimeType.PNG))//图片类型
                             .countable(true)//true:选中后显示数字;false:选中后显示对号
                             .maxSelectable(9)//可选的最大数
                             .capture(false)//选择照片时，是否显示拍照
@@ -176,11 +177,18 @@ public class SendPostActivity extends Activity {
                 jsonObject.addProperty("token", MyApplication.getToken());
                 jsonObject.addProperty("id", MyApplication.sharedPreferences.getInt("id",0));
                 jsonObject.addProperty("channelid", channelid);
+                materialDialog = new MaterialDialog.Builder(SendPostActivity.this)
+                        .content("请等待...")
+                        .progress(true, 0)
+                        .show();
+                materialDialog.setCanceledOnTouchOutside(false);
+                materialDialog.setCancelable(false);
                 Http.Post(SendPostActivity.this, "Invitation/SetFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         if(jsonObject.optString("msg").equals("S")){
                             ToastUtil.toToast("发送成功~");
+                            materialDialog.dismiss();
                             finish();
                         }
                     }
