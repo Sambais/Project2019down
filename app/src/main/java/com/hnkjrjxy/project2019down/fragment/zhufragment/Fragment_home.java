@@ -25,13 +25,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
 import com.hnkjrjxy.project2019down.fragment.Fragment_4;
 import com.hnkjrjxy.project2019down.fragment.Fragment_5;
 import com.hnkjrjxy.project2019down.fragment.Fragment_6;
+import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.view.NewMyListView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,8 +77,39 @@ public class Fragment_home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.a1, container, false);
+        Log.i("YAG", "onCreateView:我先 ");
         initView(view,0);
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            //TODO now visible to user
+            Log.i("Fragment5", "onHiddenChanged  hidden刷新数据-----------"+MyApplication.getZtpd());
+            if (MyApplication.getZtpd()==1) {
+                MyApplication.setZtpd(0);
+                getFragment5Data();
+                Log.i("Fragment5", "onHiddenChanged  hidden刷新数据-----------"+MyApplication.getZtpd());
+            }
+        } else {
+            //TODO now invisible to user
+            Log.i("YAG", "onHiddenChanged  ！hidden刷新数据");
+        }
+    }
+
+    private void getFragment5Data() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token",MyApplication.getToken());
+        Log.i("Fragment5", "getData: "+jsonObject.toString());
+        Http.Post(getActivity(), "Invitation/GetInvitation",
+                jsonObject.toString(), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject object) {
+                        Log.i("Fragment5", "onResponse: --------"+object);
+                    }
+                });
     }
 
     public void initView(View view,int zt) {

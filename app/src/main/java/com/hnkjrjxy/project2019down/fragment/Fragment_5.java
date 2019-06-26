@@ -13,7 +13,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
-import com.hnkjrjxy.project2019down.util.Http;
 import com.wx.goodview.GoodView;
 
-import org.json.JSONObject;
+import es.dmoral.toasty.Toasty;
 
 
 public class Fragment_5 extends Fragment {
@@ -49,6 +45,7 @@ public class Fragment_5 extends Fragment {
     private static int mToPosition;
     private int kejian;
     private TextView tishi;
+    public static boolean login=false;
 
 
     @Override
@@ -72,11 +69,20 @@ public class Fragment_5 extends Fragment {
         recyclerView.setHasFixedSize(true);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            if (MyApplication.sharedPreferences.getInt("id", 0)!= 0) {
+                login=true;
+            }
+        }
+    }
+
     public void initView(View view) {
         context=getActivity();
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         tishi = (TextView) view.findViewById(R.id.tishi);
-        getData();
         if (kejian==0){
             tishi.setVisibility(View.GONE);
         }
@@ -131,22 +137,10 @@ public class Fragment_5 extends Fragment {
         });
     }
 
-    private void getData() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("token",MyApplication.getToken());
-        Log.i(TAG, "getData: "+jsonObject.toString());
-        Http.Post(getActivity(), "Invitation/GetInvitation",
-                jsonObject.toString(), new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject object) {
-                Log.i("Fragment5", "onResponse: --------"+object);
-            }
-        });
-    }
+
 
     static class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHolder> {
         //当前上下文对象
-
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -169,30 +163,39 @@ public class Fragment_5 extends Fragment {
                 myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
             }
 
-            myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (myViewHolder.cheack){
-                        collection1(view,myViewHolder);
-                    }else {
-                        collection2(view,myViewHolder);
+            if (login){
+                myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (myViewHolder.cheack){
+                            collection1(view,myViewHolder);
+                        }else {
+                            collection2(view,myViewHolder);
+                        }
+                        myViewHolder.cheack=!myViewHolder.cheack;
                     }
-                    myViewHolder.cheack=!myViewHolder.cheack;
-                }
-            });
+                });
 
-            myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
-                }
-            });
-            myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, ""+i, Toast.LENGTH_SHORT).show();
-                }
-            });
+                myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, ""+i, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else {
+                myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toasty.error(context,"请先登录").show();
+                    }
+                });
+            }
         }
 
 

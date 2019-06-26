@@ -30,6 +30,15 @@ public class MyApplication extends Application {
     public static ArrayList allpindao_p;
     public static ArrayList hotpindao;
     public static ArrayList hotpindao_p;
+    public static int ztpd;
+
+    public static int getZtpd() {
+        return ztpd;
+    }
+
+    public static void setZtpd(int ztpd) {
+        MyApplication.ztpd = ztpd;
+    }
 
     //以下部分暂时不再使用
     public static String[] list4;
