@@ -182,13 +182,14 @@ public class SendPostActivity extends Activity {
                         .progress(true, 0)
                         .show();
                 materialDialog.setCanceledOnTouchOutside(false);
-                materialDialog.setCancelable(false);
+//                materialDialog.setCancelable(false);
                 Http.Post(SendPostActivity.this, "Invitation/SetFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
+                        Log.i(TAG, "onResponse: =========="+jsonObject);
                         if(jsonObject.optString("msg").equals("S")){
-                            ToastUtil.toToast("发送成功~");
                             materialDialog.dismiss();
+                            ToastUtil.toToast("发送成功~");
                             finish();
                         }
                     }
