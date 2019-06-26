@@ -109,13 +109,13 @@ public class MyApplication extends Application {
         Log.i("AOPO", "onCreate: =========="+allpindao);
 
         while (hotpindao.size()<10){
-            int num = (int)(Math.random()*allpindao.size())+1;
+            int num = (int)(Math.random()*allpindao.size())-1;
+            Log.i("HOT", "onCreate: ---------------"+num);
             if(!hotpindao.contains(num)) {
                 hotpindao.add(allpindao.get(num));
                 hotpindao_p.add(allpindao_p.get(num));
             }
         }
-
     }
 
     /**

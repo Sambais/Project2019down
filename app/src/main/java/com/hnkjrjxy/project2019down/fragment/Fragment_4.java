@@ -24,20 +24,23 @@ import android.widget.Toast;
 import com.hnkjrjxy.project2019down.R;
 import com.wx.goodview.GoodView;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class Fragment_4 extends Fragment {
     private static LinearLayoutManager layoutManager;
     private static RecyclerView recyclerView;
     private static GeneralAdapter generalAdapter;
     private static Context context;
-    private static int num=20;
-    private static String asd="123";
-    int i=0;
+    private static int num = 20;
+    private static String asd = "123";
+    int i = 0;
     //目标项是否在最后一个可见项之后
     private static boolean mShouldScroll;
-   //记录目标项位置
+    //记录目标项位置
     private static int mToPosition;
-
+    private int kejian;
+    private TextView tishi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,8 +50,13 @@ public class Fragment_4 extends Fragment {
         return view;
     }
 
-    public static void Weizhi(int n){
-        asd="789";
+    public Fragment_4 setData(int s) {
+        kejian = s;
+        return this;
+    }
+
+    public static void Weizhi(int n) {
+        asd = "789";
         recyclerView.scrollToPosition(0);
         recyclerView.setFocusableInTouchMode(false);
         recyclerView.setFocusable(false);
@@ -56,8 +64,12 @@ public class Fragment_4 extends Fragment {
     }
 
     public void initView(View view) {
-        context=getActivity();
-        recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+        context = getActivity();
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        tishi = (TextView) view.findViewById(R.id.tishi);
+        if (kejian==0){
+            tishi.setVisibility(View.GONE);
+        }
         //RecyclerView绑定适配器
         //设置LayoutManager为LinearLayoutManager
         layoutManager = new LinearLayoutManager(getActivity());
@@ -78,13 +90,13 @@ public class Fragment_4 extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 //得到当前显示的最后一个item的view
-                View lastChildView = recyclerView.getLayoutManager().getChildAt(recyclerView.getLayoutManager().getChildCount()-1);
+                View lastChildView = recyclerView.getLayoutManager().getChildAt(recyclerView.getLayoutManager().getChildCount() - 1);
                 //得到lastChildView的bottom坐标值
                 int lastChildBottom = lastChildView.getBottom();
                 //得到Recyclerview的底部坐标减去底部padding值，也就是显示内容最底部的坐标
-                int recyclerBottom =  recyclerView.getBottom()-recyclerView.getPaddingBottom();
+                int recyclerBottom = recyclerView.getBottom() - recyclerView.getPaddingBottom();
                 //通过这个lastChildView得到这个view当前的position值
-                int lastPosition  = recyclerView.getLayoutManager().getPosition(lastChildView);
+                int lastPosition = recyclerView.getLayoutManager().getPosition(lastChildView);
 
                 //判断lastChildView的bottom值跟recyclerBottom
                 //判断lastPosition是不是最后一个position
@@ -94,19 +106,20 @@ public class Fragment_4 extends Fragment {
                 //dy <0 表示 上滑， dy>0 表示下滑
                 //通过这几个参数就可以监听 滑动方向的状态。
                 //判断是否向下滑动，如果向下滑动即将到底部的时候进行预加载
-                if (dy>0){
+                if (dy > 0) {
                     //双重判断，以防滑动太快导致没有检测到滑动的位置信息
-                    if(lastPosition == recyclerView.getLayoutManager().getItemCount()-4||
-                            lastPosition == recyclerView.getLayoutManager().getItemCount()-3){
+                    if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 4 ||
+                            lastPosition == recyclerView.getLayoutManager().getItemCount() - 3) {
                         //在此处再次拿到数据进行适配器的刷新
-                        num=num+20;
+                        num = num + 20;
                         i++;
                         generalAdapter.notifyDataSetChanged();
-                        Toast.makeText(getActivity(), "滑动快要到底了       "+i+"             "+num, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "滑动快要到底了       " + i + "             " + num, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
+
     }
 
     static class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHolder> {
@@ -123,13 +136,13 @@ public class Fragment_4 extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
-            if (i/2==0){
+            if (i / 2 == 0) {
                 myViewHolder.textView.setText("肖文鑫");
                 myViewHolder.imageView.setImageResource(R.mipmap.xwx1);
-            }else if(i/2==1){
+            } else if (i / 2 == 1) {
                 myViewHolder.textView.setText("柏松杰");
                 myViewHolder.imageView.setImageResource(R.mipmap.bsj);
-            }else {
+            } else {
                 myViewHolder.textView.setText("刘宇康");
                 myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
             }
@@ -137,12 +150,12 @@ public class Fragment_4 extends Fragment {
             myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (myViewHolder.cheack){
-                        collection1(view,myViewHolder);
-                    }else {
-                        collection2(view,myViewHolder);
+                    if (myViewHolder.cheack) {
+                        collection1(view, myViewHolder);
+                    } else {
+                        collection2(view, myViewHolder);
                     }
-                    myViewHolder.cheack=!myViewHolder.cheack;
+                    myViewHolder.cheack = !myViewHolder.cheack;
                 }
             });
 
@@ -155,7 +168,7 @@ public class Fragment_4 extends Fragment {
             myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, ""+i, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "" + i, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -190,11 +203,11 @@ public class Fragment_4 extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
             ImageView dianzan;
-            de.hdodenhof.circleimageview.CircleImageView imageView;
+            CircleImageView imageView;
             CardView cardView;
             LinearLayout linearLayout;
             GoodView mgoodView;
-            Boolean cheack=true;
+            Boolean cheack = true;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
@@ -203,7 +216,7 @@ public class Fragment_4 extends Fragment {
                 cardView = itemView.findViewById(R.id.card);
                 dianzan = itemView.findViewById(R.id.dianzan);
                 linearLayout = itemView.findViewById(R.id.user_xinxi);
-                mgoodView=new GoodView(context);
+                mgoodView = new GoodView(context);
             }
         }
     }

@@ -90,10 +90,10 @@ public class SendPostActivity extends Activity {
         }
 
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},1);
-        }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//            //申请WRITE_EXTERNAL_STORAGE权限
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},1);
+//        }
     }
 
 
@@ -319,16 +319,15 @@ public class SendPostActivity extends Activity {
             if (result.isEmpty()) {
                 holder.setpostPhoto.setImageResource(R.mipmap.addimage);
             } else if (result.size() < 9) {
-                if (position == result.size()) {
+                Glide.with(SendPostActivity.this)
+                        .asBitmap() // some .jpeg files are actually gif
+                        .load(result.get(position))
+                        .apply(new RequestOptions() {{
+                            override(Target.SIZE_ORIGINAL);
+                        }})
+                        .into(holder.setpostPhoto);
+                if (position == result.size()-1) {
                     holder.setpostPhoto.setImageResource(R.mipmap.addimage);
-                } else {
-                    Glide.with(SendPostActivity.this)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(result.get(position))
-                            .apply(new RequestOptions() {{
-                                override(Target.SIZE_ORIGINAL);
-                            }})
-                            .into(holder.setpostPhoto);
                 }
             } else {
                 Glide.with(SendPostActivity.this)

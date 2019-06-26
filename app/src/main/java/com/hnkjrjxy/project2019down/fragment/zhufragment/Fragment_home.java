@@ -124,9 +124,9 @@ public class Fragment_home extends Fragment {
             fragments.add(new Fragment_1().setData(MyApplication.pindao3,MyApplication.pindao3_p));
 
             fragment2s = new ArrayList<>();
-            fragment2s.add(new Fragment_4());
-            fragment2s.add(new Fragment_5());
-            fragment2s.add(new Fragment_6());
+            fragment2s.add(new Fragment_4().setData(13));
+            fragment2s.add(new Fragment_5().setData(0));
+            fragment2s.add(new Fragment_6().setData(0));
 
             //上部分频道适配器
             fragmentManager = getChildFragmentManager();
