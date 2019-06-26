@@ -64,6 +64,17 @@ public class Fragment_4 extends Fragment {
         recyclerView.setHasFixedSize(true);
     }
 
+
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (!isVisibleToUser) {
+//            if (MyApplication.sharedPreferences.getInt("id", 0) != 0) {
+//                tishi.setText("暂未个人收藏功能");
+//            }
+//        }
+//    }
+
     public void initView(View view) {
         context = getActivity();
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -73,6 +84,8 @@ public class Fragment_4 extends Fragment {
         }
         if (MyApplication.sharedPreferences.getInt("id",0)==0){
             tishi.setText("请先登录！");
+        }else {
+            tishi.setText("暂未个人收藏功能");
         }
         //RecyclerView绑定适配器
         //设置LayoutManager为LinearLayoutManager

@@ -321,11 +321,14 @@ public class SendPostActivity extends Activity {
         public int getCount() {
             if (result.isEmpty()) {
                 return 1;
-            } else if (result.size() < 9) {
-                return result.size() + 1;
-            } else {
+            }
+//            else if (result.size() < 9) {
+//                return result.size() + 1;
+//            }
+            else {
                 return result.size();
             }
+
         }
 
         @Override

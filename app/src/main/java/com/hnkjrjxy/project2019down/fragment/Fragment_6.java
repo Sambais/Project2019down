@@ -5,6 +5,7 @@ package com.hnkjrjxy.project2019down.fragment;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,17 +13,31 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.google.gson.JsonObject;
+import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.util.Http;
+import com.wx.goodview.GoodView;
+
+import org.json.JSONObject;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class Fragment_6 extends Fragment {
+
+    private static final String TAG = "Fragment_5";
+
     private static LinearLayoutManager layoutManager;
     private static RecyclerView recyclerView;
     private static GeneralAdapter generalAdapter;
@@ -32,10 +47,12 @@ public class Fragment_6 extends Fragment {
     int i=0;
     //目标项是否在最后一个可见项之后
     private static boolean mShouldScroll;
-   //记录目标项位置
+    //记录目标项位置
     private static int mToPosition;
     private int kejian;
     private TextView tishi;
+    public static boolean login=false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,10 +75,21 @@ public class Fragment_6 extends Fragment {
         recyclerView.setHasFixedSize(true);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            if (MyApplication.sharedPreferences.getInt("id", 0)!= 0) {
+                login=true;
+            }
+        }
+    }
+
     public void initView(View view) {
         context=getActivity();
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         tishi = (TextView) view.findViewById(R.id.tishi);
+        getData();
         if (kejian==0){
             tishi.setVisibility(View.GONE);
         }
@@ -70,6 +98,7 @@ public class Fragment_6 extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         generalAdapter = new GeneralAdapter();
+        generalAdapter.setHasStableIds(true);
         recyclerView.setAdapter(generalAdapter);
         //设置Item增加、移除动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -115,9 +144,21 @@ public class Fragment_6 extends Fragment {
         });
     }
 
+    private void getData() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token",MyApplication.getToken());
+        Log.i(TAG, "getData: "+jsonObject.toString());
+        Http.Post(getActivity(), "Invitation/GetInvitation",
+                jsonObject.toString(), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject object) {
+                        Log.i("Fragment5", "onResponse: --------"+object);
+                    }
+                });
+    }
+
     static class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHolder> {
         //当前上下文对象
-
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -128,21 +169,66 @@ public class Fragment_6 extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-            myViewHolder.textView.setText(""+asd);
-            myViewHolder.imageView.setBackgroundResource(R.mipmap.gv1_p1);
-            myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
-                }
-            });
-            myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, ""+i, Toast.LENGTH_SHORT).show();
-                }
-            });
+        public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
+            if (i/2==0){
+                myViewHolder.textView.setText("肖文鑫");
+                myViewHolder.imageView.setImageResource(R.mipmap.xwx1);
+            }else if(i/2==1){
+                myViewHolder.textView.setText("柏松杰");
+                myViewHolder.imageView.setImageResource(R.mipmap.bsj);
+            }else {
+                myViewHolder.textView.setText("刘宇康");
+                myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
+            }
+
+            if (login){
+                myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (myViewHolder.cheack){
+                            collection1(view,myViewHolder);
+                        }else {
+                            collection2(view,myViewHolder);
+                        }
+                        myViewHolder.cheack=!myViewHolder.cheack;
+                    }
+                });
+
+                myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, ""+i, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else {
+                myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toasty.error(context,"请先登录").show();
+                    }
+                });
+            }
+        }
+
+
+        //点赞变红
+        public void collection1(View view, MyViewHolder myViewHolder) {
+            ((ImageView) view).setImageResource(R.mipmap.love2);
+            myViewHolder.mgoodView.setTextInfo("赞", Color.parseColor("#f66467"), 12);
+            myViewHolder.mgoodView.show(view);
+        }
+
+        //点赞恢复
+        public void collection2(View view, MyViewHolder myViewHolder) {
+            ((ImageView) view).setImageResource(R.mipmap.love1);
+            myViewHolder.mgoodView.setTextInfo("取消赞", Color.parseColor("#c9c9c9"), 12);
+            myViewHolder.mgoodView.show(view);
         }
 
         @Override
@@ -150,18 +236,30 @@ public class Fragment_6 extends Fragment {
             return num;
         }
 
+
+        //此方法必须重写，否则容易出现数据错乱的情况
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
+            ImageView dianzan;
             de.hdodenhof.circleimageview.CircleImageView imageView;
             CardView cardView;
             LinearLayout linearLayout;
+            GoodView mgoodView;
+            Boolean cheack=true;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.m1);
                 textView = itemView.findViewById(R.id.t1);
                 cardView = itemView.findViewById(R.id.card);
+                dianzan = itemView.findViewById(R.id.dianzan);
                 linearLayout = itemView.findViewById(R.id.user_xinxi);
+                mgoodView=new GoodView(context);
             }
         }
     }

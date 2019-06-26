@@ -57,6 +57,7 @@ public class Fragment_chat extends Fragment {
 
     public void initView(View view, int zt) {
         if (zt == 1) {
+            MoveToPosition(0);
             swipeRefreshLayout.setRefreshing(true);
             listener.onRefresh();
             Toast.makeText(getContext(), "完成", Toast.LENGTH_SHORT).show();
