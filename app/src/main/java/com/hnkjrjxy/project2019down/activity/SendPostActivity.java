@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,8 @@ public class SendPostActivity extends Activity {
     private static final String TAG = "SendPostActivity";
     private String img = "";
     private int channelid = 0;
+    private String content = "";
+    private boolean isOK = false;
     private String pindao=null;
 
     @Override
@@ -142,6 +145,7 @@ public class SendPostActivity extends Activity {
                                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                         Toast.makeText(SendPostActivity.this, "我的id"+which + "    频道: " + text , Toast.LENGTH_SHORT).show();
                                         pindao= (String) text;
+                                        channelid = which+1;
                                         dbAdapter.notifyDataSetChanged();
                                     }
                                 })
@@ -154,8 +158,17 @@ public class SendPostActivity extends Activity {
         post_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                content = add_text.getText().toString();
+                if(TextUtils.isEmpty(content)){
+                    ToastUtil.toToast("请输入要分享的内容");
+                    return;
+                }else if(channelid == 0){
+                    ToastUtil.toToast("请选择要分享到的频道");
+                    return;
+                }
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("img", img);
+                jsonObject.addProperty("content", content);
                 jsonObject.addProperty("token", MyApplication.getToken());
                 jsonObject.addProperty("id", MyApplication.sharedPreferences.getInt("id",0));
                 jsonObject.addProperty("channelid", channelid);
@@ -183,11 +196,11 @@ public class SendPostActivity extends Activity {
             Log.i(TAG, "onActivityResult: "+data);
             result = Matisse.obtainResult(data);
             //设置要展示的图片列表url集合
-            Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
+//            Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
             for (int i = 0; i < result.size(); i++) {
                 img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),this)) + "    ";
             }
-            add_text.setText(result.toString());
+//            add_text.setText(result.toString());
             photoAdapter.notifyDataSetChanged();
         }
     }
