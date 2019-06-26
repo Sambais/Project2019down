@@ -108,14 +108,13 @@ public class MyApplication extends Application {
         }
         Log.i("AOPO", "onCreate: =========="+allpindao);
 
-        while (hotpindao.size()<10){
-            int num = (int)(Math.random()*allpindao.size())-1;
-            Log.i("HOT", "onCreate: ---------------"+num);
-            if(!hotpindao.contains(num)) {
-                hotpindao.add(allpindao.get(num));
-                hotpindao_p.add(allpindao_p.get(num));
-            }
+        ArrayList hot = (ArrayList) allpindao.clone();
+        for (int i = 0; i < allpindao_p.size()-12; i++) {
+            int num = (int) (Math.random()*hot.size()-1);
+            hot.remove(num);
         }
+        hotpindao = (ArrayList) hot.clone();
+
     }
 
     /**
