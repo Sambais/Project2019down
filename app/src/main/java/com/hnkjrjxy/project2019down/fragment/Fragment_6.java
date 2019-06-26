@@ -34,7 +34,8 @@ public class Fragment_6 extends Fragment {
     private static boolean mShouldScroll;
    //记录目标项位置
     private static int mToPosition;
-
+    private int kejian;
+    private TextView tishi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +43,11 @@ public class Fragment_6 extends Fragment {
         View view = inflater.inflate(R.layout.fr4, container, false);
         initView(view);
         return view;
+    }
+
+    public Fragment_6 setData(int s){
+        kejian=s;
+        return this;
     }
 
     public static void Weizhi(int n){
@@ -55,6 +61,10 @@ public class Fragment_6 extends Fragment {
     public void initView(View view) {
         context=getActivity();
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
+        tishi = (TextView) view.findViewById(R.id.tishi);
+        if (kejian==0){
+            tishi.setVisibility(View.GONE);
+        }
         //RecyclerView绑定适配器
         //设置LayoutManager为LinearLayoutManager
         layoutManager = new LinearLayoutManager(getActivity());
