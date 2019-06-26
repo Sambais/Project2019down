@@ -1,12 +1,11 @@
 package com.hnkjrjxy.project2019down.util;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
-import com.hnkjrjxy.project2019down.msg.ReturnMsg;
+import com.hnkjrjxy.project2019down.msg.Msg;
+import com.hnkjrjxy.project2019down.msg.SendInfoMsg;
 import com.zhangke.websocket.SocketListener;
 import com.zhangke.websocket.WebSocketHandler;
 import com.zhangke.websocket.WebSocketManager;
@@ -21,7 +20,8 @@ import java.util.Map;
 
 public class WebSocketClient {
     WebSocketSetting webSocketSetting = new WebSocketSetting();
-    WebSocketManager manager;
+    public static WebSocketManager manager;
+    static Gson gson = new Gson();
     private static final String TAG = "WebSocketClient";
 
     public WebSocketClient() {
@@ -56,6 +56,10 @@ public class WebSocketClient {
         manager.addListener(new MySocketListener());
     }
 
+    public static void sendMsg(SendInfoMsg msg){
+        manager.send(gson.toJson(msg));
+    }
+
     class MySocketListener implements SocketListener {
 
         @Override
@@ -82,18 +86,10 @@ public class WebSocketClient {
         //接受到文本消息
         @Override
         public <T> void onMessage(String message, T data) {
-            Gson gson = new Gson();
-            ReturnMsg returnMsg = gson.fromJson(message,ReturnMsg.class);
-            if(returnMsg.getCode() == 1){
-                MyApplication.setToken(returnMsg.getMsg().toString());
-                Log.i(TAG, "onMessage: 收到服务器发来的心跳监测"+returnMsg.getMsg().toString());
-            }
-//            ReturnMsg msg = new ReturnMsg();
-//            msg.setCode(1);
-//            msg.setMsg("收到请回复，over！");
-//            manager.send(gson.toJson(msg,ReturnMsg.class));
-//            ToastUtil.toToast(message);
-//            Log.i(TAG,"!!!!!!!"+message);
+//            if(returnMsg.getCode() == 1){
+//                MyApplication.setToken(returnMsg.getMsg().toString());
+//                Log.i(TAG, "onMessage: 收到服务器发来的心跳监测"+returnMsg.getMsg().toString());
+//            }
         }
 
         //接收到二进制消息
