@@ -43,7 +43,9 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SendPostActivity extends Activity {
@@ -166,9 +168,11 @@ public class SendPostActivity extends Activity {
                     ToastUtil.toToast("请选择要分享到的频道");
                     return;
                 }
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("img", img);
                 jsonObject.addProperty("content", content);
+                jsonObject.addProperty("time", sdf.format(new Date()));
                 jsonObject.addProperty("token", MyApplication.getToken());
                 jsonObject.addProperty("id", MyApplication.sharedPreferences.getInt("id",0));
                 jsonObject.addProperty("channelid", channelid);
