@@ -36,6 +36,7 @@ import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.BitmapUtil;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.MyGlideEngine;
+import com.hnkjrjxy.project2019down.util.PhotoUtil;
 import com.hnkjrjxy.project2019down.util.ToastUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -58,7 +59,7 @@ public class SendPostActivity extends Activity {
     private List<Uri> result;
     private ListView check_list;
     private DbAdapter dbAdapter;
-    private String title[]={"发布身份","选择话题","专辑","互动权限"};
+    private String title[]={"发布身份","选择话题","画质","互动权限"};
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 6;
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 7;
     private static final String TAG = "SendPostActivity";
@@ -66,7 +67,7 @@ public class SendPostActivity extends Activity {
     private int channelid = 0;
     private String content = "";
     private boolean isOK = false;
-    private String pindao=null;
+    private String pindao=null,huazhi="正常";
     private MaterialDialog materialDialog;
 
     @Override
@@ -122,7 +123,7 @@ public class SendPostActivity extends Activity {
                     Matisse.from(SendPostActivity.this)
                             .choose(MimeType.of(MimeType.JPEG,MimeType.PNG))//图片类型
                             .countable(true)//true:选中后显示数字;false:选中后显示对号
-                            .maxSelectable(9)//可选的最大数
+                            .maxSelectable(1)//可选的最大数
                             .capture(false)//选择照片时，是否显示拍照
                             .captureStrategy(new CaptureStrategy(true, "com.example.xx.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
                             .imageEngine(new MyGlideEngine())//图片加载引擎
@@ -154,6 +155,21 @@ public class SendPostActivity extends Activity {
                                 })
                                 .show();
                         break;
+                    case 2:
+                        new MaterialDialog.Builder(SendPostActivity.this)
+                                .title("请选择话题")
+                                .titleColor(Color.parseColor("#5CACEE"))
+                                .negativeText("取消")
+                                .items(new String[]{"正常","原图"})
+                                .itemsCallback(new MaterialDialog.ListCallback() {
+                                    @Override
+                                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                        huazhi= (String) text;
+                                        dbAdapter.notifyDataSetChanged();
+                                    }
+                                })
+                                .show();
+                        break;
                 }
             }
         });
@@ -168,6 +184,17 @@ public class SendPostActivity extends Activity {
                 }else if(channelid == 0){
                     ToastUtil.toToast("请选择要分享到的频道");
                     return;
+                }
+                if (huazhi.equals("正常")){
+                    //设置要展示的图片列表url集合
+//            Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
+                    for (int i = 0; i < result.size(); i++) {
+                        img += BitmapUtil.bitmapToBase64(PhotoUtil.compressImageUpload(BitmapUtil.getRealPath(result.get(i),SendPostActivity.this)));
+                    }
+                }else {
+                    for (int i = 0; i < result.size(); i++) {
+                        img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),SendPostActivity.this));
+                    }
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 JsonObject jsonObject = new JsonObject();
@@ -208,11 +235,6 @@ public class SendPostActivity extends Activity {
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             Log.i(TAG, "onActivityResult: "+data);
             result = Matisse.obtainResult(data);
-            //设置要展示的图片列表url集合
-//            Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
-            for (int i = 0; i < result.size(); i++) {
-                img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),this)) + "    ";
-            }
 //            add_text.setText(result.toString());
             photoAdapter.notifyDataSetChanged();
         }
@@ -222,7 +244,7 @@ public class SendPostActivity extends Activity {
 
         @Override
         public int getCount() {
-            return title.length-2;
+            return title.length-1;
         }
 
         @Override
@@ -251,7 +273,7 @@ public class SendPostActivity extends Activity {
                 holder.postItemXinxi.setVisibility(View.VISIBLE);
                 holder.postItemT1.setText(""+object);
                 holder.postItemT2.setText(MyApplication.sharedPreferences.getString("username","null"));
-            }else {
+            }else if (position==1){
                 holder.postItemXinxi.setVisibility(View.VISIBLE);
                 holder.postItemM2.setVisibility(View.GONE);
                 holder.postItemM1.setImageResource(R.mipmap.pindao);
@@ -260,6 +282,12 @@ public class SendPostActivity extends Activity {
                 }else {
                     holder.postItemT2.setText(pindao+"");
                 }
+                holder.postItemT1.setText(""+object);
+            }else {
+                holder.postItemXinxi.setVisibility(View.VISIBLE);
+                holder.postItemM2.setVisibility(View.GONE);
+                holder.postItemM1.setImageResource(R.mipmap.huazhi);
+                holder.postItemT2.setText(huazhi);
                 holder.postItemT1.setText(""+object);
             }
         }
@@ -319,15 +347,16 @@ public class SendPostActivity extends Activity {
             if (result.isEmpty()) {
                 holder.setpostPhoto.setImageResource(R.mipmap.addimage);
             } else if (result.size() < 9) {
-                Glide.with(SendPostActivity.this)
-                        .asBitmap() // some .jpeg files are actually gif
-                        .load(result.get(position))
-                        .apply(new RequestOptions() {{
-                            override(Target.SIZE_ORIGINAL);
-                        }})
-                        .into(holder.setpostPhoto);
-                if (position == result.size()-1) {
+                if (position == result.size()) {
                     holder.setpostPhoto.setImageResource(R.mipmap.addimage);
+                } else {
+                    Glide.with(SendPostActivity.this)
+                            .asBitmap() // some .jpeg files are actually gif
+                            .load(result.get(position))
+                            .apply(new RequestOptions() {{
+                                override(Target.SIZE_ORIGINAL);
+                            }})
+                            .into(holder.setpostPhoto);
                 }
             } else {
                 Glide.with(SendPostActivity.this)

@@ -96,7 +96,7 @@ public class Fragment_1 extends Fragment {
             }else {
                 holder.m2.setImageResource(R.color.color2);
                 holder.m1.setBackgroundResource(R.mipmap.add);
-                holder.t1.setText("添加...");
+                holder.t1.setText("添加");
             }
         }
 
