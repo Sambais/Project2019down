@@ -3,8 +3,10 @@ package com.hnkjrjxy.project2019down.util;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.msg.Msg;
+import com.hnkjrjxy.project2019down.msg.ReturnMsg;
 import com.hnkjrjxy.project2019down.msg.SendInfoMsg;
 import com.zhangke.websocket.SocketListener;
 import com.zhangke.websocket.WebSocketHandler;
@@ -86,10 +88,19 @@ public class WebSocketClient {
         //接受到文本消息
         @Override
         public <T> void onMessage(String message, T data) {
-//            if(returnMsg.getCode() == 1){
-//                MyApplication.setToken(returnMsg.getMsg().toString());
-//                Log.i(TAG, "onMessage: 收到服务器发来的心跳监测"+returnMsg.getMsg().toString());
-//            }
+            Msg msg;
+            switch (message){
+                case "to":
+                    msg = gson.fromJson(data.toString(),SendInfoMsg.class);
+                    break;
+                case "add":
+                    break;
+                case "token":
+                    msg = gson.fromJson(data.toString(),ReturnMsg.class);
+                    Log.i(TAG, "onMessage: 收到服务器发来的心跳监测"+((ReturnMsg) msg).getAction());
+                    MyApplication.setToken(((ReturnMsg) msg).getAction());
+                    break;
+            }
         }
 
         //接收到二进制消息

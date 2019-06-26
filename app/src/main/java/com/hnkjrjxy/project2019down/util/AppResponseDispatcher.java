@@ -1,5 +1,7 @@
 package com.hnkjrjxy.project2019down.util;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.hnkjrjxy.project2019down.msg.Msg;
 import com.hnkjrjxy.project2019down.msg.SendInfoMsg;
@@ -35,16 +37,7 @@ public class AppResponseDispatcher implements IResponseDispatcher {
     @Override
     public void onMessage(String message, ResponseDelivery delivery) {
         Msg msg = gson.fromJson(message,Msg.class);
-        switch (msg.getMsg()){
-            case "to":
-                delivery.onMessage(message,SendInfoMsg.class);
-                break;
-            case "add":
-                break;
-            case "token":
-                delivery.onMessage(message,Msg.class);
-                break;
-        }
+        delivery.onMessage(msg.getMsg(),message);
     }
 
     //接收到二进制消息
