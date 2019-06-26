@@ -12,7 +12,7 @@ public class DBUtil extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 //        db.execSQL("create table if not exists invitation_info ()");
-        db.execSQL("create table if not exists chartlist (id int )");
+//        db.execSQL("create table if not exists chartlist (id int )");
     }
 
     @Override
