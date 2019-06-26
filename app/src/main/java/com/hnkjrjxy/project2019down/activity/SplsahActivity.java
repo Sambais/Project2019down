@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.google.gson.Gson;
 import com.hnkjrjxy.project2019down.MainActivity;
 import com.hnkjrjxy.project2019down.MyApplication;
+import com.hnkjrjxy.project2019down.MyService;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.entry.Top;
 import com.hnkjrjxy.project2019down.entry.TopClass;
@@ -32,6 +33,10 @@ public class SplsahActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        Intent intent = new Intent(SplsahActivity.this,MyService.class);
+        startService(intent);
+
         initWindows();
         getTop();
         getChannel();
