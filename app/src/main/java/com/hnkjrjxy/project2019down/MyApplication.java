@@ -109,12 +109,14 @@ public class MyApplication extends Application {
         Log.i("AOPO", "onCreate: =========="+allpindao);
 
         ArrayList hot = (ArrayList) allpindao.clone();
+        ArrayList hot_p = (ArrayList) allpindao_p.clone();
         for (int i = 0; i < allpindao_p.size()-12; i++) {
             int num = (int) (Math.random()*hot.size()-1);
             hot.remove(num);
+            hot_p.remove(num);
         }
         hotpindao = (ArrayList) hot.clone();
-
+        hotpindao_p = (ArrayList) hot_p.clone();
     }
 
     /**
