@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -185,6 +186,7 @@ public class SendPostActivity extends Activity {
                     ToastUtil.toToast("请选择要分享到的频道");
                     return;
                 }
+                //正常画质
                 if (huazhi.equals("正常")){
                     //设置要展示的图片列表url集合
 //            Log.i(TAG, "onActivityResult: "+BitmapUtil.getRealPath(result.get(0),this));
@@ -192,10 +194,13 @@ public class SendPostActivity extends Activity {
                         img += BitmapUtil.bitmapToBase64(PhotoUtil.compressImageUpload(BitmapUtil.getRealPath(result.get(i),SendPostActivity.this)));
                     }
                 }else {
+                    //原图画质
                     for (int i = 0; i < result.size(); i++) {
                         img += BitmapUtil.bitmapToBase64(BitmapUtil.getRealPath(result.get(i),SendPostActivity.this));
                     }
                 }
+                //保持屏幕常亮，以防数据中断
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("img", img);
@@ -346,19 +351,18 @@ public class SendPostActivity extends Activity {
         private void initializeViews(int position, Object object, ViewHolder holder) {
             if (result.isEmpty()) {
                 holder.setpostPhoto.setImageResource(R.mipmap.addimage);
-            } else if (result.size() < 9) {
-                if (position == result.size()) {
-                    holder.setpostPhoto.setImageResource(R.mipmap.addimage);
-                } else {
-                    Glide.with(SendPostActivity.this)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(result.get(position))
-                            .apply(new RequestOptions() {{
-                                override(Target.SIZE_ORIGINAL);
-                            }})
-                            .into(holder.setpostPhoto);
-                }
-            } else {
+            }
+            //加载一张图片暂时不使用以下
+//            else if (result.size() < 9) {
+//                Glide.with(SendPostActivity.this)
+//                        .asBitmap() // some .jpeg files are actually gif
+//                        .load(result.get(position))
+//                        .apply(new RequestOptions() {{
+//                            override(Target.SIZE_ORIGINAL);
+//                        }})
+//                        .into(holder.setpostPhoto);
+//            }
+            else {
                 Glide.with(SendPostActivity.this)
                         .asBitmap() // some .jpeg files are actually gif
                         .load(result.get(position))

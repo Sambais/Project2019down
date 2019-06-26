@@ -13,6 +13,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.util.Http;
 import com.wx.goodview.GoodView;
+
+import org.json.JSONObject;
 
 
 public class Fragment_5 extends Fragment {
@@ -66,6 +72,7 @@ public class Fragment_5 extends Fragment {
         context=getActivity();
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         tishi = (TextView) view.findViewById(R.id.tishi);
+        getData();
         if (kejian==0){
             tishi.setVisibility(View.GONE);
         }
@@ -116,6 +123,15 @@ public class Fragment_5 extends Fragment {
                         Toast.makeText(getActivity(), "滑动快要到底了       "+i+"             "+num, Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+    }
+
+    private void getData() {
+        Http.Post(getActivity(), "Invitation/GetInvitation", "{\"token\":\"" + MyApplication.getToken() + "}", new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject object) {
+                Log.i("Fragment5", "onResponse: --------"+object);
             }
         });
     }
