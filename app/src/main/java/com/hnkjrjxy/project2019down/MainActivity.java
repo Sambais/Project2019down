@@ -68,9 +68,6 @@ public class MainActivity extends FragmentActivity {
 
         initView();
 
-        Intent intent = new Intent(MainActivity.this,MyService.class);
-        startService(intent);
-
         //设置选中和未选中的样式
         navigation1.setItemTextAppearanceActive(R.style.bottom_selected_text);
         navigation1.setItemTextAppearanceInactive(R.style.bottom_normal_text);

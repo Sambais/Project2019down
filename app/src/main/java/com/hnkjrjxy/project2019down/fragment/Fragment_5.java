@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.Http;
@@ -32,6 +33,9 @@ import org.json.JSONObject;
 
 
 public class Fragment_5 extends Fragment {
+
+    private static final String TAG = "Fragment_5";
+
     private static LinearLayoutManager layoutManager;
     private static RecyclerView recyclerView;
     private static GeneralAdapter generalAdapter;
@@ -128,7 +132,11 @@ public class Fragment_5 extends Fragment {
     }
 
     private void getData() {
-        Http.Post(getActivity(), "Invitation/GetInvitation", "{\"token\":\"" + MyApplication.getToken() + "}", new Response.Listener<JSONObject>() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token",MyApplication.getToken());
+        Log.i(TAG, "getData: "+jsonObject.toString());
+        Http.Post(getActivity(), "Invitation/GetInvitation",
+                jsonObject.toString(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject object) {
                 Log.i("Fragment5", "onResponse: --------"+object);
