@@ -38,6 +38,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private boolean isGet = false;
     private int num = 0;
     private Timer timer;
+    private boolean isRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +138,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                         if(num == 60){
                             timer.cancel();
                             isGet = true;
-                            register_btn_get.setBackgroundResource(R.drawable.register_btn_null);
+                            register_btn_get.setBackgroundResource(R.drawable.register_btn);
+                            register_btn_get.setEnabled(true);
+                            register_btn_get.setText("获取验证码");
                         }
                     }
                 });
@@ -165,6 +168,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             return;
         }
 
+        isRegister = false;
+
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token",MyApplication.getToken());
         jsonObject.addProperty("phone",phone);
@@ -174,18 +179,32 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 if(jsonObject.optString("msg").equals("S")){
                     ToastUtil.toToast("该号码已注册过了");
                     return;
+                }else{
+                    isRegister = true;
                 }
             }
         });
 
-        if(phone.matches("^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\\\d{8}$")){
+        while (true){
+            try {
+                Thread.sleep(100);
+                if (isRegister){
+                    break;
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(phone.matches("^1[3|4|5|7|8][0-9]\\\\d{4,8}$")){
             ToastUtil.toToast("手机号码格式不正确，请重新输入");
             return;
         }
 
         ToastUtil.toToast("已发送验证码消息");
         isGet = false;
-        register_btn_get.setBackgroundResource(R.drawable.register_btn);
+        register_btn_get.setBackgroundResource(R.drawable.register_btn_null);
+        register_btn_get.setEnabled(false);
 
         //todo   获取验证码
 
