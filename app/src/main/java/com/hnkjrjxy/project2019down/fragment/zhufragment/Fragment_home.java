@@ -46,7 +46,6 @@ import java.util.Collections;
 
 public class Fragment_home extends Fragment {
 
-    private int photo[] = {R.mipmap.gv1_p1, R.mipmap.gv1_p2, R.mipmap.gv1_p3, R.mipmap.gv1_p4, R.mipmap.gv1_p5, R.mipmap.gv1_p6};
     private TabLayout tab;
     private TabLayout tab1;
     private Toolbar toolbar;
