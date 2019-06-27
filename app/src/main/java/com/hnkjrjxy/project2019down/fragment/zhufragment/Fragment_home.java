@@ -150,6 +150,10 @@ public class Fragment_home extends Fragment {
     public void initView(View view,int zt) {
         ztpd=zt;
         if (ztpd==1){
+            num1=0;
+            num2=0;
+            Fragment_5.list.clear();
+            Fragment_6.list.clear();
             Log.i("TAG", "initView: 我想到顶部");
             //方法重载，直接用，默认带动画效果慢慢展开或折叠，拿走不谢
             myappBarLayout.setExpanded(true,true);
