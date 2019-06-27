@@ -53,13 +53,13 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("AWE", "onCreate: "+MyApplication.getTabtitle().size());
-        if (MyApplication.getTabtitle().size()==0){
+        if (MyApplication.getToken()==null){
             promptDialog2 = new PromptDialog(MainActivity.this);
             setCanceledOnTouchOutside(true);
             promptDialog2.setDialogType(PromptDialog.DIALOG_TYPE_WARNING)
                      .setAnimationEnable(true)
                      .setTitleText("连接失败")
-                     .setContentText("请检查网络或服务器未开启！")
+                     .setContentText("网络正在开小差(T_T)！")
                      .setPositiveListener("OK", new PromptDialog.OnPositiveListener() {
                          @Override
                          public void onClick(PromptDialog dialog) {
@@ -169,12 +169,6 @@ public class MainActivity extends FragmentActivity {
                 return false;
             }
         });
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Fragment_home.num=0;
     }
 
     public void setCanceledOnTouchOutside(boolean canceled){

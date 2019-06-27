@@ -166,10 +166,10 @@ public class Fragment_5 extends Fragment {
                     if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 2) {
                         //在此处再次拿到数据进行适配器的刷新
 //                        num=num+20;
-                        i++;
-                        //预加载拿数据
-//                        Fragment_home.getFragment5Data();
-                        Toast.makeText(getActivity(), "滑动到底了       " + i + "             " + list.size(), Toast.LENGTH_SHORT).show();
+//                        i++;
+//                        //预加载拿数据
+////                        Fragment_home.getFragment5Data();
+//                        Toast.makeText(getActivity(), "滑动到底了       " + i + "             " + list.size(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

@@ -38,8 +38,8 @@ public class SplsahActivity extends Activity {
         startService(intent);
 
         initWindows();
-        getTop();
-        getChannel();
+//        getTop();
+//        getChannel();
         Handler handler=new Handler();
         handler.postDelayed(new Runnable() {
             @Override
