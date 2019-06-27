@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 public class Http {
     public static String path = "https://hnkj3172.mynatapp.cc/";
+    public static String imgpath = "https://hnkj3172.mynatapp.cc/img";
     static RequestQueue rq = null;
 
     public static void Post(Context context, String url, String json, Response.Listener<JSONObject> r) {
