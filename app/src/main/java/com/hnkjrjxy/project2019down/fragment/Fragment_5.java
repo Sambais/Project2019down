@@ -214,6 +214,7 @@ public class Fragment_5 extends Fragment {
             //头像底部随机rgb颜色
             Random random = new Random();
             num = random.nextInt(7);
+            myViewHolder.tv_like.setText(random.nextInt(300)+"");
             myViewHolder.imageView.setImageResource(colors[num]);
             //帖子频道
             myViewHolder.tv_channel.setText("#" + MyApplication.allpindao.get(list.get(i).getInfo().getChannelId()-1) + "之海");
@@ -242,46 +243,51 @@ public class Fragment_5 extends Fragment {
             }
 
 
-            if (login) {
+
                 myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (myViewHolder.cheack) {
-                            collection1(view, myViewHolder);
-                        } else {
-                            collection2(view, myViewHolder);
+                        if (MyApplication.isIsLogin()) {
+                            if (myViewHolder.cheack) {
+                                collection1(view, myViewHolder);
+                            } else {
+                                collection2(view, myViewHolder);
+                            }
+                            myViewHolder.cheack = !myViewHolder.cheack;
+                        }else {
+                            Toasty.error(context, "请先登录").show();
                         }
-                        myViewHolder.cheack = !myViewHolder.cheack;
                     }
                 });
 
                 myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
+                        if (MyApplication.isIsLogin()) {
+                            Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toasty.error(context, "请先登录").show();
+                        }
                     }
                 });
                 myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "" + i, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toasty.error(context, "请先登录").show();
+                        if (MyApplication.isIsLogin()) {
+                            Toast.makeText(context, "" + i, Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toasty.error(context, "请先登录").show();
+                        }
                     }
                 });
             }
-        }
 
 
         //点赞变红
         public void collection1(View view, MyViewHolder myViewHolder) {
             ((ImageView) view).setImageResource(R.mipmap.love2);
             myViewHolder.mgoodView.setTextInfo("赞", Color.parseColor("#f66467"), 12);
+            myViewHolder.tv_like.setText((Integer.parseInt(myViewHolder.tv_like.getText()+"")+1)+"");
             myViewHolder.mgoodView.show(view);
         }
 
@@ -289,6 +295,7 @@ public class Fragment_5 extends Fragment {
         public void collection2(View view, MyViewHolder myViewHolder) {
             ((ImageView) view).setImageResource(R.mipmap.love1);
             myViewHolder.mgoodView.setTextInfo("取消赞", Color.parseColor("#c9c9c9"), 12);
+            myViewHolder.tv_like.setText((Integer.parseInt(myViewHolder.tv_like.getText()+"")-1)+"");
             myViewHolder.mgoodView.show(view);
         }
 
@@ -317,6 +324,7 @@ public class Fragment_5 extends Fragment {
             Boolean cheack = true;
             TextView tv_channel;
             TextView tv_content;
+            TextView tv_like;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
@@ -330,6 +338,7 @@ public class Fragment_5 extends Fragment {
                 cardView = itemView.findViewById(R.id.card);
                 dianzan = itemView.findViewById(R.id.dianzan);
                 linearLayout = itemView.findViewById(R.id.user_xinxi);
+                tv_like = itemView.findViewById(R.id.tv_like);
                 mgoodView = new GoodView(context);
             }
         }

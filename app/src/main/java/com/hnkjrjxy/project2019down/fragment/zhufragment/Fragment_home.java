@@ -113,6 +113,7 @@ public class Fragment_home extends Fragment {
                     public void onResponse(JSONObject object) {
                         Log.i("Fragment5", "onResponse: --------" + object);
                         Fragment_5.Data(object);
+                        Fragment_6.Data(object);
                         swiperefreshlayout.setRefreshing(false);
                         num++;
                     }

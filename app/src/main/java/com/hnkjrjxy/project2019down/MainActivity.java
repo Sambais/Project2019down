@@ -82,9 +82,10 @@ public class MainActivity extends FragmentActivity {
             item.setChecked(item.getItemData().isChecked());
         }
 //        设置角标
-        showBadgeView(1,56);
-        showBadgeView(3,150);
-        showBadgeView(4,3);
+//        showBadgeView(0,-1);
+//        showBadgeView(1,56);
+//        showBadgeView(3,150);
+//        showBadgeView(4,3);
 
         //navigation1监听，事件处于MainAtcivity的顶部
         navigation1.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -108,6 +109,7 @@ public class MainActivity extends FragmentActivity {
                         }else {
                             starttime= endtime1;
                             showFragment(1);
+                            qBadgeView1.hide(true);
                             return true;
                         }
                     case R.id.navigation_dashboard:
@@ -266,6 +268,8 @@ public class MainActivity extends FragmentActivity {
                 s=12;
             }else if(showNumber<10){
                 s=11;
+            }else if (showNumber<0){
+                s=0;
             }else {
                 s=25;
             }
