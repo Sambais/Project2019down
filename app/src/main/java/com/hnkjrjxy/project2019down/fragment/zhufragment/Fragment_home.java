@@ -26,9 +26,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
 import com.hnkjrjxy.project2019down.fragment.Fragment_4;
 import com.hnkjrjxy.project2019down.fragment.Fragment_5;
@@ -90,7 +93,6 @@ public class Fragment_home extends Fragment {
             Log.i("Fragment5", "onHiddenChanged  hidden刷新数据-----------"+MyApplication.getZtpd());
             if (MyApplication.getZtpd()==1) {
                 MyApplication.setZtpd(0);
-                getFragment5Data();
                 Log.i("Fragment5", "onHiddenChanged  hidden刷新数据-----------"+MyApplication.getZtpd());
             }
         } else {
@@ -107,7 +109,25 @@ public class Fragment_home extends Fragment {
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
-                        Log.i("Fragment5", "onResponse: --------"+object);
+                        Log.i("Fragment5", "onResponse: --------" + object);
+                        Gson gson=new Gson();
+                        Invitation invitation = gson.fromJson(object.toString(),Invitation.class);
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getId());
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getDescription());
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getSendname());
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getTime());
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getChannelId());
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getUid());
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages());
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getImagePath());
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getId());
+                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().size());
+                        Fragment_5.num=invitation.getData().size();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.i("Fragment5", "onResponse: ++++" + volleyError);
                     }
                 });
     }
@@ -118,7 +138,7 @@ public class Fragment_home extends Fragment {
             Log.i("TAG", "initView: 我想到顶部");
             //方法重载，直接用，默认带动画效果慢慢展开或折叠，拿走不谢
             myappBarLayout.setExpanded(true,true);
-
+            getFragment5Data();
             //暂时只能用三个Fragment解决双击回到顶部并且刷新的操作
            if (tab1.getSelectedTabPosition()==0) {
                Fragment_4.Weizhi(0);
@@ -128,6 +148,7 @@ public class Fragment_home extends Fragment {
                Fragment_6.Weizhi(0);
            }
         }else {
+            getFragment5Data();
             //顶部导航文字集合
             tabtitle=new ArrayList();
             tabtitle.add("收藏");
