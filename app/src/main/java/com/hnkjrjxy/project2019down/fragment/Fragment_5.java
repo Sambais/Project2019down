@@ -57,7 +57,14 @@ public class Fragment_5 extends Fragment {
     private static int num = 20;
     private static String asd = "123";
     int i = 0;
-    private static Integer colors[] = {R.color.c1, R.color.c2, R.color.c3, R.color.c4, R.color.c5, R.color.c6, R.color.c7};
+    public static Integer colors[] = {R.color.c1, R.color.c2, R.color.c3, R.color.c4, R.color.c5, R.color.c6, R.color.c7
+            ,R.color.Amber,R.color.Blue,
+            R.color.Blue_Grey,R.color.Cyan,
+            R.color.Light_Blue,R.color.Teal,
+            R.color.Green,R.color.Light_Green,
+            R.color.Lime,R.color.Yellow,
+            R.color.Orange,R.color.Deep_Orange,
+            R.color.Grey};
     //目标项是否在最后一个可见项之后
     private static boolean mShouldScroll;
     //记录目标项位置
@@ -263,7 +270,7 @@ public class Fragment_5 extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (MyApplication.isIsLogin()) {
-                            Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
+                            Toasty.success(context, "用户信息").show();
                         }else {
                             Toasty.error(context, "请先登录").show();
                         }
@@ -273,7 +280,7 @@ public class Fragment_5 extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (MyApplication.isIsLogin()) {
-                            Toast.makeText(context, "" + i, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "" + i, Toast.LENGTH_SHORT).show();
                         }else {
                             Toasty.error(context, "请先登录").show();
                         }

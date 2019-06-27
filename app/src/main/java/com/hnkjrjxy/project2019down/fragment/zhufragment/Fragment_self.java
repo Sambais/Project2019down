@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.bumptech.glide.Glide;
@@ -30,6 +29,7 @@ import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SettingActivity;
 import com.hnkjrjxy.project2019down.entry.Invitation;
+import com.hnkjrjxy.project2019down.fragment.Fragment_5;
 import com.hnkjrjxy.project2019down.util.DateUtil;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout;
@@ -52,14 +52,14 @@ public class Fragment_self extends Fragment {
     private static final String TAG = "Fragment_self";
 
     private RecyclerView a4_list;
-    private MyAdapter listAdapter;
+    private static MyAdapter listAdapter;
     private ImageView setting;
     private LinearLayoutManager layoutManager;
     private MySwipeRefreshLayout swipeRefreshLayout;
-    private ArrayList<Invitation.DataBean> dataBeans;
+    public static ArrayList<Invitation.DataBean> dataBeans;
     private int num = 0;
-    private int num3 = 0;
-    private Context context;
+    public static int num3 = 0;
+    private static Context context;
     private static Integer colors[] = {R.color.c1, R.color.c2, R.color.c3, R.color.c4, R.color.c5, R.color.c6, R.color.c7};
     private SmartRefreshLayout self_smatr;
     private int ztpd = 0;
@@ -93,41 +93,6 @@ public class Fragment_self extends Fragment {
             a4_list.setAdapter(listAdapter);
             //设置Item增加、移除动画
             a4_list.setItemAnimator(new DefaultItemAnimator());
-//                a4_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                    @Override
-//                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                    }
-//
-//                    @Override
-//                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                        //得到当前显示的最后一个item的view
-//                        View lastChildView = recyclerView.getLayoutManager().getChildAt(recyclerView.getLayoutManager().getChildCount() - 1);
-//                        //得到lastChildView的bottom坐标值
-//                        int lastChildBottom = lastChildView.getBottom();
-//                        //得到Recyclerview的底部坐标减去底部padding值，也就是显示内容最底部的坐标
-//                        int recyclerBottom = recyclerView.getBottom() - recyclerView.getPaddingBottom();
-//                        //通过这个lastChildView得到这个view当前的position值
-//                        int lastPosition = recyclerView.getLayoutManager().getPosition(lastChildView);
-//
-//                        //判断lastChildView的bottom值跟recyclerBottom
-//                        //判断lastPosition是不是最后一个position
-//                        //如果两个条件都满足则说明是真正的滑动到了底部
-//                        //lastChildBottom == recyclerBottom && lastPosition == recyclerView.getLayoutManager().getItemCount()-1   则改控件处于最底部
-//                        //dx>0 则表示 右滑 ， dx<0 表示 左滑
-//                        //dy <0 表示 上滑， dy>0 表示下滑
-//                        //通过这几个参数就可以监听 滑动方向的状态。
-//                        //判断是否向下滑动，如果向下滑动即将到底部的时候进行预加载
-//                        if (dy > 0) {
-//                            //双重判断，以防滑动太快导致没有检测到滑动的位置信息
-//                            if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 4 ||
-//                                    lastPosition == recyclerView.getLayoutManager().getItemCount() - 3) {
-//                                //在此处再次拿数据进行适配器的刷新
-//
-//                                listAdapter.notifyDataSetChanged();
-//                            }
-//                        }
-//                    }
-//                });
             setting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -153,13 +118,13 @@ public class Fragment_self extends Fragment {
         }
     }
 
-    private void getData() {
+    public static void getData() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token", MyApplication.getToken());
         jsonObject.addProperty("id", MyApplication.sharedPreferences.getInt("id", 0));
         jsonObject.addProperty("num", num3);
         Log.i(TAG, "getData: " + jsonObject.toString());
-        Http.Post(getActivity(), "Invitation/GetMeInvitation",
+        Http.Post(context, "Invitation/GetMeInvitation",
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
@@ -173,7 +138,7 @@ public class Fragment_self extends Fragment {
                             num3++;
                             listAdapter.notifyDataSetChanged();
                         } else {
-                            Toasty.error(getActivity(), "到底啦！").show();
+                            Toasty.error(context, "到底啦！").show();
                         }
                     }
                 });
@@ -196,7 +161,7 @@ public class Fragment_self extends Fragment {
             Random random = new Random();
             num = random.nextInt(7);
             myViewHolder.tv_like.setText(random.nextInt(300) + "");
-            myViewHolder.imageView.setImageResource(colors[num]);
+            myViewHolder.imageView.setImageResource(Fragment_5.colors[num]);
             //帖子频道
             myViewHolder.tv_channel.setText("#" + MyApplication.allpindao.get(dataBeans.get(i).getInfo().getChannelId() - 1) + "之海");
             //帖子正文
@@ -239,7 +204,7 @@ public class Fragment_self extends Fragment {
                             collection2(view, myViewHolder);
                         }
                         myViewHolder.cheack = !myViewHolder.cheack;
-                    } else {
+                    }else {
                         Toasty.error(context, "请先登录").show();
                     }
                 }
@@ -249,8 +214,8 @@ public class Fragment_self extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (MyApplication.isIsLogin()) {
-                        Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
-                    } else {
+                        Toasty.success(context, "用户信息").show();
+                    }else {
                         Toasty.error(context, "请先登录").show();
                     }
                 }
@@ -259,8 +224,8 @@ public class Fragment_self extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (MyApplication.isIsLogin()) {
-                        Toast.makeText(context, "" + i, Toast.LENGTH_SHORT).show();
-                    } else {
+//                            Toast.makeText(context, "" + i, Toast.LENGTH_SHORT).show();
+                    }else {
                         Toasty.error(context, "请先登录").show();
                     }
                 }

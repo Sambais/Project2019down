@@ -3,7 +3,6 @@ package com.hnkjrjxy.project2019down.util;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.msg.Msg;
 import com.hnkjrjxy.project2019down.msg.ReturnMsg;
@@ -27,7 +26,7 @@ public class WebSocketClient {
     private static final String TAG = "WebSocketClient";
 
     public WebSocketClient() {
-        ToastUtil.toToast("我开始连接啦");
+//        ToastUtil.toToast("我开始连接啦");
         //连接地址
         webSocketSetting.setConnectUrl("https://hnkj3172.mynatapp.cc:80/websocket");
         //设置超时时间

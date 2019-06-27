@@ -37,6 +37,7 @@ import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.fragment.Fragment_6;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
+import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_self;
 import com.hnkjrjxy.project2019down.util.BitmapUtil;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.MyGlideEngine;
@@ -226,8 +227,11 @@ public class SendPostActivity extends Activity {
                             materialDialog.dismiss();
                             ToastUtil.toToast("发送成功~");
                             Fragment_home.num2=0;
+                            Fragment_self.num3=0;
                             Fragment_6.list.clear();
+                            Fragment_self.dataBeans.clear();
                             Fragment_home.getFragment6Data();
+                            Fragment_self.getData();
 //                            Fragment_6.FirstTop(jsonObject);
                             finish();
                         }

@@ -109,7 +109,7 @@ public class MainActivity extends FragmentActivity {
                             fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a1,null);
                             fragment1.initView(fragmentview,1);
                             MyApplication.setZtpd(1);
-                            Toasty.success(MainActivity.this,"双击成功").show();
+//                            Toasty.success(MainActivity.this,"双击成功").show();
                             return false;
                         }else {
                             starttime= endtime1;

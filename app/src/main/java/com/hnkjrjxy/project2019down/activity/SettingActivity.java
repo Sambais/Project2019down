@@ -72,6 +72,9 @@ public class SettingActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
+                    case 1:
+                        Toasty.warning(SettingActivity.this,"改功能未实现").show();
+                        break;
                     case 2:
                         Toasty.warning(SettingActivity.this,"改功能未实现").show();
                         break;
@@ -84,7 +87,7 @@ public class SettingActivity extends Activity {
                         ToastUtil.toToast("缓存已清除");
                         break;
                     case 6:
-                        Toasty.success(SettingActivity.this,"暂未最新版本").show();
+                        Toasty.success(SettingActivity.this,"暂无最新版本").show();
                         break;
                     case 7:
                         new MaterialDialog.Builder(SettingActivity.this)
