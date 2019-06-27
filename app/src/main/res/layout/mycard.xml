@@ -27,10 +27,18 @@
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/m1"
+                    <FrameLayout
                         android:layout_width="40dp"
-                        android:layout_height="40dp" />
+                        android:layout_height="40dp">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/m1"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp" />
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp" />
+                    </FrameLayout>
 
                     <TextView
                         android:id="@+id/t1"
