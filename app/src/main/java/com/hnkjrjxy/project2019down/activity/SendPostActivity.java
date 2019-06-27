@@ -35,6 +35,9 @@ import com.bumptech.glide.request.target.Target;
 import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.fragment.Fragment_5;
+import com.hnkjrjxy.project2019down.fragment.Fragment_6;
+import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.hnkjrjxy.project2019down.util.BitmapUtil;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.MyGlideEngine;
@@ -223,6 +226,11 @@ public class SendPostActivity extends Activity {
                         if (jsonObject.optString("msg").equals("S")) {
                             materialDialog.dismiss();
                             ToastUtil.toToast("发送成功~");
+                            Fragment_home.num=0;
+                            Fragment_5.list.clear();
+                            Fragment_6.list.clear();
+                            Fragment_home.getFragment5Data();
+//                            Fragment_6.FirstTop(jsonObject);
                             finish();
                         }
                     }

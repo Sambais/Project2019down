@@ -72,7 +72,7 @@ public class Fragment_home extends Fragment {
     private ArrayList<ArrayList> list4;
     private ArrayList<ArrayList> list5;
     private static Context context;
-    private static int num=0;
+    public static int num=0;
 
 
     @Override
