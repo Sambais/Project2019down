@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.entry.Invitation;
+import com.hnkjrjxy.project2019down.util.Http;
 import com.wx.goodview.GoodView;
 
 import org.json.JSONObject;
@@ -213,7 +214,7 @@ public class Fragment_5 extends Fragment {
                 myViewHolder.tv_photo.setVisibility(View.GONE);
             }else {
                 myViewHolder.tv_photo.setVisibility(View.VISIBLE);
-                Glide.with(context).load("")
+                Glide.with(context).load(Http.imgpath+list.get(i).getInvitationImages().get(0).getImagePath())
                         //当加载图片失败时，通过error(Drawable drawable)方法设置加载失败后的图片显示：
                         .error(R.mipmap.ic_launcher)
                         //使用centerCrop是利用图片图填充ImageView设置的大小，如果ImageView的Height是match_parent则图片就会被拉伸填充
