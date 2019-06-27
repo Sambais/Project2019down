@@ -230,6 +230,9 @@ public class SendPostActivity extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         Log.i(TAG, "onResponse: ==========!!!!!!" + volleyError);
+                        materialDialog.dismiss();
+                        ToastUtil.toToast("发送成功~");
+                        finish();
                     }
                 });
             }

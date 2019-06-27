@@ -1,12 +1,15 @@
 package com.hnkjrjxy.project2019down.fragment.zhufragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +19,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
@@ -27,14 +33,21 @@ import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SettingActivity;
 import com.hnkjrjxy.project2019down.entry.Invitation;
+import com.hnkjrjxy.project2019down.fragment.Fragment_5;
 import com.hnkjrjxy.project2019down.util.Http;
+import com.hnkjrjxy.project2019down.util.ToastUtil;
 import com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout;
+import com.wx.goodview.GoodView;
 
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Random;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class Fragment_self extends Fragment {
 
@@ -46,10 +59,10 @@ public class Fragment_self extends Fragment {
     private LinearLayoutManager layoutManager;
     private SwipeRefreshLayout.OnRefreshListener listener;
     private MySwipeRefreshLayout swipeRefreshLayout;
-    private Invitation invitation;
     private ArrayList<Invitation.DataBean> dataBeans;
     private int num = 0;
-
+    private Context context;
+    private static Integer colors[] = {R.color.c1, R.color.c2, R.color.c3, R.color.c4, R.color.c5, R.color.c6, R.color.c7};
 
     @Nullable
     @Override
@@ -61,6 +74,7 @@ public class Fragment_self extends Fragment {
 
     private void initView(View view) {
         dataBeans = new ArrayList<>();
+        context = getActivity();
         a4_list = (RecyclerView) view.findViewById(R.id.a4_list);
         setting = (ImageView) view.findViewById(R.id.setting);
         swipeRefreshLayout = (MySwipeRefreshLayout) view.findViewById(R.id.myswiperefreshlayout);
@@ -133,12 +147,17 @@ public class Fragment_self extends Fragment {
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
-                        Gson gson = new Gson();
-                        invitation = gson.fromJson(object.toString(),Invitation.class);
-                        for (int i = 0; i < invitation.getData().size(); i++) {
-                            dataBeans.add(invitation.getData().get(i));
+                        if(object.optString("msg").equals("S")){
+                            Gson gson = new Gson();
+                            Invitation invitation = gson.fromJson(object.toString(),Invitation.class);
+                            for (int i = 0; i < invitation.getData().size(); i++) {
+                                dataBeans.add(invitation.getData().get(i));
+                            }
+                            num++;
+                            listAdapter.notifyDataSetChanged();
+                        }else{
+                            ToastUtil.toToast(object.optString("data"));
                         }
-                        listAdapter.notifyDataSetChanged();
                     }
         });
     }
@@ -172,16 +191,95 @@ public class Fragment_self extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder myViewHolder, int i) {
-            myViewHolder.textView.setText(dataBeans.get(i).getInfo().getSendname());
-            myViewHolder.tv_content.setText(dataBeans.get(i).getInfo().getDescription());
-            myViewHolder.tv_channel.setText(MyApplication.getAllpindao().get((int)dataBeans.get(i).getInfo().getChannelId())+"");
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            try {
-                myViewHolder.tv_time.setText(DateUtils.getRelativeTimeSpanString(sdf.parse(dataBeans.get(i).getInfo().getTime()).getTime()));
-            } catch (ParseException e) {
-                e.printStackTrace();
+        public void onBindViewHolder(@NonNull final MyAdapter.MyViewHolder myViewHolder, final int i) {
+            //用户名
+            myViewHolder.textView.setText(dataBeans.get(i).getInfo().getSendname() + "");
+            //头像底部随机rgb颜色
+            Random random = new Random();
+            num = random.nextInt(7);
+            myViewHolder.tv_like.setText(random.nextInt(300)+"");
+            myViewHolder.imageView.setImageResource(colors[num]);
+            //帖子频道
+            myViewHolder.tv_channel.setText("#" + MyApplication.allpindao.get(dataBeans.get(i).getInfo().getChannelId()-1) + "之海");
+            //帖子正文
+            myViewHolder.tv_content.setText(dataBeans.get(i).getInfo().getDescription() + "");
+            //头像中心文字首字
+            myViewHolder.touxiang.setText(dataBeans.get(i).getInfo().getSendname().substring(0, 1) + "");
+            //头像颜色为白色
+            myViewHolder.touxiang.setTextColor(Color.WHITE);
+            //右下角发帖时间
+            myViewHolder.tv_time.setText(dataBeans.get(i).getInfo().getTime() + "");
+            if (dataBeans.get(i).getInvitationImages().size() == 0) {
+                myViewHolder.tv_photo.setVisibility(View.GONE);
+            } else {
+                myViewHolder.tv_photo.setVisibility(View.VISIBLE);
+                Glide.with(context).load(Http.imgpath + dataBeans.get(i).getInvitationImages().get(0).getImagePath())
+                        //当加载图片失败时，通过error(Drawable drawable)方法设置加载失败后的图片显示：
+                        .error(R.mipmap.ic_launcher)
+                        //使用centerCrop是利用图片图填充ImageView设置的大小，如果ImageView的Height是match_parent则图片就会被拉伸填充
+                        .centerCrop()
+                        //使用centerCrop是利用图片图填充ImageView设置的大小，如果ImageView的Height是match_parent则图片就会被拉伸填充
+                        .fitCenter()
+                        // 缓存所有版本的图像（默认行为）
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(myViewHolder.tv_photo);
             }
+
+
+
+            myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (MyApplication.isIsLogin()) {
+                        if (myViewHolder.cheack) {
+                            collection1(view, myViewHolder);
+                        } else {
+                            collection2(view, myViewHolder);
+                        }
+                        myViewHolder.cheack = !myViewHolder.cheack;
+                    }else {
+                        Toasty.error(context, "请先登录").show();
+                    }
+                }
+            });
+
+            myViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (MyApplication.isIsLogin()) {
+                        Toast.makeText(context, "用户信息", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toasty.error(context, "请先登录").show();
+                    }
+                }
+            });
+            myViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (MyApplication.isIsLogin()) {
+                        Toast.makeText(context, "" + i, Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toasty.error(context, "请先登录").show();
+                    }
+                }
+            });
+        }
+
+
+        //点赞变红
+        public void collection1(View view, MyViewHolder myViewHolder) {
+            ((ImageView) view).setImageResource(R.mipmap.love2);
+            myViewHolder.mgoodView.setTextInfo("赞", Color.parseColor("#f66467"), 12);
+            myViewHolder.tv_like.setText((Integer.parseInt(myViewHolder.tv_like.getText()+"")+1)+"");
+            myViewHolder.mgoodView.show(view);
+        }
+
+        //点赞恢复
+        public void collection2(View view, MyViewHolder myViewHolder) {
+            ((ImageView) view).setImageResource(R.mipmap.love1);
+            myViewHolder.mgoodView.setTextInfo("取消赞", Color.parseColor("#c9c9c9"), 12);
+            myViewHolder.tv_like.setText((Integer.parseInt(myViewHolder.tv_like.getText()+"")-1)+"");
+            myViewHolder.mgoodView.show(view);
         }
 
         @Override
@@ -191,18 +289,33 @@ public class Fragment_self extends Fragment {
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
-            ImageView imageView;
-            TextView tv_content;
-            TextView tv_channel;
+            ImageView dianzan;
+            ImageView tv_photo;
+            TextView touxiang;
             TextView tv_time;
+            CircleImageView imageView;
+            CardView cardView;
+            LinearLayout linearLayout;
+            GoodView mgoodView;
+            Boolean cheack = true;
+            TextView tv_channel;
+            TextView tv_content;
+            TextView tv_like;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.m1);
-                textView = itemView.findViewById(R.id.t1);
-                tv_content = itemView.findViewById(R.id.tv_content);
-                tv_channel = itemView.findViewById(R.id.tv_channel);
+                tv_photo = itemView.findViewById(R.id.tv_photo);
+                touxiang = itemView.findViewById(R.id.touxiang);
                 tv_time = itemView.findViewById(R.id.tv_time);
+                textView = itemView.findViewById(R.id.t1);
+                tv_channel = itemView.findViewById(R.id.tv_channel);
+                tv_content = itemView.findViewById(R.id.tv_content);
+                cardView = itemView.findViewById(R.id.card);
+                dianzan = itemView.findViewById(R.id.dianzan);
+                linearLayout = itemView.findViewById(R.id.user_xinxi);
+                tv_like = itemView.findViewById(R.id.tv_like);
+                mgoodView = new GoodView(context);
             }
         }
 
