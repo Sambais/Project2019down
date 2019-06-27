@@ -39,6 +39,28 @@ public class Http {
         rq.add(jr);
     }
 
+    public static void Send(Context context, String json, Response.Listener<JSONObject> r) {
+        if (rq == null) {
+            rq = Volley.newRequestQueue(context);
+        }
+        JsonObjectRequest jr = null;
+        try {
+            jr = new JsonObjectRequest(
+                    1, "https://op.juhe.cn/yuntongxun/voice", new JSONObject(json),
+                    r,
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Log.i("TAG", volleyError.toString());
+                        }
+                    }
+            );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        rq.add(jr);
+    }
+
     public static void Post(Context context, String url,
                             String json, Response.Listener<JSONObject> r
             , Response.ErrorListener e) {

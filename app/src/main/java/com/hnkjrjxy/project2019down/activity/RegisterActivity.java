@@ -26,6 +26,7 @@ import com.hnkjrjxy.project2019down.util.ToastUtil;
 
 import org.json.JSONObject;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -48,7 +49,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private Timer timer;
     private boolean isRegister;
     private String phone;
-    private String yzm;
+    private String yzm = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +202,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             public void run() {
                 if(isRegister){
                     String regex = "^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\\d{8}$";
-                    if(phone.length()<11){
+                    if(phone.length() != 11){
                         ToastUtil.toToast("手机号应为11位,请检查您的手机号是否正确");
                         return;
                     }else{
@@ -212,11 +213,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             return;
                         }
                     }
+                    Random random = new Random();
                     for (int i = 0; i < 6; i++) {
-                        yzm += (Math.random()*10)+"";
+                        yzm += (random.nextInt(9))+"";
                     }
-                    SendYZM.getRequest1(phone,yzm);
-                    ToastUtil.toToast("已发送验证码消息");
+                    SendYZM.send(RegisterActivity.this,phone,yzm);
                     isGet = false;
                     register_btn_get.setBackgroundResource(R.drawable.register_btn_null);
                     register_btn_get.setEnabled(false);
@@ -261,6 +262,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             String authcode = register_authcode.getText().toString().trim();
             if (TextUtils.isEmpty(authcode)) {
                 Toast.makeText(this, "输入验证码", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!authcode.equals(yzm)){
+                Toast.makeText(this, "验证码不正确!", Toast.LENGTH_SHORT).show();
                 return;
             }
             String pwd = register_pwd.getText().toString().trim();

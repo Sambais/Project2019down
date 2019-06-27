@@ -1,6 +1,11 @@
 package com.hnkjrjxy.project2019down.util;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.android.volley.Response;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
@@ -17,6 +22,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SendYZM {
+
+    private static final String TAG = "SendYZM";
+
     public static final String DEF_CHATSET = "UTF-8";
     public static final int DEF_CONN_TIMEOUT = 30000;
     public static final int DEF_READ_TIMEOUT = 30000;
@@ -24,6 +32,21 @@ public class SendYZM {
 
     //配置您申请的KEY
     public static final String APPKEY ="11e2d9617c4c605ed4b58ba39e513455";
+
+    public static void send(Context context,String phone, String yzm){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("valicode",yzm);
+        jsonObject.addProperty("to",phone);
+        jsonObject.addProperty("key",APPKEY);
+        Log.i(TAG, "send: "+jsonObject);
+        Http.Send(context, jsonObject.toString(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                Log.i(TAG, "onResponse: "+jsonObject);
+                ToastUtil.toToast(jsonObject.optString("reason"));
+            }
+        });
+    }
 
     //1.发送语音验证码
     public static void getRequest1(String phone,String yzm){

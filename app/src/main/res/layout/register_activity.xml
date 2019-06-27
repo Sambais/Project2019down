@@ -123,6 +123,7 @@
                     android:hint="输入验证码"
                     android:textColorHint="#ccc"
                     android:textSize="28sp"
+                    android:maxLength="6"
                     />
 
                 <Button

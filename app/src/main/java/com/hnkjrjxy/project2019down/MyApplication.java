@@ -40,6 +40,10 @@ public class MyApplication extends Application {
         MyApplication.ztpd = ztpd;
     }
 
+    public static ArrayList getAllpindao() {
+        return allpindao;
+    }
+
     //以下部分暂时不再使用
     public static String[] list4;
     public static String[] list5;
