@@ -2,6 +2,8 @@ package com.hnkjrjxy.project2019down.fragment.zhufragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -11,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +36,8 @@ import com.hnkjrjxy.project2019down.util.Http;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Fragment_self extends Fragment {
@@ -174,6 +179,12 @@ public class Fragment_self extends Fragment {
             myViewHolder.textView.setText(dataBeans.get(i).getInfo().getSendname());
             myViewHolder.tv_content.setText(dataBeans.get(i).getInfo().getDescription());
             myViewHolder.tv_channel.setText(MyApplication.getAllpindao().get((int)dataBeans.get(i).getInfo().getChannelId())+"");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            try {
+                myViewHolder.tv_time.setText(DateUtils.getRelativeTimeSpanString(sdf.parse(dataBeans.get(i).getInfo().getTime()).getTime()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
