@@ -28,7 +28,6 @@ import com.google.gson.Gson;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.entry.Invitation;
-import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.wx.goodview.GoodView;
 
 import org.json.JSONObject;
@@ -84,26 +83,29 @@ public class Fragment_5 extends Fragment {
     }
 
     public static void Data(JSONObject object){
-        Gson gson=new Gson();
-        invitation = gson.fromJson(object.toString(),Invitation.class);
-        if (invitation.getData().size()!=0){
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getId());
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getDescription());
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getSendname());
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getTime());
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getChannelId());
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getUid());
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages());
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getImagePath());
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getId());
-            Log.i("Fragment5", "Data: --------------"+ invitation.getData().size());
-            list.clear();
-            for (int i = 0; i <invitation.getData().size() ; i++) {
-                list.add(invitation.getData().get(i));
+        if (object.optString("msg").equals("S")){
+            Gson gson=new Gson();
+            Invitation invitation = gson.fromJson(object.toString(),Invitation.class);
+            if (invitation.getData()!=null&&invitation.getData().size()!=0){
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getId());
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getDescription());
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getSendname());
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getTime());
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getChannelId());
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getUid());
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages());
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getImagePath());
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getId());
+                Log.i("Fragment5", "Data: --------------"+ invitation.getData().size());
+                for (int i = 0; i <invitation.getData().size() ; i++) {
+                    list.add(invitation.getData().get(i));
+                }
+                generalAdapter.notifyDataSetChanged();
+            }else {
+                Toast.makeText(context, "暂无动态", Toast.LENGTH_SHORT).show();
             }
-            generalAdapter.notifyDataSetChanged();
-        }else {
-            Toast.makeText(context, "暂无动态", Toast.LENGTH_SHORT).show();
+        }else{
+            Toasty.error(context,object.optString("data")).show();
         }
     }
 
@@ -163,12 +165,12 @@ public class Fragment_5 extends Fragment {
                 //判断是否向下滑动，如果向下滑动即将到底部的时候进行预加载
                 if (dy>0){
                     //双重判断，以防滑动太快导致没有检测到滑动的位置信息
-                    if(lastChildBottom == recyclerBottom && lastPosition == recyclerView.getLayoutManager().getItemCount()-1){
+                    if(lastPosition == recyclerView.getLayoutManager().getItemCount()-2){
                         //在此处再次拿到数据进行适配器的刷新
 //                        num=num+20;
                         i++;
                         //预加载拿数据
-                        Fragment_home.getFragment5Data();
+//                        Fragment_home.getFragment5Data();
                         Toast.makeText(getActivity(), "滑动到底了       "+i+"             "+list.size(), Toast.LENGTH_SHORT).show();
                     }
                 }

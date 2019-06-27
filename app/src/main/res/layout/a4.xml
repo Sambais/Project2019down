@@ -3,53 +3,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <LinearLayout
-        android:orientation="vertical"
+    <com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            app:contentInsetStart="0dp"
-            android:layout_height="60dp"
-            android:minHeight="50dp"
-            android:background="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:popupTheme="@style/ToolbarPopupTheme">
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:layout_marginLeft="15dp"
-                    android:textSize="20dp"
-                    android:text="我"
-                    android:textColor="#fff"
-                    android:gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <ImageView
-                    android:id="@+id/setting"
-                    android:src="@mipmap/setting"
-                    android:layout_marginRight="16dp"
-                    android:layout_gravity="center"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
-            </LinearLayout>
-        </android.support.v7.widget.Toolbar>
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swiperefreshlayout"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <RecyclerView
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                app:contentInsetStart="0dp"
+                android:layout_height="60dp"
+                android:minHeight="50dp"
+                android:background="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:popupTheme="@style/ToolbarPopupTheme">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_marginLeft="15dp"
+                        android:textSize="20dp"
+                        android:text="我"
+                        android:textColor="#fff"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <ImageView
+                        android:id="@+id/setting"
+                        android:src="@mipmap/setting"
+                        android:layout_marginRight="16dp"
+                        android:layout_gravity="center"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/a4_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </RecyclerView>
-
-        </android.support.v4.widget.SwipeRefreshLayout>
-    </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>

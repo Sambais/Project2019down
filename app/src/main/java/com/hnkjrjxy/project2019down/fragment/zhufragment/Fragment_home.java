@@ -41,7 +41,6 @@ import com.hnkjrjxy.project2019down.view.NewMyListView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class Fragment_home extends Fragment {
@@ -59,7 +58,7 @@ public class Fragment_home extends Fragment {
     private ArrayList tabtitle ;
     private String[] tabnexttitle = {"关注", "推荐", "最新"};
     private ArrayList tabtitles;
-    private SwipeRefreshLayout swiperefreshlayout;
+    private static SwipeRefreshLayout swiperefreshlayout;
     private AppBarLayout myappBarLayout;
     private ViewPager myviewpager;
     private TextView yubeit1;
@@ -73,6 +72,7 @@ public class Fragment_home extends Fragment {
     private ArrayList<ArrayList> list4;
     private ArrayList<ArrayList> list5;
     private static Context context;
+    private static int num=0;
 
 
     @Override
@@ -105,6 +105,7 @@ public class Fragment_home extends Fragment {
     public static void getFragment5Data() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token",MyApplication.getToken());
+        jsonObject.addProperty("num",num);
         Log.i("Fragment5", "getData: "+jsonObject.toString());
         Http.Post(context, "Invitation/GetInvitation",
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
@@ -112,6 +113,8 @@ public class Fragment_home extends Fragment {
                     public void onResponse(JSONObject object) {
                         Log.i("Fragment5", "onResponse: --------" + object);
                         Fragment_5.Data(object);
+                        swiperefreshlayout.setRefreshing(false);
+                        num++;
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -222,11 +225,9 @@ public class Fragment_home extends Fragment {
                     public void run() {
                         //开始再拿Ffragment5的数据
                         getFragment5Data();
-                        swiperefreshlayout.setRefreshing(false);
                         Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
-                        Collections.reverse(tabtitles);
                     }
-                }, 2000);
+                }, 2500);
             }
         };
 
