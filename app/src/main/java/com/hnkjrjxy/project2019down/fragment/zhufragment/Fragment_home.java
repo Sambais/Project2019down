@@ -4,6 +4,7 @@
 package com.hnkjrjxy.project2019down.fragment.zhufragment;
 
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,11 +28,9 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
-import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
 import com.hnkjrjxy.project2019down.fragment.Fragment_4;
 import com.hnkjrjxy.project2019down.fragment.Fragment_5;
@@ -74,6 +73,7 @@ public class Fragment_home extends Fragment {
     private ArrayList<ArrayList> list3;
     private ArrayList<ArrayList> list4;
     private ArrayList<ArrayList> list5;
+    private static Context context;
 
 
     @Override
@@ -101,28 +101,18 @@ public class Fragment_home extends Fragment {
         }
     }
 
-    private void getFragment5Data() {
+
+    //为Fragment5界面的数据做准备
+    public static void getFragment5Data() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token",MyApplication.getToken());
         Log.i("Fragment5", "getData: "+jsonObject.toString());
-        Http.Post(getActivity(), "Invitation/GetInvitation",
+        Http.Post(context, "Invitation/GetInvitation",
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
                         Log.i("Fragment5", "onResponse: --------" + object);
-                        Gson gson=new Gson();
-                        Invitation invitation = gson.fromJson(object.toString(),Invitation.class);
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getId());
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getDescription());
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getSendname());
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getTime());
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getChannelId());
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getUid());
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages());
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getImagePath());
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getId());
-                        Log.i("Fragment5", "Data: --------------"+ invitation.getData().size());
-                        Fragment_5.num=invitation.getData().size();
+                        Fragment_5.Data(object);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -138,7 +128,7 @@ public class Fragment_home extends Fragment {
             Log.i("TAG", "initView: 我想到顶部");
             //方法重载，直接用，默认带动画效果慢慢展开或折叠，拿走不谢
             myappBarLayout.setExpanded(true,true);
-            getFragment5Data();
+
             //暂时只能用三个Fragment解决双击回到顶部并且刷新的操作
            if (tab1.getSelectedTabPosition()==0) {
                Fragment_4.Weizhi(0);
@@ -148,6 +138,8 @@ public class Fragment_home extends Fragment {
                Fragment_6.Weizhi(0);
            }
         }else {
+            context = getActivity();
+            //进行首次拿数据,之后不再执行
             getFragment5Data();
             //顶部导航文字集合
             tabtitle=new ArrayList();
@@ -229,7 +221,8 @@ public class Fragment_home extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        tabtitles.add("第" + tabtitles.size() + "个数据");
+                        //开始再拿Ffragment5的数据
+                        getFragment5Data();
                         swiperefreshlayout.setRefreshing(false);
                         Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
                         Collections.reverse(tabtitles);

@@ -13,6 +13,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.entry.Invitation;
+import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.wx.goodview.GoodView;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
 
@@ -37,7 +44,7 @@ public class Fragment_5 extends Fragment {
     private static RecyclerView recyclerView;
     private static GeneralAdapter generalAdapter;
     private static Context context;
-    public static int num=20;
+    private static int num=20;
     private static String asd="123";
     int i=0;
     //目标项是否在最后一个可见项之后
@@ -48,6 +55,7 @@ public class Fragment_5 extends Fragment {
     private TextView tishi;
     public static boolean login=false;
     private static Invitation invitation;
+    private static ArrayList<Invitation.DataBean> list;
 
 
     @Override
@@ -71,6 +79,24 @@ public class Fragment_5 extends Fragment {
         recyclerView.setHasFixedSize(true);
     }
 
+    public static void Data(JSONObject object){
+        Gson gson=new Gson();
+        invitation = gson.fromJson(object.toString(),Invitation.class);
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getId());
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getDescription());
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getSendname());
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getTime());
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getChannelId());
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getUid());
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages());
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getImagePath());
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getId());
+        Log.i("Fragment5", "Data: --------------"+ invitation.getData().size());
+        for (int i = 0; i <invitation.getData().size() ; i++) {
+            list.add(invitation.getData().get(i));
+        }
+        generalAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -83,7 +109,7 @@ public class Fragment_5 extends Fragment {
     }
 
     public void initView(View view) {
-        invitation=new Invitation();
+        list=new ArrayList<>();
         context=getActivity();
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         tishi = (TextView) view.findViewById(R.id.tishi);
@@ -128,23 +154,15 @@ public class Fragment_5 extends Fragment {
                 //判断是否向下滑动，如果向下滑动即将到底部的时候进行预加载
                 if (dy>0){
                     //双重判断，以防滑动太快导致没有检测到滑动的位置信息
-                    if (num<5){
-                        if(lastPosition == recyclerView.getLayoutManager().getItemCount()-1){
-                            //在此处再次拿到数据进行适配器的刷新
+                    if(lastPosition == recyclerView.getLayoutManager().getItemCount()-4||
+                            lastPosition == recyclerView.getLayoutManager().getItemCount()-3){
+                        //在此处再次拿到数据进行适配器的刷新
 //                        num=num+20;
-                            i++;
-                            generalAdapter.notifyDataSetChanged();
-                            Toast.makeText(getActivity(), "滑动快要到底了       "+i+"             "+num, Toast.LENGTH_SHORT).show();
-                        }
-                    }else {
-                        if(lastPosition == recyclerView.getLayoutManager().getItemCount()-4||
-                                lastPosition == recyclerView.getLayoutManager().getItemCount()-3){
-                            //在此处再次拿到数据进行适配器的刷新
-//                        num=num+20;
-                            i++;
-                            generalAdapter.notifyDataSetChanged();
-                            Toast.makeText(getActivity(), "滑动快要到底了       "+i+"             "+num, Toast.LENGTH_SHORT).show();
-                        }
+                        i++;
+                        //预加载拿数据
+                        Fragment_home.getFragment5Data();
+                        generalAdapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "滑动快要到底了       "+i+"             "+list.size(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -166,16 +184,8 @@ public class Fragment_5 extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
-            if (i/2==0){
-                myViewHolder.textView.setText("肖文鑫");
-                myViewHolder.imageView.setImageResource(R.mipmap.xwx1);
-            }else if(i/2==1){
-                myViewHolder.textView.setText("柏松杰");
-                myViewHolder.imageView.setImageResource(R.mipmap.bsj);
-            }else {
-                myViewHolder.textView.setText("刘宇康");
-                myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
-            }
+            myViewHolder.textView.setText(list.get(i).getInfo().getSendname()+"");
+            myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
 
             if (login){
                 myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
@@ -229,7 +239,7 @@ public class Fragment_5 extends Fragment {
 
         @Override
         public int getItemCount() {
-            return num;
+            return list.size();
         }
 
 
