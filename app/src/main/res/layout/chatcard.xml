@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:attr="http://schemas.android.com/tools">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:id="@+id/user_xinxi"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <FrameLayout
+                        android:layout_width="40dp"
+                        android:layout_height="40dp">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/m1"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp" />
+                        <TextView
+                            android:gravity="center"
+                            android:id="@+id/touxiang"
+                            android:textSize="18dp"
+                            android:text="1"
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/t1"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="123"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"></View>
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="不会玩天天抢你个锤子的中单
+一个个的就只会说一个个的就只会说
+菜的要死没点用
+顺风不会带线天天守着中路站着
+逆风不会猥琐天天出去找人打架
+赛季末了都还有这么多神仙
+天天匹配到多排的一二十星的
+带两个星耀小女生
+笑死没技术咱就别带
+要不叫她让个位置别抢别人的
+最好离我远点单排真的惨兮兮
+"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
