@@ -13,6 +13,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import android.widget.Toast;
 
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
-import com.hnkjrjxy.project2019down.entry.Invitation;
+import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.wx.goodview.GoodView;
 
 import es.dmoral.toasty.Toasty;
@@ -37,7 +38,7 @@ public class Fragment_5 extends Fragment {
     private static RecyclerView recyclerView;
     private static GeneralAdapter generalAdapter;
     private static Context context;
-    public static int num=20;
+    public static int num=0;
     private static String asd="123";
     int i=0;
     //目标项是否在最后一个可见项之后
@@ -47,7 +48,6 @@ public class Fragment_5 extends Fragment {
     private int kejian;
     private TextView tishi;
     public static boolean login=false;
-    private static Invitation invitation;
 
 
     @Override
@@ -83,7 +83,7 @@ public class Fragment_5 extends Fragment {
     }
 
     public void initView(View view) {
-        invitation=new Invitation();
+        Log.i(TAG, "initView: -------------------------"+num);
         context=getActivity();
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         tishi = (TextView) view.findViewById(R.id.tishi);
@@ -166,16 +166,11 @@ public class Fragment_5 extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
-            if (i/2==0){
-                myViewHolder.textView.setText("肖文鑫");
-                myViewHolder.imageView.setImageResource(R.mipmap.xwx1);
-            }else if(i/2==1){
-                myViewHolder.textView.setText("柏松杰");
-                myViewHolder.imageView.setImageResource(R.mipmap.bsj);
-            }else {
-                myViewHolder.textView.setText("刘宇康");
-                myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
-            }
+            Log.i(TAG, "onBindViewHolder: -"+Fragment_home.invitation.getData().get(0).getInfo().getSendname());
+            myViewHolder.textView.setText(Fragment_home.invitation.getData().get(0).getInfo().getSendname());
+            myViewHolder.textView.setTextColor(Color.BLACK);
+            myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
+            myViewHolder.textView.setText("");
 
             if (login){
                 myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {

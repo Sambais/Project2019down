@@ -74,6 +74,7 @@ public class Fragment_home extends Fragment {
     private ArrayList<ArrayList> list3;
     private ArrayList<ArrayList> list4;
     private ArrayList<ArrayList> list5;
+    public static Invitation invitation;
 
 
     @Override
@@ -111,7 +112,7 @@ public class Fragment_home extends Fragment {
                     public void onResponse(JSONObject object) {
                         Log.i("Fragment5", "onResponse: --------" + object);
                         Gson gson=new Gson();
-                        Invitation invitation = gson.fromJson(object.toString(),Invitation.class);
+                        invitation = gson.fromJson(object.toString(),Invitation.class);
                         Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getId());
                         Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getDescription());
                         Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInfo().getSendname());
@@ -122,7 +123,7 @@ public class Fragment_home extends Fragment {
                         Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getImagePath());
                         Log.i("Fragment5", "Data: --------------"+ invitation.getData().get(0).getInvitationImages().get(0).getId());
                         Log.i("Fragment5", "Data: --------------"+ invitation.getData().size());
-                        Fragment_5.num=invitation.getData().size();
+                        Fragment_5.num+= invitation.getData().size();
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -138,7 +139,6 @@ public class Fragment_home extends Fragment {
             Log.i("TAG", "initView: 我想到顶部");
             //方法重载，直接用，默认带动画效果慢慢展开或折叠，拿走不谢
             myappBarLayout.setExpanded(true,true);
-            getFragment5Data();
             //暂时只能用三个Fragment解决双击回到顶部并且刷新的操作
            if (tab1.getSelectedTabPosition()==0) {
                Fragment_4.Weizhi(0);
@@ -148,6 +148,7 @@ public class Fragment_home extends Fragment {
                Fragment_6.Weizhi(0);
            }
         }else {
+            invitation=new Invitation();
             getFragment5Data();
             //顶部导航文字集合
             tabtitle=new ArrayList();
@@ -255,6 +256,8 @@ public class Fragment_home extends Fragment {
                     swiperefreshlayout.setEnabled(true);//可刷新
 
                     if (ztpd ==1){
+                        //开始推荐界面Fragment5界面数据
+                        getFragment5Data();
                         //开始启动刷新的状态
                         swiperefreshlayout.setRefreshing(true);
                         listener.onRefresh();
