@@ -119,6 +119,9 @@ public class Fragment_self extends Fragment {
     }
 
     public static void getData() {
+        if (num3==0){
+            dataBeans=new ArrayList<>();
+        }
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token", MyApplication.getToken());
         jsonObject.addProperty("id", MyApplication.sharedPreferences.getInt("id", 0));

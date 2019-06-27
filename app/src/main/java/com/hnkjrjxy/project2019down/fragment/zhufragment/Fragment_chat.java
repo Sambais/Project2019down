@@ -71,7 +71,6 @@ public class Fragment_chat extends Fragment {
 //            Toast.makeText(getContext(), "完成", Toast.LENGTH_SHORT).show();
         } else {
             dataBeans = new ArrayList<>();
-            getData();
             recyclerView = (RecyclerView) view.findViewById(R.id.chat_recyclerview);
             //RecyclerView绑定适配器
             //设置LayoutManager为LinearLayoutManager
@@ -81,6 +80,7 @@ public class Fragment_chat extends Fragment {
             recyclerView.setAdapter(generalAdapter);
             //设置Item增加、移除动画
             recyclerView.setItemAnimator(new DefaultItemAnimator());
+            getData();
         }
     }
 
