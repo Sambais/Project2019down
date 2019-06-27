@@ -48,6 +48,7 @@ public class Fragment_self extends Fragment {
     private MySwipeRefreshLayout swipeRefreshLayout;
     private Invitation invitation;
     private ArrayList<Invitation.DataBean> dataBeans;
+    private int num = 0;
 
 
     @Nullable
@@ -126,6 +127,7 @@ public class Fragment_self extends Fragment {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token",MyApplication.getToken());
         jsonObject.addProperty("id",MyApplication.sharedPreferences.getInt("id",0));
+        jsonObject.addProperty("num",num);
         Log.i(TAG, "getData: "+jsonObject.toString());
         Http.Post(getActivity(), "Invitation/GetMeInvitation",
                 jsonObject.toString(), new Response.Listener<JSONObject>() {

@@ -42,7 +42,7 @@ public class Fragment_6 extends Fragment {
     private static RecyclerView recyclerView;
     private static GeneralAdapter generalAdapter;
     private static Context context;
-    private static int num=20;
+    private static int num=0;
     private static String asd="123";
     int i=0;
     //目标项是否在最后一个可见项之后
@@ -134,7 +134,7 @@ public class Fragment_6 extends Fragment {
                     if(lastPosition == recyclerView.getLayoutManager().getItemCount()-4||
                             lastPosition == recyclerView.getLayoutManager().getItemCount()-3){
                         //在此处再次拿到数据进行适配器的刷新
-                        num=num+20;
+//                        num=num+20;
                         i++;
                         generalAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), "滑动快要到底了       "+i+"             "+num, Toast.LENGTH_SHORT).show();
@@ -147,12 +147,16 @@ public class Fragment_6 extends Fragment {
     private void getData() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token",MyApplication.getToken());
+        jsonObject.addProperty("num",num);
         Log.i(TAG, "getData: "+jsonObject.toString());
         Http.Post(getActivity(), "Invitation/GetInvitation",
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
-                        Log.i("Fragment5", "onResponse: --------"+object);
+                        if(object.optString("msg").equals("S")){
+                            Log.i("Fragment5", "onResponse: --------"+object);
+                            num++;
+                        }
                     }
                 });
     }

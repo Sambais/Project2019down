@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -218,12 +219,17 @@ public class SendPostActivity extends Activity {
                 Http.Post(SendPostActivity.this, "Invitation/SetFileUpload", jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        Log.i(TAG, "onResponse: =========="+jsonObject);
-                        if(jsonObject.optString("msg").equals("S")){
+                        Log.i(TAG, "onResponse: ==========" + jsonObject);
+                        if (jsonObject.optString("msg").equals("S")) {
                             materialDialog.dismiss();
                             ToastUtil.toToast("发送成功~");
                             finish();
                         }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.i(TAG, "onResponse: ==========!!!!!!" + volleyError);
                     }
                 });
             }
