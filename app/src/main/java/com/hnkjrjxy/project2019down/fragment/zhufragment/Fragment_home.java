@@ -24,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -175,11 +174,7 @@ public class Fragment_home extends Fragment {
             tabtitle.add("情绪");
             tabtitle.add("社交");
             tabtitle.add("爱好");
-            //测试数据
-            tabtitles = new ArrayList();
-            for (int i = 0; i < 20; i++) {
-                tabtitles.add("第" + i + "个数据");
-            }
+
             coordinatorlayout=(CoordinatorLayout)view.findViewById(R.id.coordinatorlayout);
             tab = (TabLayout) view.findViewById(R.id.tab);
             tab1 = (TabLayout) view.findViewById(R.id.tab1);
@@ -251,7 +246,7 @@ public class Fragment_home extends Fragment {
                         //开始再拿Ffragment5的数据
                         getFragment5Data();
                         getFragment6Data();
-                        Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
                     }
                 }, 2500);
             }

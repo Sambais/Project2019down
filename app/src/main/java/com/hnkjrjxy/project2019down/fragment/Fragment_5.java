@@ -104,7 +104,7 @@ public class Fragment_5 extends Fragment {
                 Toast.makeText(context, "暂无动态", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toasty.error(context, object.optString("data")).show();
+            Toasty.error(context,"到底啦！").show();
         }
     }
 
@@ -228,6 +228,7 @@ public class Fragment_5 extends Fragment {
             } else {
                 myViewHolder.tv_photo.setVisibility(View.VISIBLE);
                 Glide.with(context).load(Http.imgpath + list.get(i).getInvitationImages().get(0).getImagePath())
+                        .placeholder(R.mipmap.huazhi)
                         //当加载图片失败时，通过error(Drawable drawable)方法设置加载失败后的图片显示：
                         .error(R.mipmap.ic_launcher)
                         //使用centerCrop是利用图片图填充ImageView设置的大小，如果ImageView的Height是match_parent则图片就会被拉伸填充
@@ -236,6 +237,7 @@ public class Fragment_5 extends Fragment {
                         .fitCenter()
                         // 缓存所有版本的图像（默认行为）
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        //淡出淡出效果
                         .into(myViewHolder.tv_photo);
             }
 
@@ -291,7 +293,7 @@ public class Fragment_5 extends Fragment {
         //点赞恢复
         public void collection2(View view, MyViewHolder myViewHolder) {
             ((ImageView) view).setImageResource(R.mipmap.love1);
-            myViewHolder.mgoodView.setTextInfo("取消赞", Color.parseColor("#c9c9c9"), 12);
+            myViewHolder.mgoodView.setTextInfo("不爱你了", Color.parseColor("#c9c9c9"), 12);
             myViewHolder.tv_like.setText((Integer.parseInt(myViewHolder.tv_like.getText()+"")-1)+"");
             myViewHolder.mgoodView.show(view);
         }

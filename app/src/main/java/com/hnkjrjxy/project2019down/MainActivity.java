@@ -160,9 +160,17 @@ public class MainActivity extends FragmentActivity {
                             return false;
                         }else {
                             select = 4;
-                            showFragment(4);
-                            //将其角标数量设置为0即为不显示
-                            qBadgeView4.hide(true);
+                            long endtime4 = System.currentTimeMillis();
+                            if (endtime4 -starttime<=ViewConfiguration.getDoubleTapTimeout()){
+                                starttime=0;
+                                fragmentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.a4,null);
+                                fragment4.initView(fragmentview,1);
+                            }else {
+                                starttime= endtime4;
+                                showFragment(4);
+                                //将其角标数量设置为0即为不显示
+                                qBadgeView4.hide(true);
+                            }
                             return true;
                         }
                 }
