@@ -173,7 +173,7 @@ public class Fragment_self extends Fragment {
         public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder myViewHolder, int i) {
             myViewHolder.textView.setText(dataBeans.get(i).getInfo().getSendname());
             myViewHolder.tv_content.setText(dataBeans.get(i).getInfo().getDescription());
-//            myViewHolder.tv_channel.setText(MyApplication.get);
+            myViewHolder.tv_channel.setText(MyApplication.getAllpindao().get((int)dataBeans.get(i).getInfo().getChannelId())+"");
         }
 
         @Override
