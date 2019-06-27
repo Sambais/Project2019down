@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.wx.goodview.GoodView;
 
@@ -82,11 +81,11 @@ public class Fragment_4 extends Fragment {
         if (kejian==0){
             tishi.setVisibility(View.GONE);
         }
-        if (MyApplication.sharedPreferences.getInt("id",0)==0){
-            tishi.setText("请先登录！");
-        }else {
-            tishi.setText("暂未个人收藏功能");
-        }
+//        if (MyApplication.sharedPreferences.getInt("id",0)==0){
+//            tishi.setText("请先登录！");
+//        }else {
+//            tishi.setText("暂未个人收藏功能");
+//        }
         //RecyclerView绑定适配器
         //设置LayoutManager为LinearLayoutManager
         layoutManager = new LinearLayoutManager(getActivity());
@@ -153,16 +152,8 @@ public class Fragment_4 extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
-            if (i / 2 == 0) {
-                myViewHolder.textView.setText("肖文鑫");
-                myViewHolder.imageView.setImageResource(R.mipmap.xwx1);
-            } else if (i / 2 == 1) {
-                myViewHolder.textView.setText("柏松杰");
-                myViewHolder.imageView.setImageResource(R.mipmap.bsj);
-            } else {
-                myViewHolder.textView.setText("刘宇康");
-                myViewHolder.imageView.setImageResource(R.mipmap.lyk1);
-            }
+            myViewHolder.textView.setText("柏松杰");
+            myViewHolder.imageView.setImageResource(R.mipmap.bsj);
 
             myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
                 @Override
