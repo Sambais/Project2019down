@@ -72,7 +72,8 @@ public class Fragment_home extends Fragment {
     private ArrayList<ArrayList> list4;
     private ArrayList<ArrayList> list5;
     private static Context context;
-    private static int num=0;
+    public static int num1=0;
+    public static int num2=0;
 
 
     @Override
@@ -105,7 +106,7 @@ public class Fragment_home extends Fragment {
     public static void getFragment5Data() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token",MyApplication.getToken());
-        jsonObject.addProperty("num",num);
+        jsonObject.addProperty("num",num1);
         Log.i("Fragment5", "getData: "+jsonObject.toString());
         Http.Post(context, "Invitation/GetInvitation",
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
@@ -113,9 +114,31 @@ public class Fragment_home extends Fragment {
                     public void onResponse(JSONObject object) {
                         Log.i("Fragment5", "onResponse: --------" + object);
                         Fragment_5.Data(object);
+                        swiperefreshlayout.setRefreshing(false);
+                        num1++;
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.i("Fragment5", "onResponse: ++++" + volleyError);
+                    }
+                });
+    }
+
+    //为Fragment6界面的数据做准备
+    public static void getFragment6Data() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token",MyApplication.getToken());
+        jsonObject.addProperty("num",num2);
+        Log.i("Fragment5", "getData: "+jsonObject.toString());
+        Http.Post(context, "Invitation/GetInvitation",
+                jsonObject.toString(), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject object) {
+                        Log.i("Fragment5", "onResponse: --------" + object);
                         Fragment_6.Data(object);
                         swiperefreshlayout.setRefreshing(false);
-                        num++;
+                        num2++;
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -144,6 +167,7 @@ public class Fragment_home extends Fragment {
             context = getActivity();
             //进行首次拿数据,之后不再执行
             getFragment5Data();
+            getFragment6Data();
             //顶部导航文字集合
             tabtitle=new ArrayList();
             tabtitle.add("收藏");

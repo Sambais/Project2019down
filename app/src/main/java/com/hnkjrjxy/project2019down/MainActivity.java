@@ -2,6 +2,7 @@ package com.hnkjrjxy.project2019down;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -11,11 +12,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SendPostActivity;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_chat;
@@ -48,23 +53,23 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("AWE", "onCreate: "+MyApplication.getTabtitle().size());
-        if (MyApplication.getTabtitle().size()==0){
-            promptDialog2 = new PromptDialog(MainActivity.this);
-            setCanceledOnTouchOutside(true);
-            promptDialog2.setDialogType(PromptDialog.DIALOG_TYPE_WARNING)
-                     .setAnimationEnable(true)
-                     .setTitleText("连接失败")
-                     .setContentText("请检查网络或服务器未开启！")
-                     .setPositiveListener("OK", new PromptDialog.OnPositiveListener() {
-                         @Override
-                         public void onClick(PromptDialog dialog) {
-                             dialog.dismiss();
-                             System.exit(0);
-                         }
-                     })
-                     .show();
-            return;
-        }
+//        if (MyApplication.getToken()==null){
+//            promptDialog2 = new PromptDialog(MainActivity.this);
+//            setCanceledOnTouchOutside(true);
+//            promptDialog2.setDialogType(PromptDialog.DIALOG_TYPE_WARNING)
+//                     .setAnimationEnable(true)
+//                     .setTitleText("连接失败")
+//                     .setContentText("网络正在开小差(T_T)！")
+//                     .setPositiveListener("OK", new PromptDialog.OnPositiveListener() {
+//                         @Override
+//                         public void onClick(PromptDialog dialog) {
+//                             dialog.dismiss();
+//                             System.exit(0);
+//                         }
+//                     })
+//                     .show();
+//            return;
+//        }
 
         initView();
 
@@ -287,4 +292,45 @@ public class MainActivity extends FragmentActivity {
             }
         }
     }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        // 按下键盘上返回按钮
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            exitAppDialog();
+
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+
+    }
+
+    public void exitAppDialog() {
+        new MaterialDialog.Builder(MainActivity.this)
+                .title("你要走了吗？")
+                .positiveColor(Color.parseColor("#5CACEE"))
+                .positiveText("退出")
+                .negativeColor(Color.parseColor("#5CACEE"))
+                .negativeText("留下来")
+                .onAny(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        switch (which){
+                            case POSITIVE:
+                                finish();
+                                break;
+                            case  NEGATIVE:
+                                dialog.dismiss();
+                                break;
+                        }
+                    }
+                })
+                .contentColor(Color.WHITE)
+                .backgroundColorRes(R.color.alertback)
+                .contentGravity(GravityEnum.END)
+                .show();
+    }
+
 }

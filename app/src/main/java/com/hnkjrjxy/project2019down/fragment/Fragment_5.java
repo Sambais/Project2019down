@@ -13,7 +13,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +66,7 @@ public class Fragment_5 extends Fragment {
     private TextView tishi;
     public static boolean login = false;
     private static Invitation invitation;
-    private static ArrayList<Invitation.DataBean> list;
+    public static ArrayList<Invitation.DataBean> list;
     private ClassicsFooter foot;
     private SmartRefreshLayout refreshlayout;
 
@@ -86,7 +85,6 @@ public class Fragment_5 extends Fragment {
     }
 
     public static void Weizhi(int n) {
-        asd = "789";
         recyclerView.scrollToPosition(0);
         recyclerView.setFocusableInTouchMode(false);
         recyclerView.setFocusable(false);
@@ -98,15 +96,6 @@ public class Fragment_5 extends Fragment {
             Gson gson = new Gson();
             Invitation invitation = gson.fromJson(object.toString(), Invitation.class);
             if (invitation.getData() != null && invitation.getData().size() != 0) {
-                Log.i("Fragment5", "Data: --------------" + invitation.getData().get(0).getInfo().getId());
-                Log.i("Fragment5", "Data: --------------" + invitation.getData().get(0).getInfo().getDescription());
-                Log.i("Fragment5", "Data: --------------" + invitation.getData().get(0).getInfo().getSendname());
-                Log.i("Fragment5", "Data: --------------" + invitation.getData().get(0).getInfo().getTime());
-                Log.i("Fragment5", "Data: --------------" + invitation.getData().get(0).getInfo().getChannelId());
-                Log.i("Fragment5", "Data: --------------" + invitation.getData().get(0).getInfo().getUid());
-                Log.i("Fragment5", "Data: --------------" + invitation.getData().get(0).getInvitationImages());
-                Log.i("Fragment5", "Data: --------------" + invitation.getData().size());
-//                Collections.reverse(list);
                 for (int i = 0; i < invitation.getData().size(); i++) {
                     list.add(invitation.getData().get(i));
                 }
@@ -179,15 +168,17 @@ public class Fragment_5 extends Fragment {
                     if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 2) {
                         //在此处再次拿到数据进行适配器的刷新
 //                        num=num+20;
-                        i++;
-                        //预加载拿数据
-//                        Fragment_home.getFragment5Data();
-                        Toast.makeText(getActivity(), "滑动到底了       " + i + "             " + list.size(), Toast.LENGTH_SHORT).show();
+//                        i++;
+//                        //预加载拿数据
+////                        Fragment_home.getFragment5Data();
+//                        Toast.makeText(getActivity(), "滑动到底了       " + i + "             " + list.size(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
         refreshlayout = (SmartRefreshLayout) view.findViewById(R.id.refreshlayout);
+        refreshlayout.setEnableRefresh(false);//启用刷新
+        refreshlayout.setEnableLoadmore(true);
         refreshlayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {

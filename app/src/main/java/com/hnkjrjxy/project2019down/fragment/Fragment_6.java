@@ -67,9 +67,20 @@ public class Fragment_6 extends Fragment {
     private TextView tishi;
     public static boolean login = false;
     private static Invitation invitation;
-    private static ArrayList<Invitation.DataBean> list;
+    public static ArrayList<Invitation.DataBean> list;
     private ClassicsFooter foot;
     private SmartRefreshLayout refreshlayout;
+
+//    public static void FirstTop(JSONObject jsonObject) {
+//        if (jsonObject.optString("msg").equals("S")) {
+//            Gson gson = new Gson();
+//            Invitation invitation = gson.fromJson(jsonObject.toString(), Invitation.class);
+//            for (int i = 0; i < invitation.getData().size(); i++) {
+//                list.set(0, invitation.getData().get(i));
+//            }
+//            generalAdapter.notifyDataSetChanged();
+//        }
+//    }
 
 
     @Override
@@ -179,19 +190,20 @@ public class Fragment_6 extends Fragment {
                     if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 2) {
                         //在此处再次拿到数据进行适配器的刷新
 //                        num=num+20;
-                        i++;
+//                        i++;
                         //预加载拿数据
 //                        Fragment_home.getFragment5Data();
-                        Toast.makeText(getActivity(), "滑动到底了       " + i + "             " + list.size(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), "滑动到底了       " + i + "             " + list.size(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
         refreshlayout = (SmartRefreshLayout) view.findViewById(R.id.refreshlayout);
+        refreshlayout.setEnableRefresh(false);//// 启用刷新
         refreshlayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                Fragment_home.getFragment5Data();
+                Fragment_home.getFragment6Data();
                 refreshlayout.finishLoadmore(3000);//传入false表示加载失败
             }
         });
