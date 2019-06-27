@@ -147,6 +147,7 @@ public class Fragment_self extends Fragment {
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
+                        Log.i(TAG, "onResponse: "+object);
                         if(object.optString("msg").equals("S")){
                             Gson gson = new Gson();
                             Invitation invitation = gson.fromJson(object.toString(),Invitation.class);

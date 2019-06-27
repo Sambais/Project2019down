@@ -31,15 +31,16 @@ public class SendYZM {
     public static String userAgent =  "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36";
 
     //配置您申请的KEY
-    public static final String APPKEY ="11e2d9617c4c605ed4b58ba39e513455";
+    public static final String APPKEY ="a2cbba78db6db714a7358e7c59e156e6";
 
     public static void send(Context context,String phone, String yzm){
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("valicode",yzm);
-        jsonObject.addProperty("to",phone);
-        jsonObject.addProperty("key",APPKEY);
-        Log.i(TAG, "send: "+jsonObject);
-        Http.Send(context, jsonObject.toString(), new Response.Listener<JSONObject>() {
+//        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("mobile",phone);
+//        jsonObject.addProperty("tpl_id",168426);
+//        jsonObject.addProperty("tpl_value",yzm);
+//        jsonObject.addProperty("key",APPKEY);
+//        Log.i(TAG, "send: "+jsonObject);
+        Http.Send(context, "http://v.juhe.cn/sms/send?mobile="+phone+"&tpl_id="+168426+"&tpl_value=%23code%23%3D"+yzm+"&key="+APPKEY, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 Log.i(TAG, "onResponse: "+jsonObject);

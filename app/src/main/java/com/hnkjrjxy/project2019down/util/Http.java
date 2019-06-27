@@ -40,14 +40,14 @@ public class Http {
         rq.add(jr);
     }
 
-    public static void Send(Context context, String json, Response.Listener<JSONObject> r) {
+    public static void Send(Context context, String url, Response.Listener<JSONObject> r) {
         if (rq == null) {
             rq = Volley.newRequestQueue(context);
         }
         JsonObjectRequest jr = null;
         try {
             jr = new JsonObjectRequest(
-                    1, "https://op.juhe.cn/yuntongxun/voice", new JSONObject(json),
+                    0, url,
                     r,
                     new Response.ErrorListener() {
                         @Override
@@ -56,7 +56,7 @@ public class Http {
                         }
                     }
             );
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         rq.add(jr);
