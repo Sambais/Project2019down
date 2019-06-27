@@ -22,11 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SettingActivity;
+import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.hnkjrjxy.project2019down.util.Http;
 
 import org.json.JSONObject;
@@ -40,6 +42,7 @@ public class Fragment_self extends Fragment {
     private SwipeRefreshLayout.OnRefreshListener listener;
     private SwipeRefreshLayout swipeRefreshLayout;
     private int num = 0;
+    private Invitation invitation;
 
 
     @Nullable
@@ -93,7 +96,7 @@ public class Fragment_self extends Fragment {
                     if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 4 ||
                             lastPosition == recyclerView.getLayoutManager().getItemCount() - 3) {
                         //在此处再次拿数据进行适配器的刷新
-                        num = num + 20;
+                        getData();
                         listAdapter.notifyDataSetChanged();
                     }
                 }
@@ -123,7 +126,9 @@ public class Fragment_self extends Fragment {
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
-                        Log.i("Fragment5", "onResponse: --------"+object);
+                        Gson gson = new Gson();
+                        invitation = gson.fromJson(object.toString(),Invitation.class);
+                        num += invitation.getData().size();
                     }
         });
     }
