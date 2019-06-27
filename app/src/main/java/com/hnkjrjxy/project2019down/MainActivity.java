@@ -69,6 +69,13 @@ public class MainActivity extends FragmentActivity {
             //noinspection RestrictedApi
             item.setChecked(item.getItemData().isChecked());
         }
+
+
+//        public void in(){
+//            startActivity(new Intent(this, SecondActivity.class));
+//            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//        }
+
 //        设置角标
 //        showBadgeView(0,-1);
 //        showBadgeView(1,56);

@@ -27,6 +27,7 @@ import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.activity.LoginActivity;
+import com.hnkjrjxy.project2019down.activity.LookPhoto;
 import com.hnkjrjxy.project2019down.activity.SettingActivity;
 import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.hnkjrjxy.project2019down.fragment.Fragment_5;
@@ -195,6 +196,16 @@ public class Fragment_self extends Fragment {
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(myViewHolder.tv_photo);
             }
+
+            myViewHolder.tv_photo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context,LookPhoto.class);
+                    intent.putExtra("myuri",Http.imgpath + dataBeans.get(i).getInvitationImages().get(0).getImagePath());
+                    context.startActivity(intent);
+                    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            });
 
 
             myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {

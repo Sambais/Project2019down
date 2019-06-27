@@ -74,6 +74,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <activity android:name=".activity.ForgetActivity"></activity>
+        <activity android:name=".activity.LookPhoto"></activity>
     </application>
 
 </manifest>

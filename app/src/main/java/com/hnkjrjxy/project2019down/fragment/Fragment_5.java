@@ -5,6 +5,7 @@ package com.hnkjrjxy.project2019down.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.activity.LookPhoto;
 import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
 import com.hnkjrjxy.project2019down.util.DateUtil;
@@ -196,7 +198,7 @@ public class Fragment_5 extends Fragment {
     }
 
 
-    static class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHolder> {
+    class GeneralAdapter extends RecyclerView.Adapter<GeneralAdapter.MyViewHolder> {
         //当前上下文对象
         @NonNull
         @Override
@@ -248,6 +250,16 @@ public class Fragment_5 extends Fragment {
                         .into(myViewHolder.tv_photo);
             }
 
+
+                myViewHolder.tv_photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(context,LookPhoto.class);
+                        intent.putExtra("myuri",Http.imgpath + list.get(i).getInvitationImages().get(0).getImagePath());
+                        context.startActivity(intent);
+                        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                });
 
 
                 myViewHolder.dianzan.setOnClickListener(new View.OnClickListener() {
