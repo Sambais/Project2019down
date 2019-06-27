@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Response;
@@ -153,7 +152,7 @@ public class SendPostActivity extends Activity {
                                 .itemsCallback(new MaterialDialog.ListCallback() {
                                     @Override
                                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        Toast.makeText(SendPostActivity.this, "我的id"+which + "    频道: " + text , Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(SendPostActivity.this, "我的id"+which + "    频道: " + text , Toast.LENGTH_SHORT).show();
                                         pindao= (String) text;
                                         channelid = which+1;
                                         dbAdapter.notifyDataSetChanged();
