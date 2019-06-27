@@ -38,12 +38,18 @@
                     android:layout_height="30dp" />
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
-        <ListView
-            android:id="@+id/a4_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefreshlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </ListView>
+            <RecyclerView
+                android:id="@+id/a4_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </RecyclerView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
