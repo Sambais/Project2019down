@@ -1,9 +1,6 @@
 package com.hnkjrjxy.project2019down.fragment.zhufragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -18,9 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +28,7 @@ import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SettingActivity;
 import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.hnkjrjxy.project2019down.util.Http;
+import com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout;
 
 import org.json.JSONObject;
 
@@ -49,7 +45,7 @@ public class Fragment_self extends Fragment {
     private ImageView setting;
     private LinearLayoutManager layoutManager;
     private SwipeRefreshLayout.OnRefreshListener listener;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private MySwipeRefreshLayout swipeRefreshLayout;
     private Invitation invitation;
     private ArrayList<Invitation.DataBean> dataBeans;
 
@@ -66,8 +62,7 @@ public class Fragment_self extends Fragment {
         dataBeans = new ArrayList<>();
         a4_list = (RecyclerView) view.findViewById(R.id.a4_list);
         setting = (ImageView) view.findViewById(R.id.setting);
-        swipeRefreshLayout = view.findViewById(R.id.swiperefreshlayout);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.smartrefreshlayout);
+        swipeRefreshLayout = (MySwipeRefreshLayout) view.findViewById(R.id.myswiperefreshlayout);
         //设置下拉刷新环形加载条的颜色，最多使用四个颜色
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.color1);
         //设置下拉是否开始缩放，起点是20的高度，最多到达100的高度
