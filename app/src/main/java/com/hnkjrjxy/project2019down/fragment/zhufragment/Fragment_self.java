@@ -13,7 +13,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,6 @@ import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SettingActivity;
 import com.hnkjrjxy.project2019down.entry.Invitation;
-import com.hnkjrjxy.project2019down.fragment.Fragment_5;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.ToastUtil;
 import com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout;
@@ -41,8 +39,6 @@ import com.wx.goodview.GoodView;
 
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -116,7 +112,7 @@ public class Fragment_self extends Fragment {
                     if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 4 ||
                             lastPosition == recyclerView.getLayoutManager().getItemCount() - 3) {
                         //在此处再次拿数据进行适配器的刷新
-                        getData();
+//                        getData();
                         listAdapter.notifyDataSetChanged();
                     }
                 }

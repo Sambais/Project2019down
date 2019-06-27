@@ -250,6 +250,7 @@ public class Fragment_home extends Fragment {
                     public void run() {
                         //开始再拿Ffragment5的数据
                         getFragment5Data();
+                        getFragment6Data();
                         Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
                     }
                 }, 2500);
