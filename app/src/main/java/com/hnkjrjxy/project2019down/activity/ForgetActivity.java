@@ -20,12 +20,16 @@ import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.util.Http;
+import com.hnkjrjxy.project2019down.util.SendYZM;
 import com.hnkjrjxy.project2019down.util.ToastUtil;
 
 import org.json.JSONObject;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ForgetActivity extends Activity implements View.OnClickListener {
     private ImageView register_back;
@@ -39,6 +43,9 @@ public class ForgetActivity extends Activity implements View.OnClickListener {
     private boolean isGet = false;
     private int num = 0;
     private Timer timer;
+    private boolean isRegister;
+    private String phone;
+    private String yzm = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,11 +167,13 @@ public class ForgetActivity extends Activity implements View.OnClickListener {
     //发送验证码
     private void submit() {
         // validate
-        String phone = register_phone.getText().toString().trim();
+        final String phone = register_phone.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
             Toast.makeText(this, "输入手机号", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        isRegister = false;
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token",MyApplication.getToken());
@@ -175,20 +184,40 @@ public class ForgetActivity extends Activity implements View.OnClickListener {
                 if(jsonObject.optString("msg").equals("T")){
                     ToastUtil.toToast(jsonObject.optString("data"));
                     return;
+                }else{
+                    isRegister = true;
                 }
             }
         });
 
-        if(phone.matches("^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\\\d{8}$")){
-            ToastUtil.toToast("手机号码格式不正确，请重新输入");
-            return;
-        }
-
-        ToastUtil.toToast("已发送验证码消息");
-        isGet = false;
-        register_btn_get.setBackgroundResource(R.drawable.register_btn);
-
-        //todo   获取验证码
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(isRegister){
+                    String regex = "^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\\d{8}$";
+                    if(phone.length() != 11){
+                        ToastUtil.toToast("手机号应为11位,请检查您的手机号是否正确");
+                        return;
+                    }else{
+                        Pattern p = Pattern.compile(regex);
+                        Matcher m = p.matcher(phone);
+                        if(!m.matches()){
+                            ToastUtil.toToast("手机号码格式不正确，请重新输入");
+                            return;
+                        }
+                    }
+                    Random random = new Random();
+                    for (int i = 0; i < 6; i++) {
+                        yzm += (random.nextInt(9))+"";
+                    }
+                    SendYZM.send(ForgetActivity.this,phone,yzm);
+                    isGet = false;
+                    register_btn_get.setBackgroundResource(R.drawable.register_btn_null);
+                    register_btn_get.setEnabled(false);
+                    startTimer();
+                }
+            }
+        },500);
 
     }
 

@@ -13,6 +13,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,8 @@ import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SettingActivity;
 import com.hnkjrjxy.project2019down.entry.Invitation;
+import com.hnkjrjxy.project2019down.fragment.Fragment_5;
+import com.hnkjrjxy.project2019down.util.DateUtil;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.ToastUtil;
 import com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout;
@@ -39,6 +42,8 @@ import com.wx.goodview.GoodView;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -112,7 +117,7 @@ public class Fragment_self extends Fragment {
                     if (lastPosition == recyclerView.getLayoutManager().getItemCount() - 4 ||
                             lastPosition == recyclerView.getLayoutManager().getItemCount() - 3) {
                         //在此处再次拿数据进行适配器的刷新
-//                        getData();
+                        getData();
                         listAdapter.notifyDataSetChanged();
                     }
                 }
@@ -143,6 +148,7 @@ public class Fragment_self extends Fragment {
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
+                        Log.i(TAG, "onResponse: "+object);
                         if(object.optString("msg").equals("S")){
                             Gson gson = new Gson();
                             Invitation invitation = gson.fromJson(object.toString(),Invitation.class);
@@ -204,7 +210,11 @@ public class Fragment_self extends Fragment {
             //头像颜色为白色
             myViewHolder.touxiang.setTextColor(Color.WHITE);
             //右下角发帖时间
-            myViewHolder.tv_time.setText(dataBeans.get(i).getInfo().getTime() + "");
+            try {
+                myViewHolder.tv_time.setText(DateUtil.getDate(dataBeans.get(i).getInfo().getTime() + ""));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             if (dataBeans.get(i).getInvitationImages().size() == 0) {
                 myViewHolder.tv_photo.setVisibility(View.GONE);
             } else {

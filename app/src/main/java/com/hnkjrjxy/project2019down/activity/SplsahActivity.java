@@ -25,29 +25,49 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import cn.refactor.lib.colordialog.PromptDialog;
+
 public class SplsahActivity extends Activity {
 
     private ArrayList tabtitle;
+    private PromptDialog promptDialog2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Intent intent = new Intent(SplsahActivity.this,MyService.class);
+        Intent intent = new Intent(SplsahActivity.this, MyService.class);
         startService(intent);
 
         initWindows();
 //        getTop();
 //        getChannel();
-        Handler handler=new Handler();
+        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplsahActivity.this,MainActivity.class));
-                finish();
+                if (MyApplication.getToken() == null) {
+                    promptDialog2 = new PromptDialog(SplsahActivity.this);
+                    promptDialog2.setCanceledOnTouchOutside(true);
+                    promptDialog2.setDialogType(PromptDialog.DIALOG_TYPE_WARNING)
+                            .setAnimationEnable(true)
+                            .setTitleText("连接失败")
+                            .setContentText("网络正在开小差(T_T)！")
+                            .setPositiveListener("OK", new PromptDialog.OnPositiveListener() {
+                                @Override
+                                public void onClick(PromptDialog dialog) {
+                                    dialog.dismiss();
+                                    System.exit(0);
+                                }
+                            })
+                            .show();
+                }else{
+                    startActivity(new Intent(SplsahActivity.this, MainActivity.class));
+                    finish();
+                }
             }
-        },3000);
+        }, 3000);
     }
 
 
@@ -56,8 +76,8 @@ public class SplsahActivity extends Activity {
         Http.Get(SplsahActivity.this, "Init/Channel", new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject object) {
-                Gson gson=new Gson();
-                Top top=gson.fromJson(object.toString(),Top.class);
+                Gson gson = new Gson();
+                Top top = gson.fromJson(object.toString(), Top.class);
 
             }
         });
@@ -68,18 +88,18 @@ public class SplsahActivity extends Activity {
         Http.Get(SplsahActivity.this, "Init/ChannelClass", new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject object) {
-                Gson gson=new Gson();
-                TopClass topClass=gson.fromJson(object.toString(),TopClass.class);
+                Gson gson = new Gson();
+                TopClass topClass = gson.fromJson(object.toString(), TopClass.class);
                 //数据拿到准备更新适配器
-                tabtitle=new ArrayList();
+                tabtitle = new ArrayList();
                 tabtitle.add("收藏");
                 tabtitle.add("热门");
-                tabtitle.add(topClass.getData().get(0).getName()+"");
-                tabtitle.add(topClass.getData().get(1).getName()+"");
-                tabtitle.add(topClass.getData().get(2).getName()+"");
+                tabtitle.add(topClass.getData().get(0).getName() + "");
+                tabtitle.add(topClass.getData().get(1).getName() + "");
+                tabtitle.add(topClass.getData().get(2).getName() + "");
                 MyApplication.setTabtitle(tabtitle);
-                Log.i("SSS", "onResponse: "+topClass.getData().get(0).getName());
-                Log.i("SSS", "onResponse: "+topClass.getData().get(1).getName());
+                Log.i("SSS", "onResponse: " + topClass.getData().get(0).getName());
+                Log.i("SSS", "onResponse: " + topClass.getData().get(1).getName());
             }
         });
     }
