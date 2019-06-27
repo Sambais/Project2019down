@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.wx.goodview.GoodView;
 
 import es.dmoral.toasty.Toasty;
@@ -36,7 +37,7 @@ public class Fragment_5 extends Fragment {
     private static RecyclerView recyclerView;
     private static GeneralAdapter generalAdapter;
     private static Context context;
-    private static int num=20;
+    public static int num=20;
     private static String asd="123";
     int i=0;
     //目标项是否在最后一个可见项之后
@@ -46,6 +47,7 @@ public class Fragment_5 extends Fragment {
     private int kejian;
     private TextView tishi;
     public static boolean login=false;
+    private static Invitation invitation;
 
 
     @Override
@@ -69,6 +71,7 @@ public class Fragment_5 extends Fragment {
         recyclerView.setHasFixedSize(true);
     }
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -80,6 +83,7 @@ public class Fragment_5 extends Fragment {
     }
 
     public void initView(View view) {
+        invitation=new Invitation();
         context=getActivity();
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerView);
         tishi = (TextView) view.findViewById(R.id.tishi);
@@ -124,13 +128,23 @@ public class Fragment_5 extends Fragment {
                 //判断是否向下滑动，如果向下滑动即将到底部的时候进行预加载
                 if (dy>0){
                     //双重判断，以防滑动太快导致没有检测到滑动的位置信息
-                    if(lastPosition == recyclerView.getLayoutManager().getItemCount()-4||
-                            lastPosition == recyclerView.getLayoutManager().getItemCount()-3){
-                        //在此处再次拿到数据进行适配器的刷新
-                        num=num+20;
-                        i++;
-                        generalAdapter.notifyDataSetChanged();
-                        Toast.makeText(getActivity(), "滑动快要到底了       "+i+"             "+num, Toast.LENGTH_SHORT).show();
+                    if (num<5){
+                        if(lastPosition == recyclerView.getLayoutManager().getItemCount()-1){
+                            //在此处再次拿到数据进行适配器的刷新
+//                        num=num+20;
+                            i++;
+                            generalAdapter.notifyDataSetChanged();
+                            Toast.makeText(getActivity(), "滑动快要到底了       "+i+"             "+num, Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        if(lastPosition == recyclerView.getLayoutManager().getItemCount()-4||
+                                lastPosition == recyclerView.getLayoutManager().getItemCount()-3){
+                            //在此处再次拿到数据进行适配器的刷新
+//                        num=num+20;
+                            i++;
+                            generalAdapter.notifyDataSetChanged();
+                            Toast.makeText(getActivity(), "滑动快要到底了       "+i+"             "+num, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
