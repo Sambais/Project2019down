@@ -33,7 +33,11 @@ import com.hnkjrjxy.project2019down.util.Http;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class Fragment_self extends Fragment {
+
+    private static final String TAG = "Fragment_self";
 
     private RecyclerView a4_list;
     private MyAdapter listAdapter;
@@ -41,8 +45,8 @@ public class Fragment_self extends Fragment {
     private LinearLayoutManager layoutManager;
     private SwipeRefreshLayout.OnRefreshListener listener;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private int num = 0;
     private Invitation invitation;
+    private ArrayList<Invitation.DataBean> dataBeans;
 
 
     @Nullable
@@ -54,6 +58,7 @@ public class Fragment_self extends Fragment {
     }
 
     private void initView(View view) {
+        dataBeans = new ArrayList<>();
         a4_list = (RecyclerView) view.findViewById(R.id.a4_list);
         setting = (ImageView) view.findViewById(R.id.setting);
         swipeRefreshLayout = view.findViewById(R.id.swiperefreshlayout);
@@ -121,14 +126,17 @@ public class Fragment_self extends Fragment {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("token",MyApplication.getToken());
         jsonObject.addProperty("id",MyApplication.sharedPreferences.getInt("id",0));
-        Log.i("Fragment5", "getData: "+jsonObject.toString());
+        Log.i(TAG, "getData: "+jsonObject.toString());
         Http.Post(getActivity(), "Invitation/GetMeInvitation",
                 jsonObject.toString(), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject object) {
                         Gson gson = new Gson();
                         invitation = gson.fromJson(object.toString(),Invitation.class);
-                        num += invitation.getData().size();
+                        for (int i = 0; i < invitation.getData().size(); i++) {
+                            dataBeans.add(invitation.getData().get(i));
+                        }
+                        listAdapter.notifyDataSetChanged();
                     }
         });
     }
@@ -157,27 +165,36 @@ public class Fragment_self extends Fragment {
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return null;
+            View v = LayoutInflater.from(getActivity()).inflate(R.layout.mycard, null);
+            return new MyViewHolder(v);
         }
 
         @Override
         public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder myViewHolder, int i) {
-
+            myViewHolder.textView.setText(dataBeans.get(i).getInfo().getSendname());
+            myViewHolder.tv_content.setText(dataBeans.get(i).getInfo().getDescription());
+//            myViewHolder.tv_channel.setText(MyApplication.get);
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return dataBeans.size();
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
             TextView textView;
             ImageView imageView;
+            TextView tv_content;
+            TextView tv_channel;
+            TextView tv_time;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.m1);
                 textView = itemView.findViewById(R.id.t1);
+                tv_content = itemView.findViewById(R.id.tv_content);
+                tv_channel = itemView.findViewById(R.id.tv_channel);
+                tv_time = itemView.findViewById(R.id.tv_time);
             }
         }
 

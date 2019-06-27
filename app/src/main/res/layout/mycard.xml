@@ -31,35 +31,41 @@
                         android:id="@+id/m1"
                         android:layout_width="40dp"
                         android:layout_height="40dp" />
+
                     <TextView
                         android:id="@+id/t1"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="123"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="5dp"
                         android:textSize="16dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp" />
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
+
             <TextView
+                android:id="@+id/tv_channel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="#沙雕之海"
-                android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textStyle="bold" />
             <View
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="#fff"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"></View>
+
             <TextView
-                android:textSize="14dp"
-                android:layout_marginTop="5dp"
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:text="不会玩天天抢你个锤子的中单
 一个个的就只会说一个个的就只会说
 菜的要死没点用
@@ -72,31 +78,34 @@
 要不叫她让个位置别抢别人的
 最好离我远点单排真的惨兮兮
 "
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="14dp" />
             <LinearLayout
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:layout_marginLeft="5dp"
-                    android:textSize="12dp"
-                    android:text="5天前"
-                    android:layout_weight="1"
+                    android:id="@+id/tv_time"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:text="5天前"
+                    android:textSize="12dp" />
                 <ImageView
                     android:id="@+id/dianzan"
                     android:background="@mipmap/love1"
                     android:layout_width="20dp"
                     android:layout_height="20dp" />
+
                 <TextView
-                    android:text="5"
-                    android:textSize="12dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="5dp"
+                    android:id="@+id/tv_like"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:text="5"
+                    android:textSize="12dp" />
                 <ImageView
                     android:background="@mipmap/wechat"
                     android:layout_width="20dp"
