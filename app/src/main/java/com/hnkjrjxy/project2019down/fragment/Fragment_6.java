@@ -29,6 +29,7 @@ import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
 import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.hnkjrjxy.project2019down.fragment.zhufragment.Fragment_home;
+import com.hnkjrjxy.project2019down.util.DateUtil;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -38,6 +39,7 @@ import com.wx.goodview.GoodView;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -225,7 +227,11 @@ public class Fragment_6 extends Fragment {
             //头像颜色为白色
             myViewHolder.touxiang.setTextColor(Color.WHITE);
             //右下角发帖时间
-            myViewHolder.tv_time.setText(list.get(i).getInfo().getTime() + "");
+            try {
+                myViewHolder.tv_time.setText(DateUtil.getDate(list.get(i).getInfo().getTime() + ""));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             if (list.get(i).getInvitationImages().size() == 0) {
                 myViewHolder.tv_photo.setVisibility(View.GONE);
             } else {

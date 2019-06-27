@@ -34,6 +34,7 @@ import com.hnkjrjxy.project2019down.activity.LoginActivity;
 import com.hnkjrjxy.project2019down.activity.SettingActivity;
 import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.hnkjrjxy.project2019down.fragment.Fragment_5;
+import com.hnkjrjxy.project2019down.util.DateUtil;
 import com.hnkjrjxy.project2019down.util.Http;
 import com.hnkjrjxy.project2019down.util.ToastUtil;
 import com.hnkjrjxy.project2019down.view.MySwipeRefreshLayout;
@@ -209,7 +210,11 @@ public class Fragment_self extends Fragment {
             //头像颜色为白色
             myViewHolder.touxiang.setTextColor(Color.WHITE);
             //右下角发帖时间
-            myViewHolder.tv_time.setText(dataBeans.get(i).getInfo().getTime() + "");
+            try {
+                myViewHolder.tv_time.setText(DateUtil.getDate(dataBeans.get(i).getInfo().getTime() + ""));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             if (dataBeans.get(i).getInvitationImages().size() == 0) {
                 myViewHolder.tv_photo.setVisibility(View.GONE);
             } else {
