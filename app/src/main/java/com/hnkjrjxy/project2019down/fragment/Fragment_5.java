@@ -192,7 +192,7 @@ public class Fragment_5 extends Fragment {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 Fragment_home.getFragment5Data();
-                refreshlayout.finishLoadmore(2500);//传入false表示加载失败
+                refreshlayout.finishLoadmore(2000);//传入false表示加载失败
             }
         });
     }

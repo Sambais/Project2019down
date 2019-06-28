@@ -27,9 +27,11 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hnkjrjxy.project2019down.MyApplication;
 import com.hnkjrjxy.project2019down.R;
+import com.hnkjrjxy.project2019down.entry.Invitation;
 import com.hnkjrjxy.project2019down.fragment.Fragment_1;
 import com.hnkjrjxy.project2019down.fragment.Fragment_4;
 import com.hnkjrjxy.project2019down.fragment.Fragment_5;
@@ -65,14 +67,10 @@ public class Fragment_home extends Fragment {
     private CoordinatorLayout coordinatorlayout;
     private SwipeRefreshLayout.OnRefreshListener listener;
     private int ztpd=0;
-    private ArrayList<ArrayList> list1;
-    private ArrayList<ArrayList> list2;
-    private ArrayList<ArrayList> list3;
-    private ArrayList<ArrayList> list4;
-    private ArrayList<ArrayList> list5;
     private static Context context;
     public static int num1=0;
     public static int num2=0;
+    private static ArrayList<Invitation.DataBean> list;
 
 
     @Override
@@ -147,14 +145,44 @@ public class Fragment_home extends Fragment {
                 });
     }
 
+    public static void getFragmentAllData() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token",MyApplication.getToken());
+        jsonObject.addProperty("num",0);
+        Log.i("Fragment5", "getData: "+jsonObject.toString());
+        Http.Post(context, "Invitation/GetInvitation",
+                jsonObject.toString(), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject object) {
+                        Log.i("Fragment5", "onResponse: --------" + object);
+                        Gson gson = new Gson();
+                        Invitation invitation = gson.fromJson(object.toString(), Invitation.class);
+                        list.clear();
+                        for (int i = 0; i < invitation.getData().size(); i++) {
+                            list.add(invitation.getData().get(i));
+                        }
+                        swiperefreshlayout.setRefreshing(false);
+                        Fragment_5.list= (ArrayList<Invitation.DataBean>) list.clone();
+                        Fragment_6.list= (ArrayList<Invitation.DataBean>) list.clone();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.i("Fragment5", "onResponse: ++++" + volleyError);
+                    }
+                });
+    }
+
+
     public void initView(View view,int zt) {
         ztpd=zt;
         if (ztpd==1){
-            num1=0;
-            num2=0;
-            Fragment_5.list.clear();
-            Fragment_6.list.clear();
-            Log.i("TAG", "initView: 我想到顶部");
+            num1=1;
+            num2=1;
+            getFragmentAllData();
+
+
+            Log.i("TAG", "initView: 我想到顶部--------------"+Fragment_5.list);
             //方法重载，直接用，默认带动画效果慢慢展开或折叠，拿走不谢
             myappBarLayout.setExpanded(true,true);
 
@@ -171,6 +199,7 @@ public class Fragment_home extends Fragment {
             //进行首次拿数据,之后不再执行
             getFragment5Data();
             getFragment6Data();
+            list=new ArrayList<>();
             //顶部导航文字集合
             tabtitle=new ArrayList();
             tabtitle.add("收藏");
@@ -248,8 +277,7 @@ public class Fragment_home extends Fragment {
                     @Override
                     public void run() {
                         //开始再拿Ffragment5的数据
-                        getFragment5Data();
-                        getFragment6Data();
+                        getFragmentAllData();
 //                        Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
                     }
                 }, 2500);
